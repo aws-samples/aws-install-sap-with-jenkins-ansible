@@ -1,0 +1,35 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Discover the region for this instance
+  uri:
+    url: http://169.254.169.254/latest/dynamic/instance-identity/document
+    return_content: yes
+    timeout: 10
+  register: returned_region
+  failed_when: returned_region.content is undefined
+
+- name: Filter region found
+  set_fact: region_found="{{ (returned_region.content | from_json).region }}"
+
+- name: Get current AZ from AWS.
+  uri:
+    url: http://169.254.169.254/latest/meta-data/placement/availability-zone
+    return_content: yes
+  register: aws_current_az
+
+- name: Ensure EFS is mounted with NFS
+  mount:
+    name: "{{ sapmnt_folder }}"
+    src: "{{ GLOBAL_EFS_ID }}.efs.{{ region_found }}.amazonaws.com:/"
+    opts: "nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport"
+    state: mounted
+    fstype: nfs
+    
+- name: Create symbolic link from "{{ sapmnt_symlink_from }}" to "{{ sapmnt_symlink_to }}"
+  file:
+    src: "{{ sapmnt_symlink_from }}"
+    dest: "{{ sapmnt_symlink_to }}"
+    state: link

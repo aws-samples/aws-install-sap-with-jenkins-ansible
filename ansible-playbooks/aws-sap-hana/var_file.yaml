@@ -1,0 +1,23 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+EC2_HOSTNAME: demo-hana
+PRIVATE_DNS_ZONE: sapgspteam.net
+MASTER_PASSWORD: P@ssw0rd
+HANA_SID: AD0
+HANA_INSTANCE_NUMBER: "00"
+EFS_ID: fs-5b98f1ef
+S3_BUCKET_MEDIA_FILES: s3://sapgspdemo-sap-binaries-lw/S4H1909
+ASCS_PRIVATE_IP: 172.31.3.3
+ASCS_HOSTNAME: demo-ascs
+PAS_PRIVATE_IP: 172.31.4.128
+PAS_HOSTNAME: demo-pas
+PAS_SID: AD0
+ENABLE_HA: true
+AWS_CLI_PROFILE: default
+HA_PRIMARY_PRIVATE_IP: 172.31.9.190
+HA_NODE_PRIVATE_IPS: 172.31.90.100
+BUCKET_TO_BACKUP: sap-install-gsp-sesterhg
+AWS_REGION: us-east-1

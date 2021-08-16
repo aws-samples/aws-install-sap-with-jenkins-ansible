@@ -1,0 +1,29 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+log_root_folder_name: /root/install/
+log_root_file_name: install.log
+log_root_file_full_path: "{{ log_root_folder_name }}/{{ log_root_file_name }}"
+
+data_backup_folder: "/backup/data/{{ GLOBAL_SAP_SID }}"
+log_backup_folder: "/data/log/{{ GLOBAL_SAP_SID }}"
+
+aws_configure_commands:
+  - param_name: default.s3.signature_version
+    value: s3v4
+  - param_name: default.s3.max_concurrent_requests
+    value: 50
+  - param_name: default.s3.max_queue_size
+    value: 10000
+  - param_name: default.s3.multipart_threshold
+    value: 64MB
+  - param_name: default.s3.multipart_chunksize
+    value: 16MB
+  - param_name: default.s3.max_bandwidth
+    value: 10GB/s
+  - param_name: default.s3.use_accelerate_endpoint
+    value: false
+  - param_name: default.s3.addressing_style
+    value: path

@@ -1,0 +1,32 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Create disk mapping file
+  file:
+    path: "{{ disk_mapping_file_full_path }}"
+    state: touch
+    mode: 0666
+
+- name: Get mount names and types
+  shell: "nvme id-ctrl -v /dev/{{ item }} | {{ grep_find_command }} | {{ awk_position_command }} | {{ sed_replace_command }}"
+  loop: "{{ filtered_disks }}"
+  register: mount_types_complete
+
+- name: Register fact with stdout for mount types
+  set_fact: mount_type="{{ item.stdout }} /dev/{{ item.item }}"
+  loop: "{{ mount_types_complete.results }}"
+  register: mount_result
+  no_log: yes
+
+- name: Make a list with stdout found
+  set_fact: mount_types_out="{{ mount_result.results | map(attribute='ansible_facts.mount_type') | list }}"
+
+- name: Adds disk types and mount names to /tmp/diskmap
+  lineinfile:
+    name: "{{ disk_mapping_file_full_path }}"
+    line: "{{ item }}"
+    state: present
+    insertafter: EOF
+  loop: "{{ mount_types_out }}"

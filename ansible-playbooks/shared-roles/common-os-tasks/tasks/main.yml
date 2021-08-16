@@ -1,0 +1,14 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Check if AWS CLI is available
+  include_tasks: check_aws_cli.yml
+
+- name: Install AWS SSM
+  include_tasks: install_ssm.yml
+  when: install_ssm == true
+
+- name: Set timezone
+  include_tasks: set_timezone.yml

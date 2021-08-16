@@ -1,0 +1,12 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: sap-preconfigure
+  src: https://github.com/linux-system-roles/sap-preconfigure.git
+  version: master
+
+- name: sap-netweaver-preconfigure
+  src: https://github.com/linux-system-roles/sap-netweaver-preconfigure
+  version: master

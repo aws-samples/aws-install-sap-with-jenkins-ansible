@@ -1,0 +1,10 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+galaxy_info:
+  role_name: Prepare Logs and Folders
+  author: Guilherme Sesterheim
+  description: Role for preparing log files and folders for installing SAP systems on AWS
+  company: Amazon Web Services

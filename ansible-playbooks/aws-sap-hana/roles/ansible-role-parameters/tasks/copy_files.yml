@@ -1,0 +1,18 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Duplicate grub
+  copy:
+    src: /etc/default/grub
+    remote_src: yes
+    dest: /etc/default/grub.quickstart.save
+    mode: preserve
+
+- name: Duplicate grub.cfg
+  copy:
+    src: /boot/grub2/grub.cfg
+    remote_src: yes
+    dest: /boot/grub2/grub.cfg.quickstart.save
+    mode: preserve

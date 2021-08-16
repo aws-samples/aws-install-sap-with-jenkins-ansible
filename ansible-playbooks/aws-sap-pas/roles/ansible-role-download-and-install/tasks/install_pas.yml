@@ -1,0 +1,25 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Build command
+  set_fact: install_command="{{ swpm_sum_install_dest_folder }}/sapinst SAPINST_INPUT_PARAMETERS_URL={{ pas_params_file_full_path }} SAPINST_EXECUTE_PRODUCT_ID={{ pas_product_id_to_install }} SAPINST_USE_HOSTNAME={{ GLOBAL_INPUT_HOSTNAME }} SAPINST_SKIP_DIALOGS=true SAPINST_START_GUISERVER=false"
+
+- name: Install PAS
+  shell: 
+    cmd: "{{ install_command }}"
+    chdir: "{{ folder_to_run_pas_installation_from }}"
+  register: installation_output
+  ignore_errors: yes
+  no_log: yes
+
+- name: Show errors if they exist
+  debug:
+    msg: "{{ installation_output.stdout_lines }}"
+  when: installation_output is defined and installation_output.rc != 0
+
+- name: Abort execution when there are installation errors
+  fail:
+    msg: "Execution interrupted due to errors"
+  when: installation_output is defined and installation_output.rc != 0

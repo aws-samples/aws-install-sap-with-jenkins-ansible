@@ -1,0 +1,26 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Export log var file location
+  shell: "export SSM_LOG_FILE=$VAR_FILE_LOCATION"
+  environment:
+    VAR_FILE_LOCATION: "{{ log_root_file_full_path }}"
+
+- name: Check if OS global vars have log file path
+  lineinfile:
+    name: /root/.bashrc
+    regexp: '^SSM_LOG_FILE=/root/install/install.log'
+    state: absent
+  check_mode: yes
+  changed_when: false
+  register: line_is_present
+
+- name: Create log file global vars on OS
+  lineinfile:
+    name: /root/.bashrc
+    line: SSM_LOG_FILE=/root/install/install.log
+    state: present
+    insertafter: EOF
+  when: not line_is_present.found

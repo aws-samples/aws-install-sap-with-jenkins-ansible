@@ -1,0 +1,23 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Set instance hostname
+  include_tasks: set_instance_hostname.yml
+  when: GLOBAL_ENABLE_HA == false
+
+- name: Set instance hostname
+  include_tasks: set_instance_hostname_ha.yml
+  when: GLOBAL_ENABLE_HA == true
+
+- name: Add HA hosts to hostname map
+  include_tasks: add_ha_hostnames_to_map.yml
+  when: GLOBAL_ENABLE_HA == true
+
+- name: Register hosts
+  include_tasks: register_user_hosts.yml
+  when: extra_vars_to_add_to_hosts is defined
+
+- name: Add hostname to cloud config
+  include_tasks: register_hostname_cloud_cfg.yml

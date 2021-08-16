@@ -1,0 +1,9 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Fail if OS family is not supported
+  fail:
+    msg: Your OS is not supported. Supported OSs are RedHat or Suse
+  when: ansible_os_family != "RedHat" and ansible_os_family != "Suse"

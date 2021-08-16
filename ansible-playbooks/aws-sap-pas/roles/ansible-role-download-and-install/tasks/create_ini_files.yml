@@ -1,0 +1,68 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Search for SAPEXE file
+  find:
+    paths: "{{ kernel_dest_folder }}/"
+    patterns: 'SAPEXE_*SAR'
+  register: sapexe_found
+  failed_when: sapexe_found.matched != 1
+
+- name: Store SAPEXE file full path
+  set_fact: sap_exe_full_path="{{ sapexe_found.files[0].path }}"
+
+- name: Search for igsexe_*.sar file on "{{ kernel_dest_folder }}" folder
+  find:
+    paths: "{{ kernel_dest_folder }}/"
+    patterns: 'igsexe_*sar'
+  register: igsexe_found
+  failed_when: igsexe_found.matched != 1
+
+- name: Store igsexe file full path
+  set_fact: igsexe_full_path="{{ igsexe_found.files[0].path }}"
+
+- name: Search for igshelper_*.sar file on "{{ kernel_dest_folder }}" folder
+  find:
+    paths: "{{ kernel_dest_folder }}/"
+    patterns: 'igshelper_*sar'
+  register: igshelper_found
+  failed_when: igshelper_found.matched != 1
+
+- name: Store igshelper file full path
+  set_fact: igshelper_full_path="{{ igshelper_found.files[0].path }}"
+
+- name: Store ABAP MS Port (36+Hana instance number)
+  set_fact: abap_ms_port="36{{ (GLOBAL_HANA_INSTANCE_NUMBER | string | length > 1) | ternary(GLOBAL_HANA_INSTANCE_NUMBER, "0"+(GLOBAL_HANA_INSTANCE_NUMBER | string)) }}"
+  
+- name: Store ASCS MS Port (36+ASCS instance number)
+  set_fact: ascs_ms_port="36{{ (GLOBAL_ASCS_INSTANCE_NUMBER | string | length > 1) | ternary(GLOBAL_ASCS_INSTANCE_NUMBER, "0"+(GLOBAL_ASCS_INSTANCE_NUMBER | string)) }}"
+
+- name: Set GLOBAL_SAP_SID variable if it was not set by previous roles
+  set_fact: GLOBAL_SAP_SID="{{ GLOBAL_HANA_SID }}"
+  when: GLOBAL_SAP_SID is undefined
+
+- name: Set Hana instance number with two characters
+  set_fact: hana_instance_number="{{ (GLOBAL_HANA_INSTANCE_NUMBER | string | length > 1) | ternary(GLOBAL_HANA_INSTANCE_NUMBER, "0"+(GLOBAL_HANA_INSTANCE_NUMBER | string)) }}"
+
+- name: Set ASCS instance number with two characters
+  set_fact: ascs_instance_number="{{ (GLOBAL_ASCS_INSTANCE_NUMBER | string | length > 1) | ternary(GLOBAL_ASCS_INSTANCE_NUMBER, "0"+(GLOBAL_ASCS_INSTANCE_NUMBER | string)) }}"
+
+- name: Set PAS instance number with two characters
+  set_fact: pas_instance_number="{{ (GLOBAL_PAS_INSTANCE_NUMBER | string | length > 1) | ternary(GLOBAL_PAS_INSTANCE_NUMBER, "0"+(GLOBAL_PAS_INSTANCE_NUMBER | string)) }}"
+
+  
+
+
+
+
+- name: Create params file for DB and PAS installation
+  template:
+    src: "{{ item.file_name }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - file_name: db.params
+      dest: "{{ db_params_file_full_path }}"
+    - file_name: pas.params
+      dest: "{{ pas_params_file_full_path }}"

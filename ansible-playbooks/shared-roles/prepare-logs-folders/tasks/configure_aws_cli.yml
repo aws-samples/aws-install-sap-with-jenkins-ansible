@@ -1,0 +1,8 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Configure AWS CLI
+  shell: aws configure set {{ item.param_name }} {{ item.value }}
+  loop: "{{ aws_configure_commands }}"

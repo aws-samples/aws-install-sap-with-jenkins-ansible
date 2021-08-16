@@ -1,0 +1,12 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Check if Swap is enabled and there's any partition specifically destined to it
+  shell: swapon --show Filename --noheadings | awk '{print $1}'
+  register: swap_check_output
+
+- name: Configure SWAP
+  include_tasks: mount_disk_swap.yml
+  when: swap_check_output.stdout_lines|length == 0

@@ -1,0 +1,24 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Download Data Provider from Amazon
+  get_url:
+    url: "{{ suse_data_provider_url }}"
+    dest: "{{ suse_data_provider_installer_dest_path }}"
+
+- name: Download Data Provider Key from Amazon
+  get_url:
+    url: "{{ suse_data_provider_key_url }}"
+    dest: "{{ suse_data_provider_key_dest_path }}"
+
+- name: Import downloaded key
+  rpm_key:
+    key: "{{ suse_data_provider_key_dest_path }}"
+    state: present
+
+- name: Install downloaded Data Provider
+  zypper:
+    name: "{{ suse_data_provider_installer_dest_path }}"
+    state: present

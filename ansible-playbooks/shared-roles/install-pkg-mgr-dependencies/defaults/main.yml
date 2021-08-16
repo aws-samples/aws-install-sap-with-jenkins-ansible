@@ -1,0 +1,84 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+# REDHAT (RHEL) RELATED VARIABLES
+rhel_packages:
+  - python3
+  - python2
+  - unzip
+  - compat-sap-c++-9
+  - xfsprogs
+  - autofs
+  - gcc
+  - nvme-cli
+  - tuned-profiles-sap-hana
+  - sapconf
+  - libatomic
+  - libnsl
+  - uuidd
+  - tcsh
+  - bind-utils
+  - psmisc
+  - expect
+  - graphviz
+  - iptraf-ng
+  - krb5-workstation 
+  - libcanberra-gtk2
+  - libibverbs
+  - libicu
+  - libpng12
+  - libssh2
+  - lm_sensors
+  - numactl
+  - PackageKit-gtk3-module
+  - xorg-x11-xauth
+  - libaio
+  - libtool-ltdl
+  - lvm2
+  - nfs-utils
+  - sysstat
+  - kernel
+  - chrony
+  - corosync
+  - pcs
+  - pacemaker
+  - fence-agents-aws
+  - resource-agents
+  - resource-agents-sap
+  - sap-cluster-connector
+
+rhel_group_packages:
+  - "@Server"
+
+# SUSE RELATED VARIABLES
+
+suse_packages:
+  - systemd
+  - python2
+  - gtk2
+  - libicu
+  - sudo
+  - tcsh
+  - libssh2-1
+  - autoyast2-installation
+  - yast2-ncurses
+  - cpupower
+  - libgcc_s1
+  - libstdc++6
+  - nvme-cli
+  - cloud-netconfig-ec2
+  - libopenssl1_0_0
+  - insserv-compat
+  - unrar_wrapper
+  - chrony
+  - net-tools-deprecated
+  - libnuma-devel
+  - gcc
+  - gcc-c++
+  - libatomic1
+  - sapconf
+  - numactl
+  - saptune
+  - patterns-sles-sap_server

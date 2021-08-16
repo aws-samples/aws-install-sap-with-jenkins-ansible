@@ -1,0 +1,36 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Create ASCS destination folder
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ ascs_complete_kernel_install_folder }}"
+    - "{{ ascs_complete_swpm_install_folder }}"
+
+- name: Download ASCS Kernel from S3 bucket
+  shell: aws s3 sync "{{ GLOBAL_S3_DOWNLOAD_BUCKET_URL }}/{{ item.folder }}" "{{ item.destination }}"
+  register: download_output
+  until: download_output is not failed
+  run_once: yes
+  retries: 5
+  loop:
+    - folder: "{{ ascs_kernel_folder }}"
+      destination: "{{ ascs_complete_kernel_install_folder }}"
+    - folder: "{{ ascs_sapcar_folder }}"
+      destination: "{{ ascs_complete_sapcar_install_folder }}"
+    - folder: "{{ ascs_swpm_folder }}"
+      destination: "{{ ascs_complete_swpm_install_folder }}"
+
+- name: Fail if no ASCS installation file was downloaded
+  find:
+    paths: "{{ item }}"
+  register: filesFound
+  failed_when: filesFound.matched == 0
+  loop:
+    - "{{ ascs_complete_kernel_install_folder }}"
+    - "{{ ascs_complete_swpm_install_folder }}"
+    - "{{ ascs_complete_sapcar_install_folder }}"

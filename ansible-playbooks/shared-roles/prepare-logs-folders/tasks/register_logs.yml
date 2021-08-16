@@ -1,0 +1,12 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Register logs
+  lineinfile:
+    name: "{{ GLOBAL_CENTRAL_LOG_FILE_PATH }}"
+    line: "{{ ansible_date_time.date }} {{ ansible_date_time.time }} {{ ansible_date_time.tz }} - {{ logs_to_register }}"
+    state: present
+    insertafter: EOF
+  ignore_errors: true

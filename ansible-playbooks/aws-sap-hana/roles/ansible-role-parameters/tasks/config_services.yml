@@ -1,0 +1,30 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Set sysctl configs
+  sysctl:
+    name: "{{ item.param }}"
+    value: "{{ item.value }}"
+    state: present
+  loop: "{{ sysctl_configs }}"
+
+- name: Ensure /etc/sysctl.d/sap.conf exists
+  stat:
+    path: "{{ sap_conf_file_path }}"
+  register: stat_result
+
+- name: Create the file, if it doesn't alredy exist
+  file:
+    path: "{{ sap_conf_file_path }}"
+    state: touch
+  when: not stat_result.stat.exists
+
+- name: Add configs to sap.conf
+  lineinfile:
+    name: "{{ sap_conf_file_path }}"
+    line: "{{ item.param }}={{ item.value }}"
+    state: present
+    insertafter: EOF
+  loop: "{{ sap_conf_file_content }}"

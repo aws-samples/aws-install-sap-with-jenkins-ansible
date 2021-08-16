@@ -1,0 +1,15 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+ntp_conf_file_full_path: "/etc/ntp.conf"
+ntp_configuration:
+  - original_entry: "^server 0"
+    new_entry: "server 0.amazon.pool.ntp.org iburst"
+  - original_entry: "^server 1"
+    new_entry: "server 1.amazon.pool.ntp.org iburst"
+  - original_entry: "^server 2"
+    new_entry: "server 2.amazon.pool.ntp.org iburst"
+  - original_entry: "^server 3"
+    new_entry: "server 3.amazon.pool.ntp.org iburst"

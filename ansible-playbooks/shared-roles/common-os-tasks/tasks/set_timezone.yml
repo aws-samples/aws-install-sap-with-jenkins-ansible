@@ -1,0 +1,8 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Set instance timezone to "{{ input_custom_timezone | default(default_instance_timezone) }}"
+  timezone:
+    name: "{{ input_custom_timezone | default(default_instance_timezone) }}"

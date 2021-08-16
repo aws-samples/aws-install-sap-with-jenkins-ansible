@@ -1,0 +1,37 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Create destination folders
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ hana_zip_folder }}"
+    - "{{ hana_unarchived_folder }}"
+
+- name: Download Hana from S3 bucket
+  shell: aws s3 sync {{ GLOBAL_S3_BUCKET_MEDIA_FILES }}/HANA_DB_Software {{ hana_zip_folder }}
+  register: download_output
+  until: download_output is not failed
+  retries: 5
+  run_once: true
+
+- name: Fail if no Hana file was found in the bucket
+  stat:
+    path: "{{ hana_file_full_path }}"
+  register: hana_file_stat
+  failed_when: not hana_file_stat.stat.exists
+
+- name: Check if the file was already unarchived
+  stat:
+    path: "{{ hana_unarchived_folder }}/DATA_UNITS"
+  register: hana_folder_stat
+
+- name: Unarchive Hana file
+  unarchive:
+    src: "{{ hana_file_full_path }}"
+    remote_src: yes
+    dest: "{{ hana_unarchived_folder }}"
+  when: not hana_folder_stat.stat.exists

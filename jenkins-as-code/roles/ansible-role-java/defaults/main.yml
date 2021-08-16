@@ -1,0 +1,10 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+# Set java_packages if you would like to use a different version than the
+# default for the OS (see defaults per OS in `vars` directory).
+# java_packages: []
+
+java_home: ""

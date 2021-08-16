@@ -1,0 +1,15 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Download Data Provider from Amazon
+  get_url:
+    url: "{{ rhel_data_provider_url }}"
+    dest: "{{ rhel_data_provider_installer_dest_path }}"
+
+- name: Install downloaded Data Provider
+  yum:
+    name: "{{ rhel_data_provider_installer_dest_path }}"
+    state: present
+    disable_gpg_check: yes

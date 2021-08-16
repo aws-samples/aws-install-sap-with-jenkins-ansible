@@ -1,0 +1,16 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Prepare services
+  include_tasks: prepare_services.yml
+
+- name: Config services
+  include_tasks: config_services.yml
+
+- name: Enable services
+  include_tasks: enable_services.yml
+  
+- name: Config files
+  include_tasks: config_files.yml

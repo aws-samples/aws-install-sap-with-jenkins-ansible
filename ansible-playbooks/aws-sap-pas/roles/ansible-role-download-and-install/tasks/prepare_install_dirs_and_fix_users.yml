@@ -1,0 +1,70 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Ensure groups exist
+  group:
+    name: "{{ item.name }}"
+    state: present
+    gid: "{{ item.gid }}"
+    non_unique: yes
+  with_items: 
+    - name: "{{ sapinst_user_group_name }}"
+      gid: "{{ sap_sys_gid }}"
+    - name: "{{ installation_users_group_name }}"
+      gid: "1010"
+
+- name: Ensure users exist
+  user:
+    name: "{{ item }}"
+    state: present
+    group: "{{ item }}"
+  with_items: 
+    - "{{ sapinst_user_group_name }}"
+    - "{{ installation_users_group_name }}"
+
+- name: Ensure installation folders exist and have right permissions
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0777
+    owner: "{{ installation_users_group_name }}"
+    group: "{{ installation_users_group_name }}"
+    recurse: yes
+  with_items:
+    - "{{ swpm_sum_install_dest_folder }}"
+    - "{{ profile_data_dir }}"
+    - "{{ sid_global_dir }}"
+
+- name: Ensure installation folders exist and have right permissions
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0777
+    owner: "{{ sapinst_user_group_name }}"
+    group: "{{ sapinst_user_group_name }}"
+    recurse: yes
+  with_items:
+    - "{{ backup_data_dir }}"
+    - "{{ folder_to_run_pas_installation_from }}"
+    - "{{ folder_to_run_db_installation_from }}"
+
+- name: Ensure root user has root as primary group
+  user:
+    name: root
+    group: root
+
+- name: Remove "{{ installation_users_group_name }}" user
+  user:
+    name: "{{ installation_users_group_name }}"
+    state: absent
+
+- name: Remove the group "{{ installation_users_group_name }}"
+  group:
+    name: "{{ installation_users_group_name }}"
+    state: absent
+
+- name: Ensure group "{{ installation_users_group_name }}" was removed
+  shell: groupdel "{{ installation_users_group_name }}"
+  ignore_errors: yes

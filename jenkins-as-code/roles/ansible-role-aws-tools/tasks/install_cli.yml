@@ -1,0 +1,25 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Ensure tmp dir for AWS exists
+  file:
+    name: "{{ aws_installer_dir }}"
+    state: directory
+    mode: 0777
+
+- name: Download AWS CLI
+  get_url:
+    url: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+    dest: "{{ aws_installer_dir }}/awscliv2.zip"
+    mode: '0777'
+
+- name: Unzip AWS CLI install package
+  unarchive: 
+    remote_src: yes
+    src: "{{ aws_installer_dir }}/awscliv2.zip"
+    dest: "{{ aws_installer_dir }}"
+
+- name: Install AWS CLI
+  shell: "{{ aws_installer_dir }}/aws/install --bin-dir /usr/bin"

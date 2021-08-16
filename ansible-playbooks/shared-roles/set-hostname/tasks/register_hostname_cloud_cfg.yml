@@ -1,0 +1,33 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Check if cloud folder exists
+  file:
+    path: "{{ cloud_config_path }}"
+    state: directory
+    mode: 0666
+
+- name: Create log file
+  file:
+    path: "{{ cloud_config_full_path }}"
+    state: touch
+    mode: 0666
+
+- name: Check if hostname was already added to cloud.cfg
+  lineinfile:
+    name: "{{ cloud_config_full_path }}"
+    regexp: '^preserve_hostname: true'
+    state: absent
+  check_mode: yes
+  changed_when: false
+  register: line_is_present
+
+- name: Add hostname to cloud.cfg
+  lineinfile:
+    name: "{{ cloud_config_full_path }}"
+    line: "preserve_hostname: true"
+    state: present
+    insertafter: EOF
+  when: not line_is_present.found

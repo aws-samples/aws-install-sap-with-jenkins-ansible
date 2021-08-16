@@ -1,0 +1,29 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Find SWPM .SAR file
+  find:
+    paths: "{{ swpm_dest_folder }}/"
+    patterns: 'SWPM*SAR'
+  register: filesFound
+  failed_when: filesFound.matched == 0
+
+- name: Set fact with found file name
+  set_fact: sar_file="{{ filesFound.files.0.path }}"
+
+- name: Check if PAS folder was already unzipped
+  find:
+    paths: "{{ swpm_sum_install_dest_folder }}/"
+  register: unzipped_stat
+
+- name: Unarchive PAS files
+  shell: "{{ sapcar_dest_folder }}/sapcar -xvf {{ sar_file }} -R {{ swpm_sum_install_dest_folder }}"
+  when: unzipped_stat.matched == 0
+
+- name: Change permissions for sapinst file
+  file:
+    path: "{{ swpm_sum_install_dest_folder }}/sapinst"
+    state: file
+    mode: 0755

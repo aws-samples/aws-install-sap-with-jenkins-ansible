@@ -1,0 +1,61 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+# Common roles for preparing the image
+- name: Check inputs, prepare logs, hostname, install basic dependencies and AWS Data Provider
+  become: yes
+  hosts: all
+  roles:
+    - role: check-inputs
+      vars:
+        input_variables_to_check: 
+          - EC2_HOSTNAME
+          - PRIVATE_DNS_ZONE
+          - MASTER_PASSWORD
+          - PAS_SID
+          - EFS_ID
+          - PAS_INSTANCE_NUMBER
+          - DATABASE_PRIVATE_IP
+          - DATABASE_HOSTNAME
+          - DATABASE_SID
+          - ASCS_PRIVATE_IP
+          - ASCS_HOSTNAME
+          - S3_BUCKET_MEDIA_FILES
+    - role: common-os-tasks
+    - role: prepare-logs-folders
+    - role: set-hostname
+      vars:
+        extra_vars_to_add_to_hosts:
+          - private_ip: "{{ GLOBAL_ASCS_PRIVATE_IP }}"
+            hostname: "{{ GLOBAL_ASCS_HOSTNAME }}"
+          - private_ip: "{{ GLOBAL_HANA_PRIVATE_IP }}"
+            hostname: "{{ GLOBAL_HANA_HOSTNAME }}"
+    - role: install-pkg-mgr-dependencies
+    - role: install-aws-sap-data-provider
+
+# Installation-specific roles
+- name: Mount disks
+  become: yes
+  hosts: all
+  roles:
+    - role: ansible-role-disks
+
+# RedHat official roles for preparing for SAP Installation
+- name: Prepare host with RedHat certified roles
+  become: yes
+  hosts: all
+  roles:
+    - role: sap-preconfigure
+      vars:
+        sap_preconfigure_selinux_state: disabled
+        sap_preconfigure_fail_if_reboot_required: false
+    - role: sap-netweaver-preconfigure
+
+# Download and install PAS
+- name: Download and Install PAS
+  become: yes
+  hosts: all
+  roles:
+    - role: ansible-role-download-and-install

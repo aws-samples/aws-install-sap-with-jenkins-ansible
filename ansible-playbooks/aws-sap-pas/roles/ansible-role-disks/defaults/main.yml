@@ -1,0 +1,41 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+folders_to_create:
+  - /usr/sap
+  - /sapmnt
+  - /upgrade
+
+regex_to_look_for_disks: "nvme\\w*n1\\b"
+minimum_number_of_mounted_disks_to_search: 3
+
+disk_mapping_file_full_path: /tmp/diskmap
+
+grep_find_command: grep /dev/xvd
+awk_position_command: awk '{ print $18 }'
+sed_replace_command: sed -e 's/"//g' -e 's/\.*//g'
+
+etc_fstab_full_path: /etc/fstab
+
+# Variables for /usr/sap disk
+sap_folder: /usr/sap
+volume_group_sap: vg_usrsap
+logical_volume_sap: lv_usrsap
+
+sap_disk_type_pattern:
+  - xvdf
+
+# Variables for /sapmnt disk
+sapmnt_folder: /sapmnt
+sapmnt_symlink_to: /sapmnt/trans
+sapmnt_symlink_from: "{{ sap_folder }}"
+
+# Variables for mounting SWAP disks
+sap_swap: /swap
+volume_group_swap: vg_swap
+logical_volume_swap: lv_swap
+
+swap_disk_type_pattern:
+  - xvdg

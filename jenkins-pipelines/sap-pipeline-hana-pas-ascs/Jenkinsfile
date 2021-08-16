@@ -1,0 +1,237 @@
+pipeline {
+    // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+    // SPDX-License-Identifier: MIT-0
+
+    agent any
+
+    options {
+        disableConcurrentBuilds()
+    }
+    environment {
+        // Git credentials
+        GIT_ACCESS_TOKEN = credentials('GIT_ACCESS_TOKEN')
+        
+        // Credentials for AWS
+        AWS_ACCOUNT_CREDENTIALS = credentials("AWS_ACCOUNT_CREDENTIALS")
+        AWS_REGION = credentials("AWS_REGION")
+       
+        // Credentials for Ansible
+        SSH_KEYPAIR_NAME = credentials("SSH_KEYPAIR_NAME")
+        SSH_KEYPAIR_FILE = credentials("SSH_KEYPAIR_FILE")
+        
+        // Credentials for Terraform
+        PRIVATE_DNS_ZONE_NAME = credentials("PRIVATE_DNS_ZONE_NAME")
+        EC2_INSTANCES_NAME_PREFIX = credentials("EC2_INSTANCES_NAME_PREFIX")
+        HANA_INSTANCE_TYPE = credentials("HANA_INSTANCE_TYPE")
+        ASCS_INSTANCE_TYPE = credentials("ASCS_INSTANCE_TYPE")
+        PAS_INSTANCE_TYPE = credentials("PAS_INSTANCE_TYPE")
+        VPC_ID = credentials("VPC_ID")
+        SUBNET_IDS = credentials("SUBNET_IDS")
+        SECURITY_GROUP_ID = credentials("SECURITY_GROUP_ID")
+        ENABLE_HA = credentials("ENABLE_HA")
+        AMI_ID = credentials("AMI_ID")
+        KMS_KEY_ARN = credentials("KMS_KEY_ARN")
+        APPLICATION_CODE = credentials("APPLICATION_CODE")
+        APPLICATION_NAME = credentials("APPLICATION_NAME")
+        ENVIRONMENT_TYPE = credentials("ENVIRONMENT_TYPE")
+        
+        // Credentials for installation
+        S3_ROOT_FOLDER_INSTALL_FILES = credentials("S3_ROOT_FOLDER_INSTALL_FILES")
+        HANA_INSTANCE_NUMBER = credentials("HANA_INSTANCE_NUMBER")
+        ASCS_INSTANCE_NUMBER = credentials("ASCS_INSTANCE_NUMBER")
+        PAS_INSTANCE_NUMBER = credentials("PAS_INSTANCE_NUMBER")
+        MASTER_PASSWORD = credentials("MASTER_PASSWORD")
+        SAP_SID = credentials("SAP_SID")
+        HANA_SID = credentials("HANA_SID")
+        PRODUCT_ID_ASCS = credentials("PRODUCT_ID_ASCS")
+        PRODUCT_ID_PAS_DB = credentials("PRODUCT_ID_PAS_DB")
+        PRODUCT_ID_PAS = credentials("PRODUCT_ID_PAS")
+
+        // Credentials to CD in and out
+        TERRAFORM_FOLDER_NAME="terraform-aws-sap-netweaver-on-hana"
+    }
+
+    stages {
+        stage('Prepare'){
+            steps {
+                script {
+                    // -------------------------------------------------
+                    // Check credentials
+                    // -------------------------------------------------
+                    
+                    env.STAGES_FOLDER="./jenkins-pipelines/sap-pipeline-hana-pas-ascs/stages"
+                    env.PREPARE_FOLDER=STAGES_FOLDER+"/prepare"
+                    env.DEPENDENCIES_FOLDER=PREPARE_FOLDER+"/dependencies"
+                    env.GLOBAL_VARS_PATH=PREPARE_FOLDER+"/check_global_variables"
+
+                    // Credentials for AWS
+                    sh(script: GLOBAL_VARS_PATH+'/check_AWS_ACCOUNT_CREDENTIALS.sh', returnStdout: false)
+                    env.AWS_REGION_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_AWS_REGION.sh', returnStdout: true).trim()
+                    env.CLI_PROFILE_CHKD = "sapinstall"
+                    
+                    // Credentials for Ansible
+                    env.SSH_KEYPAIR_NAME_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_SSH_KEYPAIR_NAME.sh', returnStdout: true).trim()
+                    env.SSH_KEYPAIR_FILE_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_SSH_KEYPAIR_FILE.sh', returnStdout: true).trim()
+
+                    // Credentials for Terraform
+                    env.PRIVATE_DNS_ZONE_NAME_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_PRIVATE_DNS_ZONE_NAME.sh', returnStdout: true).trim()
+                    env.EC2_INSTANCES_NAME_PREFIX_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_EC2_INSTANCES_NAME_PREFIX.sh', returnStdout: true).trim()
+                    env.PAS_INSTANCES_NAME_CHKD = "$EC2_INSTANCES_NAME_PREFIX_CHKD"+"-pas"
+                    env.ASCS_INSTANCES_NAME_CHKD = "$EC2_INSTANCES_NAME_PREFIX_CHKD"+"-ascs"
+                    env.HANA_INSTANCES_NAME_CHKD = "$EC2_INSTANCES_NAME_PREFIX_CHKD"+"-hana"
+                    env.HANA_INSTANCE_TYPE_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_EC2_INSTANCE_TYPE_HANA.sh', returnStdout: true).trim()
+                    env.ASCS_INSTANCE_TYPE_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_EC2_INSTANCE_TYPE_ASCS.sh', returnStdout: true).trim()
+                    env.PAS_INSTANCE_TYPE_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_EC2_INSTANCE_TYPE_PAS.sh', returnStdout: true).trim()
+                    env.SUBNET_IDS_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_SUBNET_IDS.sh', returnStdout: true).trim()
+                    env.VPC_ID_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_VPC_ID.sh', returnStdout: true).trim()
+                    env.SECURITY_GROUP_ID_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_SECURITY_GROUP_ID.sh', returnStdout: true).trim()
+                    env.ENABLE_HA_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_ENABLE_HA.sh', returnStdout: true).trim()
+                    env.AMI_ID_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_AMI_ID.sh', returnStdout: true).trim()
+                    env.KMS_KEY_ARN_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_KMS_KEY_ARN.sh', returnStdout: true).trim()
+                    env.APPLICATION_CODE_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_APPLICATION_CODE.sh', returnStdout: true).trim()
+                    env.APPLICATION_NAME_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_APPLICATION_NAME.sh', returnStdout: true).trim()
+                    env.ENVIRONMENT_TYPE_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_ENVIRONMENT_TYPE.sh', returnStdout: true).trim()
+                    
+                    // Credentials for installation
+                    env.S3_ROOT_FOLDER_INSTALL_FILES_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_S3_ROOT_FOLDER_INSTALL_FILES.sh', returnStdout: true).trim()
+                    env.HANA_INSTANCE_NUMBER_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_INSTANCE_NUMBER_HANA.sh', returnStdout: true).trim()
+                    env.ASCS_INSTANCE_NUMBER_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_INSTANCE_NUMBER_ASCS.sh', returnStdout: true).trim()
+                    env.PAS_INSTANCE_NUMBER_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_INSTANCE_NUMBER_PAS.sh', returnStdout: true).trim()
+                    env.MASTER_PASSWORD_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_MASTER_PASSWORD.sh', returnStdout: true).trim()
+                    env.SAP_SID_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_SID_SAP.sh', returnStdout: true).trim()
+                    env.HANA_SID_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_SID_HANA.sh', returnStdout: true).trim()
+                    env.PRODUCT_ID_ASCS_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_PRODUCT_ID_ASCS.sh', returnStdout: true).trim()
+                    env.PRODUCT_ID_PAS_DB_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_PRODUCT_ID_PAS_DB.sh', returnStdout: true).trim()
+                    env.PRODUCT_ID_PAS_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_PRODUCT_ID_PAS.sh', returnStdout: true).trim()
+                    
+                    // -------------------------------------------------
+                    // Configure AWS CLI
+                    // -------------------------------------------------
+                    sh '''
+                        $PREPARE_FOLDER/common/configure_cli.sh
+
+                        if [ $? -gt 0 ]; then
+                            exit 1
+                        fi
+                    '''
+                    env.BUCKET_NAME_CHKD = sh(script: PREPARE_FOLDER+'/check_aws_resources/check_s3_bucket_name.sh', returnStdout: true).trim()
+                    
+                    // -------------------------------------------------
+                    // Check if user information is valid on AWS
+                    // -------------------------------------------------
+                    sh '''
+                        $PREPARE_FOLDER/check_aws_resources/check_user_info.sh
+                        if [ $? -gt 0 ]; then
+                            exit 1
+                        fi
+                    '''
+
+                    // -------------------------------------------------
+                    // Prepare shared roles
+                    // -------------------------------------------------
+                    sh '''
+                        $DEPENDENCIES_FOLDER/prepare_roles.sh
+                        if [ $? -gt 0 ]; then
+                            exit 1
+                        fi
+
+                        $DEPENDENCIES_FOLDER/download_ansible_dependencies.sh
+                        if [ $? -gt 0 ]; then
+                            exit 1
+                        fi
+                    '''
+                }
+            }
+        }
+        stage('Check ENV states'){
+            steps {
+                script {
+                    // Check if there's an available bucket on S3 and DynamoDB table to store Terraform states. If not, creates it
+                    sh '''
+                        $STAGES_FOLDER/env_states/check_create_env_dependencies.sh
+
+                        if [ $? -gt 0 ]; then
+                            exit 1
+                        fi
+                    '''
+                }
+            }
+        }
+        stage('Create ENV'){
+            steps {
+                script {
+                    // Terraform infrastructure
+                    sh '''
+                        rm -rf $TERRAFORM_FOLDER_NAME
+                        git clone https://github.com/aws-samples/terraform-aws-sap-netweaver-on-hana.git
+
+                        $STAGES_FOLDER/create_env/run_terraform.sh
+                        if [ $? -gt 0 ]; then
+                            exit 1
+                        fi
+                    '''
+                }
+            }
+        }
+        stage('Install Hana and ASCS'){
+            options {timeout(time: 2, unit: 'HOURS')}
+            parallel {
+                stage('Install Hana'){
+                    steps {
+                        script {
+                            // Ansible for installing Hana
+                            sh '''
+                                $STAGES_FOLDER/install_sap/install_hana.sh
+                                if [ $? -gt 0 ]; then
+                                    exit 1
+                                fi 
+                            '''
+                        }
+                    }
+                }
+                stage('Install ASCS'){
+                    steps {
+                        script {
+                            // Ansible for installing ASCS
+                            sh '''
+                                $STAGES_FOLDER/install_sap/install_ascs.sh
+                                if [ $? -gt 0 ]; then
+                                    exit 1
+                                fi 
+                            '''
+                        }
+                    }
+                }
+            }
+        }
+        stage('Install PAS'){
+            options {timeout(time: 2, unit: 'HOURS')}
+            steps {
+                script {
+                    // Ansible for installing PAS
+                    sh '''
+                        $STAGES_FOLDER/install_sap/install_pas.sh
+                        if [ $? -gt 0 ]; then
+                            exit 1
+                        fi 
+                    '''
+                }
+            }
+        }
+        stage('Notify'){
+            steps {
+                script {
+                    echo 'Notify here'
+                }
+            }
+        }
+    }
+    post {
+        unsuccessful {
+            echo 'Error'
+        }
+        success {
+            echo 'Write everything to a file and store it to the S3 bucket'
+        }
+    }
+}

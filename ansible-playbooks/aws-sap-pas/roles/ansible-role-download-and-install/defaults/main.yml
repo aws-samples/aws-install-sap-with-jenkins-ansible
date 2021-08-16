@@ -1,0 +1,42 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+db_product_id_to_install: "{{ GLOBAL_PAS_DB_PRODUCT_ID | default('NW_ABAP_DB:S4HANA1909.CORE.HDB.ABAP') }}"
+pas_product_id_to_install : "{{ GLOBAL_PAS_PRODUCT_ID | default('NW_ABAP_CI:S4HANA1909.CORE.HDB.ABAP') }}"
+sap_schema_name: "SAPHANADB"
+
+installation_root_path: /sapmnt
+pas_installer_software_folder: "{{ installation_root_path }}/software"
+pas_installer_dest_folder: "{{ pas_installer_software_folder }}"
+swpm_dest_folder: "{{ pas_installer_software_folder }}/SWPM"
+swpm_sum_install_dest_folder: "{{ pas_installer_software_folder }}/SWPM-SUM-PAS"
+sapcar_dest_folder: "{{ pas_installer_software_folder }}/SAPCAR"
+kernel_dest_folder: "{{ pas_installer_software_folder }}/Kernel"
+install_export_dest_folder: "{{ pas_installer_software_folder }}/Exports"
+hana_client_dest_folder: "{{ pas_installer_software_folder }}/HANA_Client_Software"
+
+backup_data_dir: "/backup/data/{{ GLOBAL_PAS_SID }}"
+profile_data_dir: "{{ installation_root_path }}/{{ GLOBAL_PAS_SID }}/profile"
+sid_global_dir: "{{ installation_root_path }}/{{ GLOBAL_PAS_SID }}"
+
+sapinst_user_group_name: sapinst
+installation_users_group_name: instuser
+folder_to_run_pas_installation_from: /sap-installation/pas-installation
+folder_to_run_db_installation_from: /sap-installation/db-installation
+
+db_params_file_full_path: "{{ pas_installer_software_folder }}/db.params"
+pas_params_file_full_path: "{{ pas_installer_software_folder }}/pas.params"
+
+# Variables for db.params and pas.params
+sidadm_name: "{{ GLOBAL_PAS_SID|lower }}adm"
+sap_instance_number: "{{ GLOBAL_PAS_INSTANCE_NUMBER }}"
+sid_adm_uid: "1003"
+sap_sys_gid: "1004"
+pas_sap_sys_gid: "1010"
+pas_sid_adm_uid: "1002"
+
+download_basket: "{{ install_export_dest_folder }}"
+hana_host_extract_location: "/usr/sap/{{ GLOBAL_PAS_SID|upper }}/HDB{{ sap_instance_number }}/backup/data/DB_{{ GLOBAL_SAP_SID|upper }}"
+hana_sidadm_name: "{{ GLOBAL_HANA_SID|lower }}adm"

@@ -1,0 +1,25 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Create the disk mapping file
+  include_tasks: create_disk_mapping_file.yml
+
+- name: Mount disks USR SAP
+  include_tasks: mount_disk_usr_sap.yml
+
+- name: Mount FileSystem SAPMNT
+  include_tasks: mount_disk_sapmnt.yml
+
+- name: Mount disks for Swap
+  include_tasks: check_swap_enabled.yml
+
+- name: Reboot host
+  reboot:
+    msg: "Reboot initiated by Ansible"
+    connect_timeout: 5
+    reboot_timeout: 600
+    pre_reboot_delay: 0
+    post_reboot_delay: 30
+    test_command: whoami

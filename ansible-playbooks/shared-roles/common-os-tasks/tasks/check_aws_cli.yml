@@ -1,0 +1,14 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Fail is AWS CLI is not installed and accessible by root user
+  command: "aws --version"
+  register: prereq_aws
+  changed_when: false
+  ignore_errors: yes
+
+- name: Install AWS CLI
+  include_tasks: install_aws_cli.yml
+  when: prereq_aws is failed

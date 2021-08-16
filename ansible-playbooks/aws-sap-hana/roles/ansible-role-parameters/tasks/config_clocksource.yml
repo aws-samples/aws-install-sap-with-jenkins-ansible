@@ -1,0 +1,22 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Ensure /sys/devices/system/clocksource/clocksource0/current_clocksource exists
+  stat:
+    path: "{{ system_clocksource_file }}"
+  register: stat_result
+
+- name: Create the file, if it doesn't alredy exist
+  file:
+    path: "{{ system_clocksource_file }}"
+    state: touch
+  when: not stat_result.stat.exists
+
+- name: Add tsc to clocksource
+  lineinfile:
+    name: "{{ system_clocksource_file }}"
+    line: "tsc"
+    state: present
+    insertafter: EOF

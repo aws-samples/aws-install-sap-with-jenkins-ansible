@@ -1,0 +1,14 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Create data backup folder
+  file:
+    path: "{{ data_backup_folder }}"
+    state: directory
+
+- name: Create log backup folder
+  file:
+    path: "{{ log_backup_folder }}"
+    state: directory

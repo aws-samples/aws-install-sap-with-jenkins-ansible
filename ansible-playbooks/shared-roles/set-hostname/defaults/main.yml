@@ -1,0 +1,19 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+cloud_config_path: /etc/cloud
+cloud_config_file: cloud.cfg
+cloud_config_full_path: "{{ cloud_config_path }}/{{ cloud_config_file }}"
+
+# Register the full path on global var to be used by other roles
+GLOBAL_CENTRAL_LOG_FILE_PATH: "{{ cloud_config_full_path }}"
+
+hosts_file_full_path: "/etc/hosts"
+
+extra_vars_to_add_to_hosts:
+  - private_ip: "{{ GLOBAL_ASCS_PRIVATE_IP }}"
+    hostname: "{{ GLOBAL_ASCS_HOSTNAME }}"
+  - private_ip: "{{ GLOBAL_PAS_PRIVATE_IP }}"
+    hostname: "{{ GLOBAL_PAS_HOSTNAME }}"

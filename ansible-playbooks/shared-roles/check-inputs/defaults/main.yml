@@ -1,0 +1,6 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+default_error_message: parameter was not found. Please check your input and try again

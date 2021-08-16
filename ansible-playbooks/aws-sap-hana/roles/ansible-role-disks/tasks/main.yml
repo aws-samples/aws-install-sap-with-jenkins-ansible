@@ -1,0 +1,17 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Create folders
+  include_tasks: create_folders.yml
+
+- name: Check if all disks are attached
+  include_tasks: check_all_disks_are_attached.yml
+
+- name: Check if disks are mounted
+  include_tasks: check_disks_are_mounted.yml
+
+- name: Mount disks
+  include_tasks: mount_disks.yml
+  when: all_disks_mounted is not defined or all_disks_mounted|bool == false

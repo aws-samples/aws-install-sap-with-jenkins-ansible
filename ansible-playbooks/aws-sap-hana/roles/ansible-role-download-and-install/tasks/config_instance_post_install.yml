@@ -1,0 +1,11 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Create backup directory for PAS instance to use
+  file:
+    name: "/usr/sap/{{ GLOBAL_PAS_SID|upper }}/HDB{{ hana_instance_number }}/backup/data/DB_{{ GLOBAL_PAS_SID|upper }}"
+    state: directory
+    recurse: yes
+    mode: 0777

@@ -1,0 +1,41 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Get volume types to mount from file
+  shell: grep {{ item }} {{ disk_mapping_file_full_path }} | awk '{print $2}'
+  register: volumes_found
+  with_items: "{{ swap_disk_type_pattern }}"
+
+- name: Register fact with stdout for volume names
+  set_fact: mount_name="{{ item.stdout }}"
+  loop: "{{ volumes_found.results }}"
+  register: volume_name_result
+  no_log: yes
+
+- name: Make a list with stdout found
+  set_fact: volume_names="{{ volume_name_result.results | map(attribute='ansible_facts.mount_name') | list }}"
+
+- name: Create the physical volumes and volume group
+  lvg:
+    vg: "{{ volume_group_swap }}"
+    pvs: "{{ volume_names|join(',')}}"
+  register: volumes_output
+
+- name: Create the logical volume
+  lvol:
+    vg: "{{ volume_group_swap }}"
+    lv: "{{ logical_volume_swap }}"
+    size: 100%VG
+    opts: "-i {{ volume_names | count }}"
+
+- name: Create the filesystem
+  shell: mkswap /dev/{{ volume_group_swap }}/{{ logical_volume_swap }}
+  
+- name: Register filesystem to /etc/fstab
+  lineinfile:
+    name: /etc/fstab
+    line: "/dev/{{ volume_group_swap }}/{{ logical_volume_swap }} swap swap defaults 0 0"
+    state: present
+    insertafter: EOF

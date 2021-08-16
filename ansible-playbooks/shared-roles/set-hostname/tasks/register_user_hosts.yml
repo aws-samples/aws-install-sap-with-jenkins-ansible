@@ -1,0 +1,29 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Fail if not both private_ip and hostname variables were sent to change /etc/hosts file
+  fail:
+    msg: "You have entered only either the private_ip or the hostname for variable EXTRA_VARS_TO_ADD_TO_HOSTS. Please fix and try again"
+  when: item.private_ip is undefined or item.hostname is undefined or item.private_ip | length == 0 or item.hostname | length == 0
+  with_items: "{{ extra_vars_to_add_to_hosts }}"
+
+- name: Check if IPs were already added to /etc/hosts
+  lineinfile:
+    name: "/etc/hosts"
+    regexp: "^{{ item.private_ip }} {{ item.hostname }}.{{ GLOBAL_INPUT_DNS_ZONE }} {{ item.hostname }}"
+    state: absent
+  check_mode: yes
+  changed_when: false
+  register: line_is_present
+  with_items: "{{ extra_vars_to_add_to_hosts }}"
+
+- name: Add found IPs and hostname to /etc/hosts
+  lineinfile:
+    name: "/etc/hosts"
+    line: "{{ item.item.private_ip }} {{ item.item.hostname }}.{{ GLOBAL_INPUT_DNS_ZONE }} {{ item.item.hostname }}"
+    state: present
+    insertafter: EOF
+  when: not item.found
+  with_items: "{{ line_is_present.results }}"

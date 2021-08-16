@@ -1,0 +1,17 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Install NTP
+  yum:
+    name: ntp
+    state: present
+
+- name: Configure NTP
+  lineinfile:
+    path: "{{ ntp_conf_file_full_path }}"
+    regexp: "{{ item.original_entry }}"
+    line: "{{ item.new_entry }}"
+  loop: "{{ ntp_configuration }}"
+  notify: Restart NTP service

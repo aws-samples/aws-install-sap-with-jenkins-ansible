@@ -1,0 +1,11 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Check if user "{{ sidadm_name }}" was already created
+  user:
+    name: "{{ sidadm_name }}"
+    state: present
+  check_mode: yes
+  register: sidadm_user_output

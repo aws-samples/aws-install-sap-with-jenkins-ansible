@@ -1,0 +1,16 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Set Global SAP SID for PAS
+  set_fact: GLOBAL_SAP_SID="{{ GLOBAL_PAS_SID }}"
+  when: GLOBAL_PAS_SID is defined
+
+- name: Set Global SAP SID for ASCS
+  set_fact: GLOBAL_SAP_SID="{{ GLOBAL_ASCS_SID }}"
+  when: GLOBAL_ASCS_SID is defined
+
+- name: Set Global SAP SID for HANA
+  set_fact: GLOBAL_SAP_SID="{{ GLOBAL_HANA_SID }}"
+  when: GLOBAL_HANA_SID is defined

@@ -1,0 +1,21 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Fail if installation did not finish well
+  shell: /usr/sap/hostctrl/exe/sapcontrol -nr 00 -function GetProcessList | grep -c GREEN
+  register: grep_output
+  failed_when: grep_output.rc != 0
+
+- name: Fail if PAS installation logs show errors on installation process
+  stat:
+    path: "{{ folder_to_run_pas_installation_from }}/installationSuccesfullyFinished.dat"
+  register: log_file_output
+  failed_when: not log_file_output.stat.exists
+
+- name: Fail if DB installation logs show errors on installation process
+  stat:
+    path: "{{ folder_to_run_db_installation_from }}/installationSuccesfullyFinished.dat"
+  register: log_file_output
+  failed_when: not log_file_output.stat.exists

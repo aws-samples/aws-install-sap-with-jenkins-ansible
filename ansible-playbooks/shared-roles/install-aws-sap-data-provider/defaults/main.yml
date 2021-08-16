@@ -1,0 +1,12 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+rhel_data_provider_url: https://aws-sap-data-provider.s3.amazonaws.com/Installers/aws-sap-dataprovider-rhel.x86_64.rpm
+rhel_data_provider_installer_dest_path: /tmp/data_provider_rhel.rpm
+
+suse_data_provider_url: https://aws-sap-data-provider.s3.amazonaws.com/Installers/aws-sap-dataprovider-sles.x86_64.rpm
+suse_data_provider_key_url: https://aws-sap-data-provider.s3.amazonaws.com/Installers/RPM-GPG-KEY-AWS
+suse_data_provider_installer_dest_path: /tmp/data_provider_suse.rpm
+suse_data_provider_key_dest_path: /tmp/data_provider_key.key

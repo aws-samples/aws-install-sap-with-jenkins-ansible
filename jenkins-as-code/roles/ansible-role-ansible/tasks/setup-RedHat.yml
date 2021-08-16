@@ -1,0 +1,10 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Install Ansible.
+  package:
+    name: ansible
+    state: "{{ ansible_package_state }}"
+    enablerepo: epel

@@ -1,0 +1,52 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Create terraform user
+  user:
+    name: "{{terraform_user}}"
+    password: "{{terraform_user_password}}"
+
+- name: Create Terraform directory
+  file:
+    path: "{{terraform_dir}}"
+    state: directory
+    owner: "{{terraform_user}}"
+    group: "{{terraform_user}}"
+  register: terraform_directory
+
+- name: Check terraform version
+  shell: "terraform version 2>&1 | head -n 1 | grep -q {{terraform_version}}"
+  failed_when: false
+  changed_when: false
+  register: terraform_versions_match
+
+- include: download.yml
+  when: terraform_versions_match.rc != 0
+
+- name: Install unzip to unarchive terraform
+  package:
+    name: unzip
+    state: present
+
+- name: Unarchive Terraform archive
+  unarchive:
+    src: /tmp/terraform-{{terraform_version}}.zip
+    dest: "{{terraform_dir}}"
+    copy: no
+  when: terraform_versions_match.rc != 0 or terraform_directory is changed
+
+- name: Make terraform_user terraform directory owner
+  file:
+    path: "{{terraform_dir}}"
+    state: directory
+    owner: "{{terraform_user}}"
+    group: "{{terraform_user}}"
+    recurse: yes
+
+- name: Adding terraform command to user path
+  file: 
+    src: "{{terraform_dir}}/terraform"
+    dest: /usr/bin/terraform
+    state: link

@@ -1,0 +1,22 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Download Hana
+  include_tasks: download_hana.yml
+
+- name: Create passwords file
+  include_tasks: build_password.yml
+
+- name: Install Hana
+  include_tasks: install_hana.yml
+
+- name: Check if installation finished well
+  include_tasks: check_installation.yml
+
+- name: Remove used credentials
+  include_tasks: remove_credentials.yml
+
+- name: Config instance to receive PAS data
+  include_tasks: config_instance_post_install.yml

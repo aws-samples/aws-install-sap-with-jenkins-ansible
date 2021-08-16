@@ -1,0 +1,5 @@
+*.terraform*
+*.vagrant*
+requirements_local.yml
+hosts_local.yml
+.github

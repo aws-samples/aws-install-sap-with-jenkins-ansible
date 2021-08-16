@@ -1,0 +1,25 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Start and Enable tuned service
+  systemd:
+    name: tuned
+    enabled: yes
+    state: started
+  register: log_output
+  
+- set_fact: logs_to_register={{ log_output.status }}
+- include_role: 
+    name: "{{ GLOBAL_LOGS_AND_FOLDERS_ROLE_NAME }}"
+    tasks_from: register_single_log
+
+- name: Activate tuned-adm
+  shell: tuned-adm active
+  register: log_output
+
+- set_fact: logs_to_register={{ log_output.stdout }}
+- include_role: 
+    name: "{{ GLOBAL_LOGS_AND_FOLDERS_ROLE_NAME }}"
+    tasks_from: register_single_log

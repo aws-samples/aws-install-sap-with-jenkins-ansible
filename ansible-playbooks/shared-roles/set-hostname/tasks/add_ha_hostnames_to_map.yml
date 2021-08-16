@@ -1,0 +1,21 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Add primary host IP to list
+  set_fact:
+    extra_vars_to_add_to_hosts: "{{ (extra_vars_to_add_to_hosts | default([])) + [{'private_ip': GLOBAL_PRIMARY_IP, 'hostname': GLOBAL_INPUT_HOSTNAME}] }}"
+
+- name: Add nodes hosts to list
+  set_fact: 
+    extra_vars_to_add_to_hosts: "{{ (extra_vars_to_add_to_hosts | default([])) + [{'private_ip': item, 'hostname': GLOBAL_INPUT_HOSTNAME+((ansible_loop.index+1) | string) }] }}"
+  when: 
+    - GLOBAL_NODE_IPS is defined
+    - GLOBAL_NODE_IPS_LIST is defined
+  loop: "{{ GLOBAL_NODE_IPS_LIST }}"
+  loop_control:
+    extended: yes
+
+- name: Set global variable with hosts and ip list
+  set_fact: GLOBAL_HOSTS_LIST="{{ extra_vars_to_add_to_hosts }}"

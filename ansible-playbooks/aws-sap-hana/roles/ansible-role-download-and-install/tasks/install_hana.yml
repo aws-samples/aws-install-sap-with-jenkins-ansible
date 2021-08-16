@@ -1,0 +1,46 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Ensure installation file has permission to run
+  file:
+    path: "{{ hana_installation_file_path }}"
+    mode: 0555
+
+- name: Fail if HA is enabled but no specific hostname was given to this instance by previous roles
+  fail:
+    msg: "This installation is running on HA mode and no HOSTNAME was found for this instance. Make sure you're calling the set-hostname role before this one or something equivalent"
+  when: GLOBAL_ENABLE_HA == true and THIS_HOSTNAME is undefined
+
+- name: Set hostname var for non HA installation
+  set_fact: THIS_HOSTNAME="{{ GLOBAL_INPUT_HOSTNAME }}"
+  when: GLOBAL_ENABLE_HA == false
+
+- name: Run Hana Installation
+  shell: 
+    cmd: cat {{ hana_passwords_file_full_path }} | {{ hana_installation_file_path }} --action=install --components=client,server --batch --autostart=1 -sid={{ GLOBAL_HANA_SID }}  --hostname={{ THIS_HOSTNAME }} --number={{ GLOBAL_HANA_INSTANCE_NUMBER }}  --read_password_from_stdin=xml
+    chdir: "{{ folder_to_run_hana_installation_from }}"
+  no_log: yes
+  register: installation_output
+  ignore_errors: yes
+
+- name: Show errors if they exist
+  debug:
+    msg: "{{ installation_output.stdout_lines }}"
+  when: installation_output is defined and installation_output.rc != 0 and installation_output.stderr != standard_sap_install_error_msg
+
+- name: Abort execution when there are installation errors
+  fail:
+    msg: "Execution interrupted due to errors"
+  when: installation_output is defined and installation_output.rc != 0 and installation_output.stderr != standard_sap_install_error_msg
+
+- name: Check SAP installation output
+  fail:
+    msg: "{{ sap_install_error }}"
+  when: installation_output.rc != 0 and installation_output.stderr != standard_sap_install_error_msg
+
+- name: Remove passwords file
+  file:
+    path: "{{ hana_passwords_file_full_path }}"
+    state: absent

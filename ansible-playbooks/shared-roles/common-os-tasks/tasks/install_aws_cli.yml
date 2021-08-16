@@ -1,0 +1,36 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- include_tasks: install_unzip_rhel.yml
+  when: ansible_os_family == "RedHat"
+
+- include_tasks: install_unzip_suse.yml
+  when: ansible_os_family == "Suse"
+
+- name: Ensure tmp dir for AWS exists
+  file:
+    name: "{{ aws_installer_dir }}"
+    state: directory
+    mode: 0777
+
+- name: Download AWS CLI
+  get_url:
+    url: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+    dest: "{{ aws_installer_dir }}/awscliv2.zip"
+    mode: '0777'
+
+- name: Unzip AWS CLI install package
+  unarchive: 
+    remote_src: yes
+    src: "{{ aws_installer_dir }}/awscliv2.zip"
+    dest: "{{ aws_installer_dir }}"
+
+- name: Remove existing AWS installation
+  include_tasks: remove_aws_cli.yml
+  
+- name: Install AWS CLI
+  shell: "{{ aws_installer_dir }}/aws/install --bin-dir /usr/bin"
+  register: cli_install_output
+  ignore_errors: yes

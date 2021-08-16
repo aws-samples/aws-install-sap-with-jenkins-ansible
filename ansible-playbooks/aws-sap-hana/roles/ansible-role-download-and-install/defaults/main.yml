@@ -1,0 +1,20 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+folder_to_run_hana_installation_from: "/sap-installation/hana-installation"
+
+hana_zip_file: 51054084.ZIP
+hana_zip_folder: "/sapmnt/software/HANA_DB_Software"
+hana_unarchived_folder: "{{ folder_to_run_hana_installation_from }}/unarchived"
+hana_file_full_path: "{{ hana_zip_folder }}/{{ hana_zip_file }}"
+
+hana_installation_file_path: "{{ hana_unarchived_folder }}/DATA_UNITS/HDB_LCM_LINUX_X86_64/hdblcm"
+hana_passwords_file_full_path: "{{ hana_unarchived_folder }}/passwords.xml"
+hana_instance_number: "{{ HANA_INSTANCE_NUMBER }}"
+
+sap_install_error: "There was an error on your SAP installation. Please check the output and the logs"
+standard_sap_install_error_msg: "Configuration error (batch mode):\n  SAP HANA System ID '{{ GLOBAL_HANA_SID }}' is already in use by a SAP HANA Database instance!"
+
+already_installed_error_message: "SAP HANA System ID '{{ GLOBAL_HANA_SID }}' is already in use by a SAP HANA Database instance!"

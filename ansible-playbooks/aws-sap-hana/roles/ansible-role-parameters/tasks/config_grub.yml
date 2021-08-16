@@ -1,0 +1,20 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Check if grub file was already changed
+  lineinfile:
+    state: absent
+    path: "{{ grub_file_default_path }}"
+    regexp: 'numa_balancing=disable transparent_hugepage=never intel_idle.max_cstate=1 processor.max_cstate=1'
+  register: result
+  changed_when: false
+  check_mode: true
+
+- name: Replace line in grub file
+  replace:
+    path: "{{ grub_file_default_path }}"
+    regexp: '(GRUB_CMDLINE_LINUX=")'
+    replace: '\1numa_balancing=disable transparent_hugepage=never intel_idle.max_cstate=1 processor.max_cstate=1 '
+  when: result.found == 0

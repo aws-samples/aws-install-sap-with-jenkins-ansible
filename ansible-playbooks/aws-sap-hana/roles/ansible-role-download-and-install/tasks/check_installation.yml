@@ -1,0 +1,30 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Fail if installation did not finish well
+  shell: /usr/sap/hostctrl/exe/sapcontrol -nr 00 -function GetProcessList | grep -c GREEN
+  register: grep_output
+  failed_when: grep_output.rc != 0
+
+- name: Look for success messages on log file
+  lineinfile:
+    path: /var/tmp/hdblcm.log
+    regex: "SAP HANA Database System installed"
+    state: absent
+  check_mode: yes
+  register: log_file_output
+
+- name: Look for states showing that "{{ GLOBAL_HANA_SID }}" is already installed
+  lineinfile:
+    path: /var/tmp/hdblcm.log
+    regex: "{{ already_installed_error_message }}"
+    state: absent
+  check_mode: yes
+  register: log_installed_output
+
+- name: Fail if no log messages with success were found
+  fail:
+    msg: "Hana installation did not occurr well. Check the error logs and try again"
+  when: ((log_file_output is failed) or (not log_file_output.found)) and ((log_installed_output is failed) or (not log_installed_output.found))

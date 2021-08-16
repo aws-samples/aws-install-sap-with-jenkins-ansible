@@ -1,0 +1,19 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Create logs folder
+  file:
+    path: "{{ log_root_folder_name }}"
+    state: directory
+    mode: 0666
+
+- name: Create log file
+  file:
+    path: "{{ log_root_file_full_path }}"
+    state: touch
+    mode: 0666
+
+- name: Make log file available globally
+  set_fact: GLOBAL_CENTRAL_LOG_FILE_PATH="{{ log_root_file_full_path }}"

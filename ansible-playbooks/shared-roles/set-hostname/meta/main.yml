@@ -1,0 +1,10 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+galaxy_info:
+  role_name: Set hostname
+  author: Guilherme Sesterheim
+  description: Role for setting the machine hostname when installing SAP systems
+  company: Amazon Web Services

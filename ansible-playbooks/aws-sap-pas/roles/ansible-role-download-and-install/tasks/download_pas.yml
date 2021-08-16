@@ -1,0 +1,21 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Create PAS destination folder
+  file:
+    path: "{{ pas_installer_dest_folder }}"
+    state: directory
+
+- name: Download PAS from S3 bucket. This is a big download - 63Gb - So hang on since it may take several minutes
+  shell: aws s3 sync "{{ GLOBAL_PAS_S3_DOWNLOAD_BUCKET_URL }}" "{{ pas_installer_dest_folder }}"
+  register: download_output
+  until: download_output is not failed
+  retries: 5
+
+- name: Fail if no PAS installation files were downloaded
+  find:
+    paths: "{{ pas_installer_dest_folder }}/Kernel/"
+  register: filesFound
+  failed_when: filesFound.matched == 0

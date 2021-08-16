@@ -1,0 +1,10 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Check if all required disks are attached
+  set_fact: filtered_disks="{{ ansible_devices | map('regex_search', '^' + regex_to_look_for_disks ) | select ('string') | list }}"
+  failed_when: "filtered_disks | length < minimum_number_of_mounted_disks_to_search"
+  retries: 60
+  delay: 5

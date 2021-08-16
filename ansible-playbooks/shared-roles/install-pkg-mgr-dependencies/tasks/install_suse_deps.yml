@@ -1,0 +1,28 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Install ZYPPER dependencies
+  zypper:
+    name: "{{ suse_packages }}"
+    state: present
+  register: log_output
+
+- name: Register logs
+  lineinfile:
+    name: "{{ GLOBAL_CENTRAL_LOG_FILE_PATH }}"
+    line: "{{ ansible_date_time.date }} {{ ansible_date_time.time }} {{ ansible_date_time.tz }} - {{ item.item }} - {{ item.msg }}"
+    state: present
+    insertafter: EOF
+  loop: "{{ log_output.results }}"
+
+# The following two commands are still not implemented and validated
+#    -   zypper remove ulimit > /dev/null | tee -a $SSM_LOG_FILE
+#    -   zypper update -y -l | tee -a $SSM_LOG_FILE
+
+- name: Update all packages
+  yum:
+    name: '*'
+    state: latest
+  ignore_errors: true

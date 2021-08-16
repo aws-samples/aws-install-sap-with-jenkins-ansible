@@ -1,0 +1,9 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Ensure Java is installed.
+  package:
+    name: "{{ java_packages }}"
+    state: present

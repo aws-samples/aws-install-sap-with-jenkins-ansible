@@ -1,0 +1,19 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Check global SID vars
+  include_tasks: check_global_sid.yml
+
+- name: Create log file and folder
+  include_tasks: create_logs_folder.yml
+
+- name: Create backup folders
+  include_tasks: create_backup_folders.yml
+
+- name: Make log file visible
+  include_tasks: export_log_file_as_envvar.yml
+
+- name: Configure AWS CLI
+  include_tasks: configure_aws_cli.yml

@@ -1,0 +1,11 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+# JDK version options for FreeBSD include:
+#   - openjdk
+#   - openjdk6
+#   - openjdk8
+__java_packages:
+  - openjdk

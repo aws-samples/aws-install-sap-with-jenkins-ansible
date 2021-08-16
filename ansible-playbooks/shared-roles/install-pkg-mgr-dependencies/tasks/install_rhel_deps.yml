@@ -1,0 +1,32 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Install YUM dependencies
+  yum:
+    name: "{{ rhel_packages }}"
+    state: present
+  register: log_output
+
+- set_fact: logs_to_register={{ log_output.results }}
+- include_role: 
+    name: "{{ GLOBAL_LOGS_AND_FOLDERS_ROLE_NAME }}"
+    tasks_from: register_logs
+
+- name: Install YUM dependencies group packages
+  yum:
+    name: "{{ rhel_group_packages }}"
+    state: present
+  register: log_output
+
+- set_fact: logs_to_register={{ log_output.results }}
+- include_role: 
+    name: "{{ GLOBAL_LOGS_AND_FOLDERS_ROLE_NAME }}"
+    tasks_from: register_logs
+
+- name: Update all packages
+  yum:
+    name: '*'
+    state: latest
+  ignore_errors: true

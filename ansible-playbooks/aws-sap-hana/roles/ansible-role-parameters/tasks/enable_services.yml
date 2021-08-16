@@ -1,0 +1,22 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- set_fact: logs_to_register=Enabling autofs and NFS
+- include_role: 
+    name: "{{ GLOBAL_LOGS_AND_FOLDERS_ROLE_NAME }}"
+    tasks_from: register_single_log
+
+- name: Start and Enable nfs-server and autofs
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  register: log_output
+  loop: "{{ sysctl_enable_autofs_nfs }}"
+
+- set_fact: logs_to_register={{ log_output.results }}
+- include_role: 
+    name: "{{ GLOBAL_LOGS_AND_FOLDERS_ROLE_NAME }}"
+    tasks_from: register_logs

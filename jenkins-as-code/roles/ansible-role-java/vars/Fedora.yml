@@ -1,0 +1,10 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+# JDK version options include:
+#   - java
+#   - java-1.8.0-openjdk
+__java_packages:
+  - java-1.8.0-openjdk

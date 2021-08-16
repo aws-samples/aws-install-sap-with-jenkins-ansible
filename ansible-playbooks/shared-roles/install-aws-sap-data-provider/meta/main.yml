@@ -1,0 +1,10 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+galaxy_info:
+  role_name: AWS SAP Data Provider
+  author: Guilherme Sesterheim
+  description: Role for installing the AWS SAP Data provider for RHEL or SLES
+  company: Amazon Web Services

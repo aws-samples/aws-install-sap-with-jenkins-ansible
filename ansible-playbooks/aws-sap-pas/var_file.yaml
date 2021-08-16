@@ -1,0 +1,21 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+EC2_HOSTNAME: demo-pas
+PRIVATE_DNS_ZONE: sapgspteam.net
+MASTER_PASSWORD: P@ssw0rd
+PAS_SID: AD0
+EFS_ID: fs-5b98f1ef
+PAS_INSTANCE_NUMBER: "00"
+DATABASE_SID: AD0
+DATABASE_PRIVATE_IP: 172.31.7.14
+DATABASE_HOSTNAME: demo-hana
+DATABASE_INSTANCE_NUMBER: "00"
+ASCS_INSTANCE_NUMBER: "00"
+ASCS_PRIVATE_IP: 172.31.3.3
+ASCS_HOSTNAME: demo-ascs
+S3_BUCKET_MEDIA_FILES: s3://sapgspdemo-sap-binaries-lw/S4H1909
+ENABLE_HA: false
+AWS_CLI_PROFILE: default

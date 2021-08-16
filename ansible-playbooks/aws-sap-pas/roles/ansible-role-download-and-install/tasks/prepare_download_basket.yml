@@ -1,0 +1,19 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: List files for directories
+  find:
+    paths: "{{ item }}"
+  register: dir_list
+  loop:
+    - "{{ kernel_dest_folder }}"
+    - "{{ hana_client_dest_folder }}"
+    
+- name: Fill download basket
+  copy:
+    src: "{{ item }}"
+    dest: "{{ download_basket }}/{{ item | basename }}"
+    remote_src: yes
+  loop: "{{ dir_list.results | map(attribute='files') | sum(start=[]) | map(attribute='path') | list }}"

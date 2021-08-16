@@ -1,0 +1,25 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Check if reboot is needed
+  include_tasks: check_reboot_is_needed.yml
+
+- name: Download ASCS Installation media
+  include_tasks: download_ascs.yml
+    
+- name: Create ascs.params file
+  include_tasks: create_ascs_ini_file.yml
+
+- name: Prepare installation files
+  include_tasks: prepare_install_files.yml
+
+- name: Install ASCS
+  include_tasks: install_ascs.yml
+
+- name: Check if installation finished well
+  include_tasks: check_installation.yml
+
+- name: Remove used credentials
+  include_tasks: remove_credentials.yml

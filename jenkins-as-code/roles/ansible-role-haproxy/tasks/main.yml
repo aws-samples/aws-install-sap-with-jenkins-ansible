@@ -1,0 +1,25 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Install HAProxy
+  yum:
+    name: "haproxy"
+    state: "present"
+
+- name: Configure HAProxy with TLS
+  template:
+    src: haproxy-tls.cfg
+    dest: /etc/haproxy/haproxy.cfg
+    mode: 0644
+    backup: yes
+  when: activate_tls_only
+
+- name: Configure HAProxy with no TLS
+  template:
+    src: haproxy-no-tls.cfg
+    dest: /etc/haproxy/haproxy.cfg
+    mode: 0644
+    backup: yes
+  when: not activate_tls_only

@@ -1,0 +1,15 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Check if OS is supported
+  include_tasks: fail_if_unknown_so.yml
+
+- name: Check if HA is enabled
+  include_tasks: check_ha_vars.yml
+  when: ENABLE_HA is defined and ENABLE_HA == "true"
+
+- name: Check input parameters
+  include_tasks: check_parameters.yml
+  when: input_variables_to_check is defined and input_variables_to_check|length>0

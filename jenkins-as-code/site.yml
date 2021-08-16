@@ -1,0 +1,54 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+# This playbook deploys the whole application stack for a jenkins.
+
+- name: Install Commons
+  hosts: localhost
+  become: yes
+  roles:
+    - role: ansible-role-commons
+
+- name: Install Java
+  hosts: localhost
+  roles:
+    - role: ansible-role-java
+      when: "ansible_os_family == 'RedHat'"
+      java_packages:
+        - java-1.8.0-openjdk
+
+- name: Install Terraform
+  hosts: localhost
+  become: yes
+  roles:
+    - role: ansible-role-terraform
+
+- name: Install Ansible
+  hosts: localhost
+  become: yes
+  roles:
+    - role: ansible-role-ansible
+
+- name: Install AWS CLI
+  hosts: localhost
+  become: yes
+  roles:
+    - role: ansible-role-aws-tools
+
+- name: Install Jenkins
+  hosts: localhost
+  become: true
+  vars:
+    jenkins_hostname: localhost
+    java_packages:
+      - openjdk-8-jdk
+  roles:
+    - role: ansible-role-jenkins
+
+- name: Applies HAProxy config for SSL
+  hosts: localhost
+  become: true
+  roles:
+    - role: ansible-role-haproxy

@@ -1,0 +1,15 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Ensure /var/lib/jenkins exists
+  file:
+    path: "{{ jenkins_home }}"
+    state: directory
+
+- name: Copy jenkins.yaml file to the place where it can be read by plugin
+  copy:
+    src: "{{ role_path }}/files/jenkins.yaml"
+    dest: "{{ jenkins_home }}/jenkins.yaml"
+    mode: "0755"

@@ -1,0 +1,14 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Create list with HA variables to check
+  set_fact:
+    new_variables:
+      - "HA_PRIMARY_PRIVATE_IP"
+      - "HA_NODE_PRIVATE_IPS"
+
+- name: Merge new variables with basic input variables
+  set_fact: 
+    input_variables_to_check: "{{ input_variables_to_check + new_variables }}"

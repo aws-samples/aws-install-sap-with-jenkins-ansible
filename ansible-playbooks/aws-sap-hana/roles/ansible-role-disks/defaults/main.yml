@@ -1,0 +1,75 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+# Variables to check disks mounted
+regex_to_look_for_disks: "nvme\\w*n1\\b"
+minimum_number_of_mounted_disks_to_search: 9
+
+grep_find_command: grep /dev/xvd
+awk_position_command: awk '{ print $18 }'
+sed_replace_command: sed -e 's/"//g' -e 's/\.*//g'
+
+sapmnt_folder: /sapmnt
+
+disk_mapping_file_full_path: /tmp/diskmap
+
+folders_to_create:
+  - /hana/shared
+  - /hana/data
+  - /hana/log
+  - /usr/sap/trans
+  - /software
+  - /backup
+
+# Variables for mounting DATA disks
+hana_data_folder: /hana/data
+volume_group_hana_data: vg_hana_data
+logical_volume_hana_data: lv_hana_data
+
+hana_data_disk_type_pattern:
+  - xvdf
+  - xvdg
+  - xvdh
+
+# Variables for mounting LOG disks
+hana_log_folder: /hana/log
+volume_group_hana_log: vg_hana_log
+logical_volume_hana_log: lv_hana_log
+
+hana_log_disk_type_pattern:
+  - xvdm
+  - xvdn
+
+# Variables for mounting SHARED disks
+hana_shared_folder: /hana/shared
+volume_group_hana_shared: vg_hana_shared
+logical_volume_hana_shared: lv_hana_shared
+
+hana_shared_disk_type_pattern:
+  - xvdo
+
+# Variables for mounting SAP disks
+hana_sap_folder: /usr/sap
+volume_group_hana_sap: vg_usrsap
+logical_volume_hana_sap: lv_usrsap
+
+hana_sap_disk_type_pattern:
+  - xvdq
+
+# Variables for mounting BACKUP disks
+hana_backup_folder: /backup
+volume_group_hana_backup: vg_hana_backup
+logical_volume_hana_backup: lv_hana_backup
+
+hana_backup_disk_type_pattern:
+  - xvdp
+
+# Variables for mounting SWAP disks
+hana_swap: /swap
+volume_group_hana_swap: vg_swap
+logical_volume_hana_swap: lv_swap
+
+hana_swap_disk_type_pattern:
+  - xvdr
