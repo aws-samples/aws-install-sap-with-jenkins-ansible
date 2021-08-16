@@ -14,8 +14,7 @@ This repo contains the ansible code for installing SAP Netweaver on AWS instance
 1. Follow <a href=https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#selecting-an-ansible-artifact-and-version-to-install>this link</a> to install Ansible on your local computer
 
 ### 2 - Setup - Download dependencies:
-1. Go to roles/requirements.yml and fill in with your Gitlab USER/TOKEN on the specified places
-2. Run the command <code>ansible-galaxy install -f -r requirements.yml</code>
+1. Run the command <code>ansible-galaxy install -f -r roles/requirements.yml</code>
 
 ### 3 - Running the playbook:
 1. Go to hosts.yml and fill in with your instance's IP (from previous step) and SSH key path

@@ -11,12 +11,6 @@ credentials:
     domainCredentials:
       - credentials:
         - usernamePassword:
-            id: "GIT_ACCESS_TOKEN"
-            username: "GIT_ACCESS_TOKEN"
-            password: ""
-            description: "(Required) Git access token to pull repos from AWS Gitlab"
-            scope: GLOBAL
-        - usernamePassword:
             scope: GLOBAL
             id: "AWS_ACCOUNT_CREDENTIALS"
             username: ""
@@ -174,8 +168,7 @@ jobs:
             source {
               git {
                 id('sap3modules')
-                remote('https://gitlab.aws.dev/sap-devops/miscellaneous/blog-installsapwithjenkinsansible.git')
-                credentialsId('GIT_ACCESS_TOKEN')
+                remote('https://github.com/aws-samples/aws-install-sap-with-jenkins-ansible.git')
               }
             }
             strategy {
@@ -189,8 +182,7 @@ jobs:
           git {
             id('sap3modules')
             includes('*')
-            remote('https://gitlab.aws.dev/sap-devops/miscellaneous/blog-installsapwithjenkinsansible.git')
-            credentialsId('GIT_ACCESS_TOKEN')
+            remote('https://github.com/aws-samples/aws-install-sap-with-jenkins-ansible.git')
           }
         }
       }
@@ -206,8 +198,7 @@ jobs:
             source {
               git {
                 id('destroySAP3modules')
-                remote('https://gitlab.aws.dev/sap-devops/miscellaneous/blog-installsapwithjenkinsansible.git')
-                credentialsId('GIT_ACCESS_TOKEN')
+                remote('https://github.com/aws-samples/aws-install-sap-with-jenkins-ansible')
               }
             }
             strategy {
@@ -221,8 +212,7 @@ jobs:
           git {
             id('destroySAP3modules')
             includes('*')
-            remote('https://gitlab.aws.dev/sap-devops/miscellaneous/blog-installsapwithjenkinsansible.git')
-            credentialsId('GIT_ACCESS_TOKEN')
+            remote('https://github.com/aws-samples/aws-install-sap-with-jenkins-ansible')
           }
         }
       }

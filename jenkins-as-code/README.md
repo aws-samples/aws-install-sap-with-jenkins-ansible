@@ -22,11 +22,9 @@ If you don't want to run it locally and want to run from AWS, go to Packer secti
 #### Vagrant commands:
 
 1. Have (1) <a href="https://learn.hashicorp.com/tutorials/vagrant/getting-started-install" target="_blank">Vagrant installed</a> and (2) <a href="https://www.virtualbox.org/wiki/Downloads" target="_blank">Oracle's VirtualBox</a>
-2. Add your Gitlab credentials to "sample_Vagrantfile" where it says "YOUR_USERNAME" and "YOUR_GIT_ACCESS_TOKEN"
-3. Rename file from "sample_Vagrantfile" to "Vagrantfile"
-4. How to run: navigate to jenkins-as-code folder and run <code>sudo vagrant up</code>. After everything is complete, it will create a Jenkins acessible from your host machine at <code>http://localhost:5555</code>
-5. How to SSH into the created machine: run <code>sudo vagrant ssh</code>
-6. How to destroy the VM: run <code>sudo vagrant destroy</code>
+2. How to run: navigate to jenkins-as-code folder and run <code>sudo vagrant up</code>. After everything is complete, it will create a Jenkins acessible from your host machine at <code>http://localhost:5555</code>
+3. How to SSH into the created machine: run <code>sudo vagrant ssh</code>
+4. How to destroy the VM: run <code>sudo vagrant destroy</code>
 
 ### Allowing your PC to connect to the instances to be created by Terraform
 
