@@ -8,9 +8,6 @@ pipeline {
         disableConcurrentBuilds()
     }
     environment {
-        // Git credentials
-        GIT_ACCESS_TOKEN = credentials('GIT_ACCESS_TOKEN')
-        
         // Credentials for AWS
         AWS_ACCOUNT_CREDENTIALS = credentials("AWS_ACCOUNT_CREDENTIALS")
         AWS_REGION = credentials("AWS_REGION")
@@ -58,7 +55,6 @@ pipeline {
                     // -------------------------------------------------
                     // Check credentials
                     // -------------------------------------------------
-                    
                     env.STAGES_FOLDER="./jenkins-pipelines/sap-pipeline-hana-pas-ascs/stages"
                     env.PREPARE_FOLDER=STAGES_FOLDER+"/prepare"
                     env.DEPENDENCIES_FOLDER=PREPARE_FOLDER+"/dependencies"
