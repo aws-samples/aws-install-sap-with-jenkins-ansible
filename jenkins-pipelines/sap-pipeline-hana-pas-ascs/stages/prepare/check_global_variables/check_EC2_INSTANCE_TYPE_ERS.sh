@@ -6,10 +6,10 @@
 # ------------------------------------------------------------------
 # Check if the variable is present. If not, send back default value
 # ------------------------------------------------------------------
-if [ -z "$APPLICATION_NAME" ]; then
-    echo "demo"
+if [ -z "$ERS_INSTANCE_TYPE" ]; then
+    echo "m5.xlarge"
     exit 0
 fi
 
-echo "$APPLICATION_NAME"
+echo "$ERS_INSTANCE_TYPE"
 exit 0

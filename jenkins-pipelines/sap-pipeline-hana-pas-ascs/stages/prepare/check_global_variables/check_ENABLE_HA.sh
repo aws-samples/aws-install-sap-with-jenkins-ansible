@@ -7,7 +7,7 @@
 # Check if the variable is present. If not, send back default value
 # ------------------------------------------------------------------
 if [ -z "$ENABLE_HA" ]; then
-    echo "false"
+    echo "true"
     exit 0
 fi
 

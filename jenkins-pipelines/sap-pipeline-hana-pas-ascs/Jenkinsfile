@@ -21,6 +21,7 @@ pipeline {
         EC2_INSTANCES_NAME_PREFIX = credentials("EC2_INSTANCES_NAME_PREFIX")
         HANA_INSTANCE_TYPE = credentials("HANA_INSTANCE_TYPE")
         ASCS_INSTANCE_TYPE = credentials("ASCS_INSTANCE_TYPE")
+        ERS_INSTANCE_TYPE = credentials("ERS_INSTANCE_TYPE")
         PAS_INSTANCE_TYPE = credentials("PAS_INSTANCE_TYPE")
         VPC_ID = credentials("VPC_ID")
         SUBNET_IDS = credentials("SUBNET_IDS")
@@ -36,11 +37,13 @@ pipeline {
         S3_ROOT_FOLDER_INSTALL_FILES = credentials("S3_ROOT_FOLDER_INSTALL_FILES")
         HANA_INSTANCE_NUMBER = credentials("HANA_INSTANCE_NUMBER")
         ASCS_INSTANCE_NUMBER = credentials("ASCS_INSTANCE_NUMBER")
+        ERS_INSTANCE_NUMBER = credentials("ERS_INSTANCE_NUMBER")
         PAS_INSTANCE_NUMBER = credentials("PAS_INSTANCE_NUMBER")
         MASTER_PASSWORD = credentials("MASTER_PASSWORD")
         SAP_SID = credentials("SAP_SID")
         HANA_SID = credentials("HANA_SID")
         PRODUCT_ID_ASCS = credentials("PRODUCT_ID_ASCS")
+        PRODUCT_ID_ERS = credentials("PRODUCT_ID_ERS")
         PRODUCT_ID_PAS_DB = credentials("PRODUCT_ID_PAS_DB")
         PRODUCT_ID_PAS = credentials("PRODUCT_ID_PAS")
 
@@ -75,9 +78,11 @@ pipeline {
                     env.EC2_INSTANCES_NAME_PREFIX_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_EC2_INSTANCES_NAME_PREFIX.sh', returnStdout: true).trim()
                     env.PAS_INSTANCES_NAME_CHKD = "$EC2_INSTANCES_NAME_PREFIX_CHKD"+"-pas"
                     env.ASCS_INSTANCES_NAME_CHKD = "$EC2_INSTANCES_NAME_PREFIX_CHKD"+"-ascs"
+                    env.ERS_INSTANCES_NAME_CHKD = "$EC2_INSTANCES_NAME_PREFIX_CHKD"+"-ers"
                     env.HANA_INSTANCES_NAME_CHKD = "$EC2_INSTANCES_NAME_PREFIX_CHKD"+"-hana"
                     env.HANA_INSTANCE_TYPE_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_EC2_INSTANCE_TYPE_HANA.sh', returnStdout: true).trim()
                     env.ASCS_INSTANCE_TYPE_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_EC2_INSTANCE_TYPE_ASCS.sh', returnStdout: true).trim()
+                    env.ERS_INSTANCE_TYPE_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_EC2_INSTANCE_TYPE_ERS.sh', returnStdout: true).trim()
                     env.PAS_INSTANCE_TYPE_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_EC2_INSTANCE_TYPE_PAS.sh', returnStdout: true).trim()
                     env.SUBNET_IDS_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_SUBNET_IDS.sh', returnStdout: true).trim()
                     env.VPC_ID_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_VPC_ID.sh', returnStdout: true).trim()
@@ -93,11 +98,13 @@ pipeline {
                     env.S3_ROOT_FOLDER_INSTALL_FILES_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_S3_ROOT_FOLDER_INSTALL_FILES.sh', returnStdout: true).trim()
                     env.HANA_INSTANCE_NUMBER_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_INSTANCE_NUMBER_HANA.sh', returnStdout: true).trim()
                     env.ASCS_INSTANCE_NUMBER_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_INSTANCE_NUMBER_ASCS.sh', returnStdout: true).trim()
+                    env.ERS_INSTANCE_NUMBER_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_INSTANCE_NUMBER_ERS.sh', returnStdout: true).trim()
                     env.PAS_INSTANCE_NUMBER_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_INSTANCE_NUMBER_PAS.sh', returnStdout: true).trim()
                     env.MASTER_PASSWORD_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_MASTER_PASSWORD.sh', returnStdout: true).trim()
                     env.SAP_SID_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_SID_SAP.sh', returnStdout: true).trim()
                     env.HANA_SID_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_SID_HANA.sh', returnStdout: true).trim()
                     env.PRODUCT_ID_ASCS_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_PRODUCT_ID_ASCS.sh', returnStdout: true).trim()
+                    env.PRODUCT_ID_ERS_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_PRODUCT_ID_ERS.sh', returnStdout: true).trim()
                     env.PRODUCT_ID_PAS_DB_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_PRODUCT_ID_PAS_DB.sh', returnStdout: true).trim()
                     env.PRODUCT_ID_PAS_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_PRODUCT_ID_PAS.sh', returnStdout: true).trim()
                     env.INSTALL_BACKINT_CHKD = sh(script: './stages/prepare/check_global_variables/check_INSTALL_BACKINT.sh', returnStdout: true).trim()
@@ -133,7 +140,7 @@ pipeline {
                             exit 1
                         fi
 
-                        $DEPENDENCIES_FOLDER/download_ansible_dependencies.sh
+                        $DEPENDENCIES_FOLDER/install_galaxy_dependencies.sh
                         if [ $? -gt 0 ]; then
                             exit 1
                         fi
@@ -171,7 +178,7 @@ pipeline {
                 }
             }
         }
-        stage('Install Hana and ASCS'){
+        stage('Install Hana, ASCS and ERS'){
             options {timeout(time: 2, unit: 'HOURS')}
             parallel {
                 stage('Install Hana'){
@@ -187,12 +194,12 @@ pipeline {
                         }
                     }
                 }
-                stage('Install ASCS'){
+                stage('Install ASCS/ERS'){
                     steps {
                         script {
                             // Ansible for installing ASCS
                             sh '''
-                                $STAGES_FOLDER/install_sap/install_ascs.sh
+                                $STAGES_FOLDER/install_sap/install_ascs_ers.sh
                                 if [ $? -gt 0 ]; then
                                     exit 1
                                 fi 

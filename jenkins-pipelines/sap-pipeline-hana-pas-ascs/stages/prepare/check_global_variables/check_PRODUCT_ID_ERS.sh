@@ -6,10 +6,10 @@
 # ------------------------------------------------------------------
 # Check if the variable is present. If not, send back default value
 # ------------------------------------------------------------------
-if [ -z "$APPLICATION_NAME" ]; then
-    echo "demo"
+if [ -z "$PRODUCT_ID_ERS" ]; then
+    echo "NW_ERS:S4HANA1909.CORE.HDB.ABAPHA"
     exit 0
 fi
 
-echo "$APPLICATION_NAME"
+echo "$PRODUCT_ID_ERS"
 exit 0

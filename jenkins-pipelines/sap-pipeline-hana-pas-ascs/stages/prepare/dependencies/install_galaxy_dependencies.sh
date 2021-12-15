@@ -4,12 +4,11 @@
 # SPDX-License-Identifier: MIT-0
 
 # ------------------------------------------------------------------
-# Check if the variable is present. If not, send back default value
+# Install Ansible Galaxy dependencies
 # ------------------------------------------------------------------
-if [ -z "$APPLICATION_NAME" ]; then
-    echo "demo"
-    exit 0
-fi
+ansible-galaxy collection install amazon.aws
 
-echo "$APPLICATION_NAME"
-exit 0
+if [ $? -ne 0 ]; then
+    echo "There was an error while installing AWS dependencies for Ansible. Please try again"
+    exit 101
+fi
