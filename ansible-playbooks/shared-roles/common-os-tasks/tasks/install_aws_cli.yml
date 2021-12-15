@@ -31,6 +31,6 @@
   include_tasks: remove_aws_cli.yml
   
 - name: Install AWS CLI
-  shell: "{{ aws_installer_dir }}/aws/install --bin-dir /usr/bin"
+  shell: "{{ aws_installer_dir }}/aws/install --update --bin-dir /usr/bin"
   register: cli_install_output
   ignore_errors: yes
