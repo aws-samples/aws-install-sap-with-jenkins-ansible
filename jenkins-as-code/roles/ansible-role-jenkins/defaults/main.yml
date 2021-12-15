@@ -26,169 +26,175 @@ jenkins_java_options: "-Djenkins.install.runSetupWizard=false"
 # Plugin list can use the plugin name, or a name/version dict.
 jenkins_plugins:
   - name: pipeline-model-extensions
-    version: "1.8.4"
+    version: "1.9.3"
   - name: display-url-api
-    version: "2.3.4"
+    version: "2.3.5"
   - name: pipeline-graph-analysis
-    version: "1.10"
+    version: "1.12"
   - name: github
-    version: "1.33.1"
+    version: "1.34.1"
   - name: workflow-aggregator
     version: "2.6"
   - name: jquery3-api
-    version: "3.6.0-1"
+    version: "3.6.0-2"
   - name: workflow-cps
-    version: "2.90"
+    version: "2644.v29a793dac95a"
   - name: workflow-cps-global-lib
-    version: "2.18"
+    version: "552.vd9cc05b8a2e1"
   - name: durable-task
-    version: "1.35"
+    version: "493.v195aefbb0ff2"
   - name: pipeline-model-definition
-    version: "1.8.4"
+    version: "1.9.3"
   - name: matrix-auth
-    version: "2.6.6"
+    version: "2.6.11"
   - name: pipeline-milestone-step
     version: "1.3.2"
   - name: jquery-detached
     version: "1.2.1"
   - name: workflow-api
-    version: "2.42"
+    version: "1105.v3de5e2efac97"
   - name: ws-cleanup
     version: "0.39"
   - name: gradle
-    version: "1.36"
+    version: "1.37.1"
   - name: momentjs
     version: "1.1.1"
   - name: workflow-basic-steps
-    version: "2.23"
+    version: "2.24"
   - name: email-ext
-    version: "2.82"
+    version: "2.86"
   - name: ssh-slaves
-    version: "1.31.7"
+    version: "1.33.0"
   - name: resource-disposer
-    version: "0.15"
+    version: "0.16"
   - name: pam-auth
-    version: "1.6"
+    version: "1.6.1"
   - name: pipeline-build-step
-    version: "2.13"
+    version: "2.15"
   - name: pipeline-rest-api
     version: "2.19"
   - name: pipeline-model-api
-    version: "1.8.4"
+    version: "1.9.3"
   - name: workflow-job
-    version: "2.40"
+    version: "2.42"
   - name: plugin-util-api
-    version: "2.1.0"
+    version: "2.6.0"
   - name: jsch
     version: "0.1.55.2"
   - name: workflow-durable-task-step
-    version: "2.38"
+    version: "1102.v9c8d2f466adb"
   - name: bouncycastle-api
-    version: "2.20"
+    version: "2.25"
   - name: github-api
-    version: "1.123"
+    version: "1.301-378.v9807bd746da5"
   - name: okhttp-api
-    version: "3.14.9"
+    version: "4.9.3-105.vb96869f8ac3a"
   - name: command-launcher
-    version: "1.5"
+    version: "1.6"
   - name: branch-api
-    version: "2.6.3"
+    version: "2.7.0"
   - name: echarts-api
-    version: "5.1.0-2"
+    version: "5.2.2-1"
   - name: pipeline-github-lib
     version: "1.0"
   - name: ace-editor
     version: "1.1"
   - name: script-security
-    version: "1.76"
+    version: "1.78"
   - name: pipeline-stage-view
     version: "2.19"
   - name: git
-    version: "4.7.1"
+    version: "4.10.1"
   - name: junit
-    version: "1.49"
+    version: "1.53"
   - name: github-branch-source
-    version: "2.10.2"
+    version: "2.11.3"
   - name: ant
-    version: "1.11"
+    version: "1.13"
   - name: token-macro
-    version: "2.15"
+    version: "267.vcdaea6462991"
   - name: git-server
-    version: "1.9"
+    version: "1.10"
   - name: jdk-tool
     version: "1.5"
   - name: lockable-resources
-    version: "2.10"
+    version: "2.12"
   - name: antisamy-markup-formatter
-    version: "2.1"
+    version: "2.5"
   - name: scm-api
-    version: "2.6.4"
+    version: "2.6.5"
   - name: git-client
-    version: "3.7.1"
+    version: "3.10.0"
   - name: timestamper
-    version: "1.12"
+    version: "1.15"
   - name: pipeline-stage-step
     version: "2.5"
   - name: matrix-project
-    version: "1.18"
+    version: "1.19"
   - name: cloudbees-folder
-    version: "6.15"
+    version: "6.16"
   - name: trilead-api
     version: "1.0.13"
   - name: mailer
     version: "1.34"
   - name: pipeline-input-step
-    version: "2.12"
+    version: "427.va6441fa17010"
   - name: pipeline-stage-tags-metadata
-    version: "1.8.4"
+    version: "1.9.3"
   - name: handlebars
     version: "3.0.8"
   - name: workflow-multibranch
-    version: "2.23"
+    version: "2.26"
   - name: workflow-support
     version: "3.8"
   - name: workflow-scm-step
-    version: "2.12"
+    version: "2.13"
   - name: ldap
-    version: "2.6"
+    version: "2.7"
   - name: build-timeout
     version: "1.20"
   - name: workflow-step-api
-    version: "2.23"
+    version: "613.v375732a042b1"
   - name: jackson2-api
-    version: "2.12.3"
+    version: "2.13.0-230.v59243c64b0a5"
   - name: ssh-credentials
-    version: "1.18.2"
+    version: "1.19"
   - name: credentials-binding
-    version: "1.24"
+    version: "1.27"
   - name: authentication-tokens
     version: "1.4"
   - name: structs
-    version: "1.22"
+    version: "308.v852b473a2b8c"
   - name: credentials
-    version: "2.3.18"
+    version: "2.6.2"
   - name: apache-httpcomponents-client-4-api
     version: "4.5.13-1.0"
   - name: plain-credentials
     version: "1.7"
   - name: snakeyaml-api
-    version: "1.27.0"
+    version: "1.29.1"
   - name: job-dsl
-    version: "1.77"
+    version: "1.78.1"
   - name: configuration-as-code
-    version: "1.47"
+    version: "1.55"
   - name: sshd
-    version: "3.0.3"
+    version: "3.1.0"
   - name: jjwt-api
     version: "0.11.2-9.c8b45b8bb173"
   - name: font-awesome-api
-    version: "5.15.2-2"
+    version: "5.15.4-4"
   - name: popper-api
     version: "1.16.1-2"
   - name: bootstrap4-api
     version: "4.6.0-3"
   - name: checks-api
-    version: "1.7.0"
+    version: "1.7.2"
+  - name: "caffeine-api"
+    version: "2.9.2-29.v717aac953ff3"
+  - name: "popper2-api"
+    version: "2.10.2-1"
+  - name: "bootstrap5-api"
+    version: "5.1.3-3"
 
 jenkins_plugins_state: present
 jenkins_plugin_updates_expiration: 86400

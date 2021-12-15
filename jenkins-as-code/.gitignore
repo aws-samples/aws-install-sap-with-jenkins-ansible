@@ -1,0 +1,4 @@
+*.terraform*
+*.vagrant*
+Vagrantfile
+packerfile.json
