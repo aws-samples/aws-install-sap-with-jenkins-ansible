@@ -107,7 +107,7 @@ pipeline {
                     env.PRODUCT_ID_ERS_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_PRODUCT_ID_ERS.sh', returnStdout: true).trim()
                     env.PRODUCT_ID_PAS_DB_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_PRODUCT_ID_PAS_DB.sh', returnStdout: true).trim()
                     env.PRODUCT_ID_PAS_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_PRODUCT_ID_PAS.sh', returnStdout: true).trim()
-                    env.INSTALL_BACKINT_CHKD = sh(script: './stages/prepare/check_global_variables/check_INSTALL_BACKINT.sh', returnStdout: true).trim()
+                    env.INSTALL_BACKINT_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_INSTALL_BACKINT.sh', returnStdout: true).trim()
                     
                     // -------------------------------------------------
                     // Configure AWS CLI
