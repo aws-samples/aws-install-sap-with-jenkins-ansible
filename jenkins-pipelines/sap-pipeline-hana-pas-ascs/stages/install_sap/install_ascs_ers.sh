@@ -49,7 +49,7 @@ fi
 # Change host destination on hosts.yml file
 # ------------------------------------------------------------------
 # Create hosts_runtime.yml file
-FOLDER_PATH=$PWD/stages/install_sap
+FOLDER_PATH="./jenkins-pipelines/sap-pipeline-hana-pas-ascs/stages/install_sap"
 $FOLDER_PATH/create_hosts_file.sh
 if [ $? -ne 0 ]; then
     echo "There was an error creating the hosts file. Please check again"
