@@ -10,15 +10,6 @@ credentials:
   system:
     domainCredentials:
       - credentials:
-        - basicSSHUserPrivateKey:
-            scope: GLOBAL
-            id: "GIT_SSH_CREDS"
-            username: "gitlabUser"
-            passphrase: ""
-            description: "(Required) Git public certificate to pull repos from AWS Gitlab using SSH"
-            privateKeySource:
-              directEntry:
-                privateKey: "" 
         - usernamePassword:
             scope: GLOBAL
             id: "AWS_ACCOUNT_CREDENTIALS"
@@ -181,19 +172,23 @@ credentials:
             id: "PRODUCT_ID_PAS"
             secret: "NW_ABAP_CI:S4HANA1909.CORE.HDB.ABAP"
             description: "(Optional) Product ID to install PAS software. Example: NW_ABAP_CI:S4HANA1909.CORE.HDB.ABAP"
-            
+
 jobs:
   - script: >
-      folder('SAP Hana+ERS+ASCS+PAS 3 Instances')
+      folder('SAP Hana+ASCS+PAS 3 Instances')
   - script: >
-      multibranchPipelineJob('SAP Hana+ERS+ASCS+PAS 3 Instances/Spin up and install') {
+      multibranchPipelineJob('SAP Hana+ASCS+PAS 3 Instances/Spin up and install') {
+        factory {
+          workflowBranchProjectFactory {
+            scriptPath('jenkins-pipelines/sap-pipeline-hana-pas-ascs/Jenkinsfile')
+          }
+        }
         branchSources {
           branchSource {
             source {
               git {
                 id('sap3modules')
-                remote('git@ssh.gitlab.aws.dev:sap-devops/ci-cd-tooling/jenkins/jenkins-scripts/sap-pipeline-hana-pas-ascs.git')
-                credentialsId('GIT_SSH_CREDS')
+                remote('https://github.com/aws-samples/aws-install-sap-with-jenkins-ansible.git')
               }
             }
             strategy {
@@ -207,20 +202,23 @@ jobs:
           git {
             id('sap3modules')
             includes('*')
-            remote('git@ssh.gitlab.aws.dev:sap-devops/ci-cd-tooling/jenkins/jenkins-scripts/sap-pipeline-hana-pas-ascs.git')
-            credentialsId('GIT_SSH_CREDS')
+            remote('https://github.com/aws-samples/aws-install-sap-with-jenkins-ansible.git')
           }
         }
       }
   - script: >
-      multibranchPipelineJob('SAP Hana+ERS+ASCS+PAS 3 Instances/Destroy env') {
+      multibranchPipelineJob('SAP Hana+ASCS+PAS 3 Instances/Destroy env') {
+        factory {
+          workflowBranchProjectFactory {
+            scriptPath('jenkins-pipelines/sap-pipeline-destroy-hana-pas-ascs/Jenkinsfile')
+          }
+        }
         branchSources {
           branchSource {
             source {
               git {
                 id('destroySAP3modules')
-                remote('git@ssh.gitlab.aws.dev:sap-devops/ci-cd-tooling/jenkins/jenkins-scripts/sap-pipeline-destroy-hana-pas-ascs.git')
-                credentialsId('GIT_SSH_CREDS')
+                remote('https://github.com/aws-samples/aws-install-sap-with-jenkins-ansible')
               }
             }
             strategy {
@@ -234,8 +232,7 @@ jobs:
           git {
             id('destroySAP3modules')
             includes('*')
-            remote('git@ssh.gitlab.aws.dev:sap-devops/ci-cd-tooling/jenkins/jenkins-scripts/sap-pipeline-destroy-hana-pas-ascs.git')
-            credentialsId('GIT_SSH_CREDS')
+            remote('https://github.com/aws-samples/aws-install-sap-with-jenkins-ansible')
           }
         }
       }
