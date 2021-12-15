@@ -9,7 +9,11 @@
 
 - name: Set Global SAP SID for ASCS
   set_fact: GLOBAL_SAP_SID="{{ GLOBAL_ASCS_SID }}"
-  when: GLOBAL_ASCS_SID is defined
+  when: GLOBAL_ASCS_SID is defined and ASCS_SID is defined
+
+- name: Set Global SAP SID for ERS
+  set_fact: GLOBAL_SAP_SID="{{ GLOBAL_ERS_SID }}"
+  when: GLOBAL_ERS_SID is defined and ERS_SID is defined
 
 - name: Set Global SAP SID for HANA
   set_fact: GLOBAL_SAP_SID="{{ GLOBAL_HANA_SID }}"
