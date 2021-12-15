@@ -12,4 +12,3 @@
   yum:
     name: "{{ rhel_data_provider_installer_dest_path }}"
     state: present
-    disable_gpg_check: yes
