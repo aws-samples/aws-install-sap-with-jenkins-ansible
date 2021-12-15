@@ -1,0 +1,19 @@
+---
+
+- name: Download Backint installer
+  command: "aws s3 cp {{ backint_installer_s3_folder }} {{ backint_installation_folder }}"
+
+- name: Fail if Backint installer cannot be found
+  stat:
+    path: "{{ backint_installer_full_path }}"
+  register: backint_file_stat
+  failed_when: not backint_file_stat.stat.exists
+
+- name: Download Backint package
+  command: "aws s3 cp {{ backint_installer_targz_s3_folder }} {{ backint_installation_folder }}"
+
+- name: Fail if Backint installer cannot be found
+  stat:
+    path: "{{ backint_package_full_path }}"
+  register: package_file_stat
+  failed_when: not package_file_stat.stat.exists

@@ -1,0 +1,13 @@
+---
+
+backint_installer_s3_folder: "s3://awssap-backint-agent/binary/latest/install-aws-backint-agent"
+backint_installer_targz_s3_folder: "s3://awssap-backint-agent/binary/latest/aws-backint-agent.tar.gz"
+
+backup_folder_name: "backint_hana_backup"
+backint_installation_folder: "/home/ec2-user"
+backint_installer_full_path: "{{ backint_installation_folder }}/install-aws-backint-agent"
+backint_package_full_path: "{{ backint_installation_folder }}/aws-backint-agent.tar.gz"
+
+hana_data_installation_full_path: "{{ GLOBAL_HANA_SHARED_FOLDER | default('/hana/shared/') }}"
+
+backint_params_file_full_path: "{{ backint_installation_folder }}/backint_params.rsp"

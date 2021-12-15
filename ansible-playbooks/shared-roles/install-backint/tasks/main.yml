@@ -1,0 +1,5 @@
+---
+
+- name: Install Backint
+  include_tasks: run_role.yml
+  when: GLOBAL_INSTALL_BACKINT is defined and GLOBAL_INSTALL_BACKINT == true
