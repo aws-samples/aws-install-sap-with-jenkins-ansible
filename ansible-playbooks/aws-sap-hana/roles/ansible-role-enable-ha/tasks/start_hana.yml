@@ -1,0 +1,15 @@
+---
+
+- name: Check whether Hana is already started
+  shell: | 
+      source {{ home_path }}; HDB proc
+  register: sec_node_stopped
+  become: yes
+  become_user: "{{ internal_sid_user }}"
+
+- name: Start Hana if it's stopped
+  shell: |
+      source {{ home_path }}; HDB start
+  when: not default_mode_started_hana in sec_node_stopped.stdout
+  become: yes
+  become_user: "{{ internal_sid_user }}"

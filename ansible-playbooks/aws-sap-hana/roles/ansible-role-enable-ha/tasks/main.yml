@@ -1,0 +1,5 @@
+---
+
+- name: Run role when HA is enabled
+  include_tasks: run_role.yml
+  when: GLOBAL_ENABLE_HA == true

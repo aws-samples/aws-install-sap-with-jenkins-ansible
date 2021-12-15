@@ -1,0 +1,22 @@
+---
+
+
+- name: Check pcs resources
+  command: pcs resource
+  register: resource_output
+
+- name: Alert of already existing configuration
+  fail:
+    msg: "A configuration named {{ hana_oip_config_name }} was found. This cannot be automatically overriden by Ansible and therefore will be skipped"
+  ignore_errors: yes
+  when: hana_oip_config_name in resource_output.stdout
+
+- name: Create Hana OIP
+  command: pcs resource create {{ hana_oip_config_name }} aws-vpc-move-ip ip={{ GLOBAL_OVERLAY_IP[:-3] }} interface=eth0 routing_table={{ GLOBAL_OVERLAY_IP_ROUTE_TABLE_ID }}
+  when: not hana_oip_config_name in resource_output.stdout
+  
+- name: Create constraint order
+  command: pcs constraint order {{ SAPHana_Topology_config_name }}-clone then {{ SAPHana_config_name }}-clone symmetrical=false --force
+  
+- name: Create constraint colocation
+  command: pcs constraint colocation add {{ hana_oip_config_name }} with master {{ SAPHana_config_name }}-clone 2000 --force

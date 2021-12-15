@@ -1,0 +1,17 @@
+---
+
+- name: Update user {{ pacemaker_hacluster_user_pass }}
+  user:
+    name: "{{ pacemaker_hacluster_user_pass }}"
+    comment: User for Hana pacemaker cluster configuration
+    password: "{{ pacemaker_hacluster_user_pass | password_hash('sha512') }}"
+
+- name: Update and enable pcsd service
+  systemd:
+    name: pcsd
+    state: started
+    enabled: yes
+
+- name: Authenticate pcs with hacluster
+  command: pcs host auth {{ THIS_HOSTNAME }} {{ opposite_host }} -u {{ pacemaker_hacluster_user_pass }} -p {{ pacemaker_hacluster_user_pass }}
+  when: ansible_default_ipv4.address == GLOBAL_PRIMARY_IP

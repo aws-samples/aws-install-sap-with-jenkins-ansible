@@ -1,0 +1,12 @@
+---
+
+- name: Fail if no list of hostnames and IPs is found
+  fail:
+    msg: "The global variable GLOBAL_HOSTS_LIST should be accessible and contain a map of hostnames with their private IPs for this HA installation. Check that you have called the role set-hostname before enabling HA"
+  when: GLOBAL_HOSTS_LIST is undefined
+
+- name: Warn if no hana shared folder is found
+  fail:
+    msg: "The parameter GLOBAL_HANA_SHARED_FOLDER is missing. Using default value: /hana/shared"
+  when: GLOBAL_HANA_SHARED_FOLDER is undefined
+  ignore_errors: true

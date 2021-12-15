@@ -1,0 +1,37 @@
+---
+
+- name: Check if there's a Stonith configuration up
+  command: pcs stonith
+  register: stonith_output
+
+- name: Create Stonith config
+  command: pcs stonith create {{ stonith_config_name }} fence_aws region=us-east-1 pcmk_host_map='{{ THIS_HOSTNAME }}:{{ this_instance_id }}; {{ opposite_host }}:{{ opposite_instance_id }}' power_timeout=600 pcmk_reboot_timeout=600 pcmk_reboot_retries=4 pcmk_delay_max=25 op start timeout=300 op monitor interval=300 timeout=60
+  when: not stonith_config_name in stonith_output.stdout
+  
+- name: Update Stonith config
+  command: pcs stonith update {{ stonith_config_name }} fence_aws region=us-east-1 pcmk_host_map='{{ THIS_HOSTNAME }}:{{ this_instance_id }}; {{ opposite_host }}:{{ opposite_instance_id }}' power_timeout=600 pcmk_reboot_timeout=600 pcmk_reboot_retries=4 pcmk_delay_max=25 op start timeout=300 op monitor interval=300 timeout=60
+  when: stonith_config_name in stonith_output.stdout
+  
+- name: Check pcs resources
+  command: pcs resource
+  register: resource_output
+
+- name: Alert of already existing configuration
+  fail:
+    msg: "A configuration named {{ SAPHana_Topology_config_name }} was found. This cannot be automatically overriden by Ansible and therefore will be skipped"
+  ignore_errors: yes
+  when: SAPHana_Topology_config_name in resource_output.stdout
+
+- name: Alert of already existing configuration
+  fail:
+    msg: "A configuration named {{ SAPHana_config_name }} was found. This cannot be automatically overriden by Ansible and therefore will be skipped"
+  ignore_errors: yes
+  when: SAPHana_config_name in resource_output.stdout
+
+- name: Register SAPHanaTopology
+  command: pcs resource create {{ SAPHana_Topology_config_name }} SAPHanaTopology SID={{ GLOBAL_HANA_SID }} InstanceNumber={{ GLOBAL_HANA_INSTANCE_NUMBER }} op start timeout=600 op stop timeout=300 op monitor interval=10 timeout=600 clone clone-max=2 clone-node-max=1 interleave=true
+  when: not SAPHana_Topology_config_name in resource_output.stdout
+  
+- name: Register SAPHana
+  command: pcs resource create {{ SAPHana_config_name }} SAPHana SID={{ GLOBAL_HANA_SID }} InstanceNumber={{ GLOBAL_HANA_INSTANCE_NUMBER }} PREFER_SITE_TAKEOVER=true DUPLICATE_PRIMARY_TIMEOUT=7200 AUTOMATED_REGISTER=true op start timeout=3600 op stop timeout=3600 op monitor interval=61 role="Slave" timeout=700 op monitor interval=59 role="Master" timeout=700 op promote timeout=3600 op demote timeout=3600 promotable meta notify=true clone-max=2 clone-node-max=1 interleave=true
+  when: not SAPHana_config_name in resource_output.stdout

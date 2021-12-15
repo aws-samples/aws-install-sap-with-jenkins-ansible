@@ -1,0 +1,18 @@
+---
+
+- name: Check current replication status of instance
+  shell: |
+      source {{ home_path }}; /hana/shared/AD0/HDB00/exe/hdbnsutil -sr_state
+  args:
+    executable: /bin/bash
+  register: current_instance_rep_status
+  ignore_errors: yes
+  become: yes
+  become_user: "{{ internal_sid_user }}"
+  
+- name: Disable whatever other replication status this instance may have
+  shell: |
+      source {{ home_path }}; {{ utilities_path }}/hdbnsutil -sr_disable
+  when: not default_mode_replication_status_msg in current_instance_rep_status.stdout
+  become: yes
+  become_user: "{{ internal_sid_user }}"

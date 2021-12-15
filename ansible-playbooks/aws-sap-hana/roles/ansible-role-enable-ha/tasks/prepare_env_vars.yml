@@ -1,0 +1,13 @@
+---
+
+- name: Create copy of original .sapenv.sh file
+  copy:
+    src: "{{ home_original_path }}"
+    dest: "{{ home_path }}"
+    remote_src: yes
+
+- name: Remove all "tset" statements from the file. PS! This is important when calling Ansible from Jenkins
+  lineinfile:
+    path: "{{ home_path }}"
+    state: absent
+    regexp: "tset -I -Q"
