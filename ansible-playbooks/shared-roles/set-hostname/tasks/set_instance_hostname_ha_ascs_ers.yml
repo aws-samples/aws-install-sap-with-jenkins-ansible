@@ -1,0 +1,22 @@
+---
+
+- name: Set fact with this instance hostname for Primary
+  set_fact: THIS_HOSTNAME="{{ GLOBAL_INPUT_HOSTNAME }}"
+  when: (GLOBAL_ENABLE_HA is undefined) or 
+        (GLOBAL_ENABLE_HA == "false") or 
+        (GLOBAL_PRIMARY_IP is defined and ansible_default_ipv4.address == GLOBAL_PRIMARY_IP)
+
+- name: Create list from node IPs input
+  set_fact: GLOBAL_NODE_IPS_LIST="{{ GLOBAL_NODE_IPS.split(',') }}"
+  when: GLOBAL_NODE_IPS is defined
+
+- name: Set fact with this instance hostname for Nodes
+  set_fact: THIS_HOSTNAME="{{ GLOBAL_INPUT_HOSTNAME | replace ('ascs','ers') }}"
+  when: 
+    - GLOBAL_NODE_IPS is defined
+    - GLOBAL_NODE_IPS_LIST is defined
+    - ansible_default_ipv4.address in GLOBAL_NODE_IPS_LIST
+  
+- name: Set the Instance hostname
+  hostname:
+    name: "{{ THIS_HOSTNAME }}"
