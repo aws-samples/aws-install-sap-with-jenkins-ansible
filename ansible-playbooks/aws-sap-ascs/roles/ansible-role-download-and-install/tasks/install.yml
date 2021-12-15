@@ -1,0 +1,16 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Install ASCS
+  include_tasks: install_ascs.yml
+  when: GLOBAL_PRODUCT_TO_INSTALL == "ASCS"
+
+- name: Prepare ERS files
+  include_tasks: prepare_ers_files.yml
+  when: GLOBAL_PRODUCT_TO_INSTALL == "ERS"
+
+- name: Install ERS
+  include_tasks: install_ers.yml
+  when: GLOBAL_PRODUCT_TO_INSTALL == "ERS"

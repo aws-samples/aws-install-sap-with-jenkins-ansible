@@ -33,3 +33,13 @@
     path: "{{ ascs_complete_swpm_sum_install_folder }}/sapinst"
     state: file
     mode: 0755
+
+- name: Ensure installation folder exists
+  file:
+    path: "{{ item }}"
+    state: directory
+    group: "{{ sapinst_user_group_name }}"
+    mode: 0777
+  with_items:
+    - "{{ ascs_folder_to_run_installation_from }}"
+    - "{{ ers_folder_to_run_installation_from }}"

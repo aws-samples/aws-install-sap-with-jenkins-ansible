@@ -1,0 +1,26 @@
+---
+
+- name: Get instances information on AWS
+  amazon.aws.ec2_metadata_facts:
+  register: aws_info
+
+- name: Get this instance ID
+  set_fact: this_instance_id="{{ aws_info.ansible_facts.ansible_ec2_instance_id }}"
+
+- name: Get opposite instance ID
+  set_fact: opposite_instance_id="{{ item.value.ansible_ec2_instance_id }}"
+  loop: "{{ hostvars | dict2items }}"
+  when: not item.key in ansible_host
+  no_log: yes
+
+- name: Get opposite instance hostname
+  set_fact: opposite_host="{{ item.value.ansible_hostname }}"
+  loop: "{{ hostvars | dict2items }}"
+  when: not item.key in ansible_host
+  no_log: yes
+
+- name: Get opposite instance private IP
+  set_fact: opposite_private_ip="{{ item.value.ansible_ec2_local_ipv4 }}"
+  loop: "{{ hostvars | dict2items }}"
+  when: not item.key in ansible_host
+  no_log: yes

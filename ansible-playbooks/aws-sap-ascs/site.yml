@@ -14,9 +14,7 @@
           - EC2_HOSTNAME
           - PRIVATE_DNS_ZONE
           - MASTER_PASSWORD
-          - ASCS_SID
           - EFS_ID
-          - ASCS_INSTANCE_NUMBER
           - HANA_PRIVATE_IP
           - HANA_HOSTNAME
           - S3_BUCKET_MEDIA_FILES
@@ -29,6 +27,10 @@
             hostname: "{{ GLOBAL_PAS_HOSTNAME }}"
           - private_ip: "{{ GLOBAL_HANA_PRIVATE_IP }}"
             hostname: "{{ GLOBAL_HANA_HOSTNAME }}"
+          - private_ip: "{{ GLOBAL_ERS_PRIVATE_IP }}"
+            hostname: "{{ GLOBAL_ERS_HOSTNAME }}"
+          - private_ip: "{{ GLOBAL_ASCS_PRIVATE_IP }}"
+            hostname: "{{ GLOBAL_ASCS_HOSTNAME }}"
     - role: install-pkg-mgr-dependencies
     - role: install-aws-sap-data-provider
 
@@ -50,9 +52,15 @@
         sap_preconfigure_fail_if_reboot_required: false
     - role: sap-netweaver-preconfigure
 
-# Download and install ASCS
-- name: Download and Install ASCS
+# Download and install
+- name: Download and Install
   become: yes
   hosts: all
   roles:
     - role: ansible-role-download-and-install
+
+- name: Enable HA
+  become: yes
+  hosts: all
+  roles:
+    - role: ansible-role-enable-ha

@@ -1,0 +1,8 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Set hostname var for non HA installation
+  set_fact: THIS_HOSTNAME="{{ GLOBAL_INPUT_HOSTNAME }}"
+  when: GLOBAL_ENABLE_HA == false

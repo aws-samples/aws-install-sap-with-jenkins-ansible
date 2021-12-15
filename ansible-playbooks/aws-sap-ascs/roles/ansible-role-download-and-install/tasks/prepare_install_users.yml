@@ -1,0 +1,14 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Ensure group "{{ sapinst_user_group_name }}" exists
+  group:
+    name: "{{ sapinst_user_group_name }}"
+    state: present
+
+- name: Add current user to "{{ sapinst_user_group_name }}" group
+  user:
+    name: "{{ ansible_user_id }}"
+    group: "{{ sapinst_user_group_name }}"

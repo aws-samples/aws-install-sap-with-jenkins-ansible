@@ -22,4 +22,4 @@
     dest: "{{ aws_installer_dir }}"
 
 - name: Install AWS CLI
-  shell: "{{ aws_installer_dir }}/aws/install --bin-dir /usr/bin"
+  shell: "{{ aws_installer_dir }}/aws/install --update --bin-dir /usr/bin"

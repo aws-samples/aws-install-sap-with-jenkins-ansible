@@ -1,0 +1,10 @@
+---
+
+- name: Check parameters
+  include_tasks: check_parameters.yml
+
+- name: Get Pacemaker parameters
+  include_tasks: pacemaker_get_info.yml
+
+- name: Configure pacemaker
+  include_tasks: pacemaker_config.yml
