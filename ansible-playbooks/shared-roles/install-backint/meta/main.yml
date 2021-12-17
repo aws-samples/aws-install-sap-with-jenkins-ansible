@@ -1,0 +1,7 @@
+---
+
+galaxy_info:
+  role_name: Install AWS Backint
+  author: Guilherme Sesterheim
+  description: Role for installing AWS Backint for Hana instances
+  company: Amazon Web Services

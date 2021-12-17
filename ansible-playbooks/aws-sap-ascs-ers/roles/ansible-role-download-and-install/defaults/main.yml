@@ -1,0 +1,37 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+ascs_product_id_to_install: "{{ GLOBAL_ASCS_PRODUCT_ID | default('NW_ABAP_ASCS:S4HANA1909.CORE.HDB.ABAPHA') }}"
+ers_product_id_to_install: "{{ GLOBAL_ERS_PRODUCT_ID | default('NW_ERS:S4HANA1909.CORE.HDB.ABAPHA') }}"
+
+ascs_installer_dest_folder: /sapmnt/software
+ascs_kernel_folder: Kernel
+ascs_swpm_folder: SWPM
+ascs_sapcar_folder: SAPCAR
+ascs_complete_kernel_install_folder: "{{ ascs_installer_dest_folder }}/{{ ascs_kernel_folder }}"
+ascs_complete_swpm_install_folder: "{{ ascs_installer_dest_folder }}/{{ ascs_swpm_folder }}"
+ascs_complete_sapcar_install_folder: "{{ ascs_installer_dest_folder }}/{{ ascs_sapcar_folder }}"
+ascs_complete_swpm_sum_install_folder: "{{ ascs_installer_dest_folder }}/SWPM-SUM"
+
+ascs_source_sapcontrol_binaries: "/sapmnt/{{ GLOBAL_ASCS_SID }}/exe/uc/linuxx86_64/"
+ers_dest_sapcontrol_binaries: "/usr/sap/{{ GLOBAL_ASCS_SID }}/ERS10/exe/"
+
+sapcar_dest_folder: "{{ ascs_installer_dest_folder }}/SAPCAR"
+kernel_dest_folder: "{{ ascs_installer_dest_folder }}/Kernel"
+install_export_dest_folder: "{{ ascs_installer_dest_folder }}/Exports"
+
+params_file_dest_folder: "{{ ascs_installer_dest_folder }}"
+sap_installation_folder: /sap-installation
+
+ascs_folder_to_run_installation_from: "{{ sap_installation_folder }}/ascs-installation"
+ers_folder_to_run_installation_from: "{{ sap_installation_folder }}/ers-installation"
+ascs_params_file_full_path: "/tmp/ascs.params"
+ers_params_file_full_path: "/tmp/ers.params"
+
+sapinst_user_group_name: sapinst
+
+# Variables for the ascs.params template file
+default_sap_sys_uid: 1003
+default_sid_adm_uid: 1004

@@ -1,0 +1,31 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Search for SAPEXE file
+  find:
+    paths: "{{ ascs_complete_kernel_install_folder }}/"
+    patterns: 'SAPEXE_*SAR'
+  register: sapexe_found
+  failed_when: sapexe_found.matched != 1
+
+- name: Store SAPEXE file full path
+  set_fact: SAP_EXE_PATH="{{ sapexe_found.files[0].path }}"
+
+- name: Store SAPHOSTAGENT file full path
+  set_fact: SAP_HOSTAGENT_PATH="{{ ascs_complete_kernel_install_folder }}"
+
+- name: Create params file for ASCS installation
+  template:
+    src: ascs.params
+    dest: "{{ ascs_params_file_full_path }}"
+    mode: 0777
+  when: GLOBAL_PRODUCT_TO_INSTALL == "ASCS"
+
+- name: Create params file for ERS installation
+  template:
+    src: ers.params
+    dest: "{{ ers_params_file_full_path }}"
+    mode: 0777
+  when: GLOBAL_PRODUCT_TO_INSTALL == "ERS"

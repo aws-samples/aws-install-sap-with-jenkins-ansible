@@ -10,6 +10,7 @@
 
 - name: Install SSM Agent using YUM
   yum:
-    name: https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
+    name: https://s3.us-east-1.amazonaws.com/amazon-ssm-us-east-1/latest/linux_amd64/amazon-ssm-agent.rpm
     state: present
+    disable_gpg_check: yes
   notify: Restart SSM Agent service

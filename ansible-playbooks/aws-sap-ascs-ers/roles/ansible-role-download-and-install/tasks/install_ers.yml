@@ -1,0 +1,37 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Build command for ERS
+  set_fact: install_command="{{ ascs_complete_swpm_sum_install_folder }}/sapinst SAPINST_INPUT_PARAMETERS_URL={{ ers_params_file_full_path }} SAPINST_EXECUTE_PRODUCT_ID={{ ers_product_id_to_install }} SAPINST_USE_HOSTNAME={{ THIS_HOSTNAME }} SAPINST_SKIP_DIALOGS=true SAPINST_START_GUISERVER=false"
+
+- name: Install ERS
+  shell: 
+    cmd: "{{ install_command }}"
+    chdir: "{{ ers_folder_to_run_installation_from }}"
+  no_log: yes
+  register: installation_output
+  ignore_errors: yes
+  throttle: 1
+  
+- name: Show errors if they exist
+  debug:
+    msg: "{{ installation_output.stdout_lines }}"
+  when: installation_output is defined and installation_output.rc != 0
+
+- name: Abort execution when there are installation errors
+  fail:
+    msg: "Execution interrupted due to errors"
+  when: installation_output is defined and installation_output.rc != 0
+
+- name: Fail if installation did not finish well
+  shell: /usr/sap/hostctrl/exe/sapcontrol -nr {{ GLOBAL_ERS_INSTANCE_NUMBER }} -function GetProcessList | grep -c GREEN
+  register: grep_output
+  failed_when: grep_output.rc != 0
+
+- name: Fail if installation logs show errors on installation process
+  stat:
+    path: "{{ ers_folder_to_run_installation_from }}/installationSuccesfullyFinished.dat"
+  register: log_file_output
+  failed_when: not log_file_output.stat.exists

@@ -1,0 +1,23 @@
+---
+
+- name: Create and authenticate pacemaker user
+  include_tasks: pacemaker_create_and_auth_user.yml
+
+- name: Config, start and enable pacemaker cluster
+  include_tasks: pacemaker_config_start_cluster.yml
+  when: ansible_default_ipv4.address == GLOBAL_PRIMARY_IP
+
+- name: Register pacemaker rules Stonith, SapHana and SapHanaTopology
+  include_tasks: pacemaker_register_rules.yml
+  when: ansible_default_ipv4.address == GLOBAL_PRIMARY_IP
+
+- name: Add "{{ GLOBAL_OVERLAY_IP }}" as an overlay IP on both instances
+  include_tasks: add_overlay_ip.yml
+
+- name: Config pacemaker resources
+  include_tasks: pacemaker_config_resources.yml
+  when: ansible_default_ipv4.address == GLOBAL_PRIMARY_IP
+
+- name: Check if there are errors on the configuration
+  include_tasks: pacemaker_check_final_configuration.yml
+  when: ansible_default_ipv4.address == GLOBAL_PRIMARY_IP

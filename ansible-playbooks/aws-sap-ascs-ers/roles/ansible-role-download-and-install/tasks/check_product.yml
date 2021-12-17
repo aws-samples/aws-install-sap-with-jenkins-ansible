@@ -1,0 +1,9 @@
+---
+
+- name: Set product to be installed as ASCS for primary
+  set_fact: GLOBAL_PRODUCT_TO_INSTALL="ASCS"
+  when: ansible_default_ipv4.address == GLOBAL_PRIMARY_IP
+
+- name: Set product to be installed as ERS for secondary
+  set_fact: GLOBAL_PRODUCT_TO_INSTALL="ERS"
+  when: ansible_default_ipv4.address in GLOBAL_NODE_IPS_LIST

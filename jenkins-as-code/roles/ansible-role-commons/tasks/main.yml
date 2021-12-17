@@ -5,6 +5,3 @@
 
 - name: Install JQ
   include_tasks: install_jq.yml
-
-- name: Install NTP
-  include_tasks: install_ntp.yml

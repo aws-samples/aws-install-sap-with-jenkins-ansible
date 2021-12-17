@@ -1,0 +1,10 @@
+---
+
+- name: Configure cluster and sync configuration
+  command: pcs cluster setup rhelhanaha {{ THIS_HOSTNAME }} {{ opposite_host }} --force
+
+- name: Enable the cluster
+  command: pcs cluster enable --all
+
+- name: Start the cluster
+  command: pcs cluster start --all

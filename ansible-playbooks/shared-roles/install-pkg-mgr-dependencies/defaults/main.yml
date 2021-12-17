@@ -47,6 +47,7 @@ rhel_packages:
   - fence-agents-aws
   - resource-agents
   - resource-agents-sap
+  - resource-agents-sap-hana
   - sap-cluster-connector
 
 rhel_group_packages:

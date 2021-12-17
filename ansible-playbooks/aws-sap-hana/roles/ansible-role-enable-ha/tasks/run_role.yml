@@ -1,0 +1,28 @@
+---
+
+- name: Check parameters
+  include_tasks: check_parameters.yml
+
+- name: Reboot instances
+  include_tasks: reboot_instances.yml
+
+- name: Prepare Hana env variables file
+  include_tasks: prepare_env_vars.yml
+
+- name: Backup Hana
+  include_tasks: backup_hana.yml
+
+- name: Disable previous configurations
+  include_tasks: disable_previous_configurations.yml
+
+- name: Sync credential files
+  include_tasks: sync_credential_files.yml
+
+- name: Enable system replication for Primary node
+  include_tasks: enable_system_replication.yml
+
+- name: Get Pacemaker parameters
+  include_tasks: pacemaker_get_info.yml
+
+- name: Configure pacemaker
+  include_tasks: pacemaker_config.yml

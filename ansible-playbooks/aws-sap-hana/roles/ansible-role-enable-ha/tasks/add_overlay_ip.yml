@@ -1,0 +1,23 @@
+---
+
+- name: Fail if no overlay IP is found
+  fail:
+    msg: "No variable with the Overlay IP was found. Check your input and try again"
+  when: GLOBAL_OVERLAY_IP is undefined
+
+- name: Check if opposite IP is already an overlay
+  command: ip address
+  register: current_ips
+
+- name: Add Overlay IP as overlay when there's no overlay
+  command: ip address add {{ GLOBAL_OVERLAY_IP }} dev eth0
+  when: not GLOBAL_OVERLAY_IP in current_ips.stdout
+
+- name: Check if Overlay IP is present
+  command: ip address
+  register: current_ips
+
+- name: Fail if IP was not added as overlay
+  fail:
+    msg: "Failed adding {{ GLOBAL_OVERLAY_IP }} as an overlay to primary node"
+  when: not GLOBAL_OVERLAY_IP in current_ips.stdout

@@ -19,6 +19,18 @@ export HOSTS_IPS=$hana_public_ips
 if [[ "$ENABLE_HA_CHKD" == "true" ]]; then
     hana_private_ips=$(terraform -chdir="$PWD/$TERRAFORM_FOLDER_NAME" output -json hana_instance_private_ip)
     export PRIVATE_IPS_LIST=$hana_private_ips
+
+    hana_overlay_ip=$(terraform -chdir="$PWD/$TERRAFORM_FOLDER_NAME" output -json hana_instance_overlay_ip)
+    if [ -z "$hana_overlay_ip" ]; then
+        echo "No overlay IP was found for Hana. Please check Terraform step"
+        exit 104
+    fi
+
+    hana_overlay_route_table_id=$(terraform -chdir="$PWD/$TERRAFORM_FOLDER_NAME" output -json hana_overlay_ip_route_table_id)
+    if [ -z "$hana_overlay_route_table_id" ]; then
+        echo "No ID for the overlay IP route table was found for Hana. Please check Terraform step"
+        exit 105
+    fi
 fi
 
 ascs_private_ip=$(terraform -chdir="$PWD/$TERRAFORM_FOLDER_NAME" output -json ascs_instance_private_ip | jq -r '.[0]')
@@ -44,7 +56,6 @@ fi
 # ------------------------------------------------------------------
 # Create hosts_runtime.yml file
 FOLDER_PATH="./jenkins-pipelines/sap-pipeline-hana-pas-ascs/stages/install_sap"
-
 $FOLDER_PATH/create_hosts_file.sh
 if [ $? -ne 0 ]; then
     echo "There was an error creating the hosts file. Please check again"
@@ -77,6 +88,8 @@ echo "ENABLE_HA: $ENABLE_HA_CHKD" >> $VAR_FILE_FULL_PATH
 echo "AWS_CLI_PROFILE: $CLI_PROFILE_CHKD" >> $VAR_FILE_FULL_PATH
 echo "BUCKET_TO_BACKUP: $BUCKET_NAME_CHKD" >> $VAR_FILE_FULL_PATH
 echo "AWS_REGION: $AWS_REGION_CHKD" >> $VAR_FILE_FULL_PATH
+echo "OVERLAY_IP: $hana_overlay_ip" >> $VAR_FILE_FULL_PATH
+echo "OVERLAY_IP_ROUTE_TABLE_ID: $hana_overlay_route_table_id" >> $VAR_FILE_FULL_PATH
 
 # ------------------------------------------------------------------
 # Parse private IPs for HA
@@ -109,5 +122,4 @@ elif [[ $result_value != 0 ]]; then
     exit 111
 fi
 
-rm -rf $ansibleHanaDir
 exit 0

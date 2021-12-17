@@ -1,0 +1,45 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Ensure destination folder for unarchive already exists
+  file:
+    path: "{{ ascs_complete_swpm_sum_install_folder }}"
+    state: directory
+
+- name: Find SWPM .SAR file
+  find:
+    paths: "{{ ascs_complete_swpm_install_folder }}"
+    patterns: 'SWPM*SAR'
+  register: filesFound
+  failed_when: filesFound.matched == 0
+
+- name: Set fact with found file name
+  set_fact: sar_file="{{ filesFound.files.0.path }}"
+
+- name: Check if ASCS folder was already unarchived
+  find:
+    paths: "{{ ascs_complete_swpm_sum_install_folder }}/"
+  register: unzipped_stat
+
+- name: Unarchive ASCS files
+  shell: "{{ sapcar_dest_folder }}/sapcar -xvf {{ sar_file }} -R {{ ascs_complete_swpm_sum_install_folder }}"
+  when: unzipped_stat.matched == 0
+  run_once: yes
+
+- name: Change permissions for sapinst file
+  file:
+    path: "{{ ascs_complete_swpm_sum_install_folder }}/sapinst"
+    state: file
+    mode: 0755
+
+- name: Ensure installation folder exists
+  file:
+    path: "{{ item }}"
+    state: directory
+    group: "{{ sapinst_user_group_name }}"
+    mode: 0777
+  with_items:
+    - "{{ ascs_folder_to_run_installation_from }}"
+    - "{{ ers_folder_to_run_installation_from }}"

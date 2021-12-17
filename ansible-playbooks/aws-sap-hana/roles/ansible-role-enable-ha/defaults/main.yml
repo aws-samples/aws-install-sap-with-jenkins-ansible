@@ -1,0 +1,39 @@
+---
+
+ha_hana_shared_folder: "{{ GLOBAL_HANA_SHARED_FOLDER | default('/hana/shared') }}"
+
+backup_folder_path: /backup/HDB/data
+hana_db_user_to_create: SYSTEMKEY
+
+home_original_path: /usr/sap/{{ GLOBAL_HANA_SID | upper }}/home/.sapenv.sh
+home_path: /usr/sap/{{ GLOBAL_HANA_SID | upper }}/home/.sapenv-ansible.sh
+
+utilities_path: "{{ ha_hana_shared_folder }}/{{ GLOBAL_HANA_SID | upper }}/exe/linuxx86_64/hdb"
+hdbuserstore_path: "{{ utilities_path }}/hdbuserstore"
+hdbsql_path: "{{ utilities_path }}/hdbsql"
+
+default_mode_replication_status_msg: "mode: none"
+default_mode_started_hana: "sapstart "
+
+internal_sid_user: "{{ GLOBAL_HANA_SID | lower }}adm"
+
+network_eth0_script_full_path: /etc/sysconfig/network-scripts/ifcfg-eth0
+
+my_ip2_cidr: "{{ MY_IP2 }}/{{ MY_NET_MASK }}"
+
+hana_backup_command: BACKUP DATA FOR {{ GLOBAL_HANA_SID | upper }} USING FILE ('{{ backup_folder_path }}/{{ ansible_date_time.iso8601_basic }}')
+
+folders_to_create:
+  - "/root/cluster/crm"
+  - "/root/cluster/scripts"
+
+files_to_synchronize:
+  - "/usr/sap/{{ GLOBAL_HANA_SID | upper }}/SYS/global/security/rsecssfs/data/SSFS_AD0.DAT"
+  - "/usr/sap/{{ GLOBAL_HANA_SID | upper }}/SYS/global/security/rsecssfs/key/SSFS_AD0.KEY"
+
+pacemaker_hacluster_user_pass: hacluster
+
+stonith_config_name: "ans_clusterfence"
+SAPHana_Topology_config_name: "SAPHanaTopology_{{ GLOBAL_HANA_SID }}_{{ GLOBAL_HANA_INSTANCE_NUMBER }}"
+SAPHana_config_name: "SAPHana_{{ GLOBAL_HANA_SID }}_{{ GLOBAL_HANA_INSTANCE_NUMBER }}"
+hana_oip_config_name: "hana-oip"

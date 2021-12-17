@@ -7,7 +7,7 @@
 # Check if the variable is present. If not, send back default value
 # ------------------------------------------------------------------
 if [ -z "$APPLICATION_NAME" ]; then
-    echo "demo-hana"
+    echo "demo"
     exit 0
 fi
 

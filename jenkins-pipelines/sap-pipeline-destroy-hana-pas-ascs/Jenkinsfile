@@ -56,7 +56,7 @@ pipeline {
                     env.PREPARE_FOLDER=STAGES_FOLDER+"/prepare"
                     env.DEPENDENCIES_FOLDER=PREPARE_FOLDER+"/dependencies"
                     env.GLOBAL_VARS_PATH=PREPARE_FOLDER+"/check_global_variables"
-
+                    
                     // Credentials for AWS
                     sh(script: GLOBAL_VARS_PATH+'/check_AWS_ACCOUNT_CREDENTIALS.sh', returnStdout: false)
                     env.AWS_REGION_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_AWS_REGION.sh', returnStdout: true).trim()

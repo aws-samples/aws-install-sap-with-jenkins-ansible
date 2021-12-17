@@ -1,0 +1,20 @@
+---
+
+- name: Create Hana DB User {{ hana_db_user_to_create }}
+  shell: |
+      source {{ home_path }} && {{ hdbuserstore_path }} -i SET {{ hana_db_user_to_create }} {{ ansible_hostname }}:30013 SYSTEM {{ GLOBAL_MASTER_PASSWORD }}
+  become: yes
+  become_user: "{{ internal_sid_user }}"
+# example: /usr/sap/AD0/home/.profile; /usr/sap/AD0/HDB00/exe/hdbuserstore -i set SYSTEMKEY demo-hana:30013 SYSTEM P@ssw0rd
+
+- name: Check if Hana DB User was successfully created
+  shell: |
+      source {{ home_path }}; {{ hdbuserstore_path }} list
+  register: users_list
+  become: yes
+  become_user: "{{ internal_sid_user }}"
+
+- name: Fail when user was not created
+  fail:
+    msg: "User {{ hana_db_user_to_create }} was not created. Please check and try again"
+  when: not hana_db_user_to_create in users_list.stdout

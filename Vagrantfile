@@ -9,7 +9,7 @@ Vagrant.configure(2) do |config|
         v.cpus = 2
     end
 
-    config.vm.box = "bento/centos-7.1"
+    config.vm.box = "bento/centos-8"
     config.vm.network "forwarded_port", guest: 8080, host: 5555, host_ip: "127.0.0.1"
     config.vm.network "forwarded_port", guest: 80, host: 6666, host_ip: "127.0.0.1"
     config.vm.synced_folder ".", "/home/vagrant/shared"
@@ -17,17 +17,14 @@ Vagrant.configure(2) do |config|
 
         sudo yum update -y
         sudo yum install -y wget
-
-        sudo wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-        sudo yum install epel-release-latest-7.noarch.rpm -y
+        
+        sudo wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+        sudo yum install epel-release-latest-8.noarch.rpm -y
         sudo yum update -y
 
-        sudo yum install curl vim git unzip python python-devel python-pip openssl ansible -y
-
-        sudo pip install "markupsafe==1.1.1"
-        sudo pip install "Jinja2==2.8"
-
-        # Clone repo and start the app
+        sudo yum install curl vim git unzip python3 openssl ansible -y
+        
+        # Clone the repo
         sudo rm -rf /home/centos/jenkins
         sudo git clone https://github.com/aws-samples/aws-install-sap-with-jenkins-ansible.git /home/centos/jenkins
 

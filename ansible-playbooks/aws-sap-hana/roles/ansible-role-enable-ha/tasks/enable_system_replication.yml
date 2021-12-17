@@ -1,0 +1,42 @@
+---
+
+- name: Set fact for primary hostname
+  set_fact: primary_hostname="{{ GLOBAL_HOSTS_LIST | selectattr('private_ip', 'match', GLOBAL_PRIMARY_IP) | map(attribute='hostname') | list | first }}"
+
+- name: Enable system replication on primary node
+  shell: |
+      source {{ home_path }}; {{ utilities_path }}/hdbnsutil -sr_enable --name={{ ansible_hostname }}
+  when: ansible_default_ipv4.address == GLOBAL_PRIMARY_IP
+  become: yes
+  become_user: "{{ internal_sid_user }}"
+
+- name: Stop hana database on secondary node
+  shell: |
+      source {{ home_path }}; HDB stop
+  when: ansible_default_ipv4.address in GLOBAL_NODE_IPS_LIST
+  become: yes
+  become_user: "{{ internal_sid_user }}"
+
+- name: Set fact for secondary hostname
+  set_fact: secondary_hostname="{{ GLOBAL_HOSTS_LIST | selectattr('private_ip', 'match', ansible_default_ipv4.address) | map(attribute='hostname') | list | first }}"
+  when: ansible_default_ipv4.address in GLOBAL_NODE_IPS_LIST
+
+- name: Set fact for instance number
+  set_fact: local_instance_number="{{ (GLOBAL_HANA_INSTANCE_NUMBER | string | length > 1) | ternary(GLOBAL_HANA_INSTANCE_NUMBER, "0"+GLOBAL_HANA_INSTANCE_NUMBER) }}"
+
+- name: Register secondary node into primary node
+  shell: | 
+      source {{ home_path }}; {{ utilities_path }}/hdbnsutil -sr_register --name={{ secondary_hostname }} --remoteHost={{ primary_hostname }} --remoteInstance={{ local_instance_number }} --replicationMode=sync --operationMode=logreplay
+  when: ansible_default_ipv4.address in GLOBAL_NODE_IPS_LIST
+  become: yes
+  become_user: "{{ internal_sid_user }}"
+
+- name: Start hana database on secondary node
+  shell: | 
+      source {{ home_path }}; HDB start
+  when: ansible_default_ipv4.address in GLOBAL_NODE_IPS_LIST
+  become: yes
+  become_user: "{{ internal_sid_user }}"
+
+- name: Check system replication configuration
+  include_tasks: check_system_replication.yml

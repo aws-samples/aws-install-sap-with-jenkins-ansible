@@ -1,0 +1,4 @@
+---
+
+pacemaker_hacluster_user_pass: hacluster
+stonith_config_name: "ans_clusterfence"

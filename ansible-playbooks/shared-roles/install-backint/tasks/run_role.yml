@@ -1,0 +1,13 @@
+---
+
+- name: Warn when there's no hana shared folder path set
+  fail:
+    msg: "It was not possible to find variable GLOBAL_HANA_SHARED_FOLDER. Using default value '/hana/shared/'"
+  when: GLOBAL_HANA_SHARED_FOLDER is undefined
+  ignore_errors: true
+
+- name: Download Backint Agent installer
+  include_tasks: download_backint_installer.yml
+
+- name: Install Backint
+  include_tasks: install_backint.yml

@@ -85,5 +85,4 @@ elif [[ $result_value != 0 ]]; then
     exit 101
 fi
 
-rm -rf $ansiblePASDir
 exit 0

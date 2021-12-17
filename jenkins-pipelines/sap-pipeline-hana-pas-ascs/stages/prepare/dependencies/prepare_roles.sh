@@ -5,7 +5,7 @@
 
 roleDestDir="/etc/ansible/roles"
 hanaDir="ansible-playbooks/aws-sap-hana/roles/"
-ascsDir="ansible-playbooks/aws-sap-ascs/roles/"
+ascsDir="ansible-playbooks/aws-sap-ascs-ers/roles/"
 pasDir="ansible-playbooks/aws-sap-pas/roles/"
 
 cp -r $PWD/ansible-playbooks/shared-roles/* $hanaDir

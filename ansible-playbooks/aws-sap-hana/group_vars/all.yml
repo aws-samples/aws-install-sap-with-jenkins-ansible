@@ -14,7 +14,6 @@ GLOBAL_HANA_INSTANCE_NUMBER: "{{ HANA_INSTANCE_NUMBER }}"
 # Removes trailing slashes
 GLOBAL_S3_BUCKET_MEDIA_FILES: "{{ S3_BUCKET_MEDIA_FILES | regex_replace('\\/$', '') }}"
 GLOBAL_EFS_ID: "{{ EFS_ID }}"
-GLOBAL_INPUT_DNS_ZONE: "{{ PRIVATE_DNS_ZONE }}"
 
 # Optional variables caught from the user
 GLOBAL_ASCS_PRIVATE_IP: "{{ ASCS_PRIVATE_IP }}"
@@ -29,6 +28,8 @@ GLOBAL_PRIMARY_IP: "{{ HA_PRIMARY_PRIVATE_IP }}"
 GLOBAL_NODE_IPS: "{{ HA_NODE_PRIVATE_IPS | regex_replace('\\,$', '') }}"
 GLOBAL_NODE_IPS_LIST: ""
 GLOBAL_HOSTS_LIST: ""
+GLOBAL_OVERLAY_IP: "{{ OVERLAY_IP }}"
+GLOBAL_OVERLAY_IP_ROUTE_TABLE_ID: "{{ OVERLAY_IP_ROUTE_TABLE_ID }}"
 
 # Variables shared between roles
 GLOBAL_LOGS_AND_FOLDERS_ROLE_NAME: prepare-logs-folders

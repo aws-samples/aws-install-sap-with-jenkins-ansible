@@ -1,0 +1,24 @@
+---
+
+- name: Find bucket owner ID
+  command: "aws sts get-caller-identity"
+  register: owner_id_output
+
+- name: Set fact with account Owner ID
+  set_fact: account_owner_id="{{ (owner_id_output.stdout | from_json).Account }}"
+
+- name: Ensure params file does not exist
+  file:
+    path: "{{ backint_params_file_full_path }}"
+    state: absent
+
+- name: Generate Backint params
+  command: "python2 {{ backint_installation_folder }}/install-aws-backint-agent -ssm -g \"s3_bucket_name={{ GLOBAL_BUCKET_TO_BACKUP }},s3_bucket_folder=,hana_sid={{ GLOBAL_HANA_SID }},s3_bucket_region={{ GLOBAL_AWS_REGION }},s3_bucket_owner_account_id={{ account_owner_id }},installation_directory={{ hana_data_installation_full_path }},modify_global_ini=modify\" -f {{ backint_params_file_full_path }}"
+  register: backint_install_output
+
+- name: Build command
+  set_fact: backint_command="python2 {{ backint_installation_folder }}/install-aws-backint-agent -m silent -f {{ backint_params_file_full_path }} -a yes -ssm -d -l {{ backint_installation_folder }}/install-aws-backint-agent"
+
+- name: Install Backint
+  command: 
+    cmd: "{{ backint_command }}"

@@ -70,8 +70,13 @@ credentials:
         - string:
             scope: GLOBAL
             id: "ENABLE_HA"
+            secret: "true"
+            description: "(Optional) Whether to enable HA for the installation or not (true or false values are accepted). Default: true"
+        - string:
+            scope: GLOBAL
+            id: "INSTALL_BACKINT"
             secret: "false"
-            description: "(Optional) Whether to enable HA for the installation or not (true or false values are accepted). Default: false"
+            description: "(Optional) Whether to install the Backint agent or not. Example: false"
         - string:
             scope: GLOBAL
             id: "EC2_INSTANCES_NAME_PREFIX"
@@ -104,6 +109,11 @@ credentials:
             description: "(Optional) The instance type to set to ASCS instances. Example: m5.xlarge"
         - string:
             scope: GLOBAL
+            id: "ERS_INSTANCE_TYPE"
+            secret: "m5.xlarge"
+            description: "(Optional) The instance type to set to ERS instances. Example: m5.xlarge"
+        - string:
+            scope: GLOBAL
             id: "PAS_INSTANCE_TYPE"
             secret: "m5.xlarge"
             description: "(Optional) The instance type to set to PAS instances. Example: m5.xlarge"
@@ -119,29 +129,39 @@ credentials:
             description: "(Optional) The instance number for ASCS Software. Example: 00"
         - string:
             scope: GLOBAL
+            id: "ERS_INSTANCE_NUMBER"
+            secret: "10"
+            description: "(Optional) The instance number for ERS Software. Example: 10"
+        - string:
+            scope: GLOBAL
             id: "PAS_INSTANCE_NUMBER"
             secret: "00"
             description: "(Optional) The instance number for PAS Software. Example: 00"
         - string:
             scope: GLOBAL
             id: "APPLICATION_CODE"
-            secret: "demo-hana"
-            description: "(Optional) Application code to be used as tags for your environment. Example: demo-hana"
+            secret: "demo"
+            description: "(Optional) Application code to be used as tags for your environment. Example: demo"
         - string:
             scope: GLOBAL
             id: "APPLICATION_NAME"
-            secret: "demo-hana"
-            description: "(Optional) Application name to be used as tags for your environment. Example: demo-hana"
+            secret: "demo"
+            description: "(Optional) Application name to be used as tags for your environment. Example: demo"
         - string:
             scope: GLOBAL
             id: "ENVIRONMENT_TYPE"
-            secret: "demo-hana"
+            secret: "dev"
             description: "(Optional) Environment type to be used as tags for your environment. Example: dev"
         - string:
             scope: GLOBAL
             id: "PRODUCT_ID_ASCS"
-            secret: "NW_ABAP_ASCS:S4HANA1909.CORE.HDB.ABAP"
-            description: "(Optional) Product ID to install ASCS software. Default: NW_ABAP_ASCS:S4HANA1909.CORE.HDB.ABAP"
+            secret: "NW_ABAP_ASCS:S4HANA1909.CORE.HDB.ABAPHA"
+            description: "(Optional) Product ID to install ASCS software. Default: NW_ABAP_ASCS:S4HANA1909.CORE.HDB.ABAPHA"
+        - string:
+            scope: GLOBAL
+            id: "PRODUCT_ID_ERS"
+            secret: "NW_ERS:S4HANA1909.CORE.HDB.ABAPHA"
+            description: "(Optional) Product ID to install ERS software. Default: NW_ERS:S4HANA1909.CORE.HDB.ABAPHA"
         - string:
             scope: GLOBAL
             id: "PRODUCT_ID_PAS_DB"
@@ -152,7 +172,7 @@ credentials:
             id: "PRODUCT_ID_PAS"
             secret: "NW_ABAP_CI:S4HANA1909.CORE.HDB.ABAP"
             description: "(Optional) Product ID to install PAS software. Example: NW_ABAP_CI:S4HANA1909.CORE.HDB.ABAP"
-            
+
 jobs:
   - script: >
       folder('SAP Hana+ASCS+PAS 3 Instances')

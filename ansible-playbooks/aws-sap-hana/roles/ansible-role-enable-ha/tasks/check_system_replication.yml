@@ -1,0 +1,33 @@
+---
+
+- name: Check if replication is active on primary node
+  shell: |
+      source {{ home_path }}; {{ utilities_path }}/hdbnsutil -sr_state
+  register: primary_status
+  become: yes
+  become_user: "{{ internal_sid_user }}"
+  when: ansible_default_ipv4.address == GLOBAL_PRIMARY_IP
+  failed_when: primary_status.rc != 0
+
+- name: Check if replication is active on secondary node
+  shell: |
+      source {{ home_path }}; {{ utilities_path }}/hdbnsutil -sr_state
+  register: secondary_status
+  become: yes
+  become_user: "{{ internal_sid_user }}"
+  when: ansible_default_ipv4.address in GLOBAL_NODE_IPS_LIST
+  failed_when: secondary_status.rc != 0
+
+- name: Fail if wrong configuration is found on primary node
+  fail:
+    msg: "Configuration for primary node failed. Check the output of hdbnsutil -sr_state"
+  when:
+    - ansible_default_ipv4.address == GLOBAL_PRIMARY_IP
+    - 'not "mode: primary" in primary_status.stdout or not "operation mode: primary" in primary_status.stdout'
+
+- name: Fail if wrong configuration is found on secondary node
+  fail:
+    msg: "Configuration for secondary node failed. Check the output of hdbnsutil -sr_state"
+  when:
+    - ansible_default_ipv4.address in GLOBAL_NODE_IPS_LIST
+    - 'not "mode: sync" in secondary_status.stdout or not "operation mode: logreplay" in secondary_status.stdout'

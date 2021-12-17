@@ -1,0 +1,31 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Check if primary host is already on list
+  set_fact: primary_registered="{{ extra_vars_to_add_to_hosts | selectattr('private_ip', 'equalto', GLOBAL_PRIMARY_IP) }}"
+  when: extra_vars_to_add_to_hosts is defined
+
+- name: Add primary host IP to list
+  set_fact:
+    extra_vars_to_add_to_hosts: "{{ (extra_vars_to_add_to_hosts | default([])) + [{'private_ip': GLOBAL_PRIMARY_IP, 'hostname': GLOBAL_INPUT_HOSTNAME}] }}"
+  when: primary_registered is undefined or primary_registered | length == 0
+
+- name: Check if secondary host is already on list
+  set_fact: secondary_registered="{{ extra_vars_to_add_to_hosts | selectattr('private_ip', 'equalto', GLOBAL_NODE_IPS) }}"
+  when: extra_vars_to_add_to_hosts is defined and GLOBAL_NODE_IPS is defined
+
+- name: Add nodes hosts to list
+  set_fact: 
+    extra_vars_to_add_to_hosts: "{{ (extra_vars_to_add_to_hosts | default([])) + [{'private_ip': item, 'hostname': GLOBAL_INPUT_HOSTNAME+((ansible_loop.index+1) | string) }] }}"
+  when: 
+    - GLOBAL_NODE_IPS is defined
+    - GLOBAL_NODE_IPS_LIST is defined
+    - secondary_registered is undefined or secondary_registered | length == 0
+  loop: "{{ GLOBAL_NODE_IPS_LIST }}"
+  loop_control:
+    extended: yes
+
+- name: Set global variable with hosts and ip list
+  set_fact: GLOBAL_HOSTS_LIST="{{ extra_vars_to_add_to_hosts }}"

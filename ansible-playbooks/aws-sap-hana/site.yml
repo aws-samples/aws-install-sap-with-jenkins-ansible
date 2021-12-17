@@ -22,6 +22,8 @@
           - AWS_CLI_PROFILE
     - role: common-os-tasks
     - role: prepare-logs-folders
+    - role: install-pkg-mgr-dependencies
+    - role: install-aws-sap-data-provider
     - role: set-hostname
       vars:
         extra_vars_to_add_to_hosts:
@@ -29,10 +31,8 @@
             hostname: "{{ GLOBAL_ASCS_HOSTNAME }}"
           - private_ip: "{{ GLOBAL_PAS_PRIVATE_IP }}"
             hostname: "{{ GLOBAL_PAS_HOSTNAME }}"
-    - role: install-pkg-mgr-dependencies
-    - role: install-aws-sap-data-provider
 
-    # Installation-specific roles
+# Installation-specific roles
 - name: Set parameters and mount disks
   become: yes
   hosts: all
@@ -59,3 +59,9 @@
   hosts: all
   roles:
     - role: ansible-role-download-and-install
+
+- name: Enable HA
+  become: yes
+  hosts: all
+  roles:
+    - role: ansible-role-enable-ha
