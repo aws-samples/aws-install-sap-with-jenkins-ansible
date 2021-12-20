@@ -53,7 +53,7 @@ SECURITY_GROUP_ID | A default Security Group ID inside the given VPC to attach t
 ### Other available variables
 Variable | Description | Default value
 --- | --- | ---
-ENABLE_HA | <u>COMMING SOON</u> - Whether to enable HA for the installation or not (true or false values are accepted) | true 
+ENABLE_HA | Whether to enable HA for the installation or not (true or false values are accepted) | true 
 AWS_REGION | The AWS region to be used | us-east-1
 S3_FOLDER_HANA_INSTALL_FILES | S3 folder within the bucket to find Hana installation media | HANA
 PRIVATE_DNS_ZONE_NAME | Private DNS Zone to attach installation to | sapgspteam.net

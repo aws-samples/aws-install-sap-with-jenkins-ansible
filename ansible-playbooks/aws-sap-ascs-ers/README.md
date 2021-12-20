@@ -29,14 +29,25 @@ Variable | Description | Default Value
 EC2_HOSTNAME | The hostname to be applied on the instance | demo-ascs
 PRIVATE_DNS_ZONE | Private DNS Zone to be applied on the instance | sapgspteam.net
 MASTER_PASSWORD | The master password for Hana installation | P@ssw0rd
-ASCS_SID | The SID for the ASCS Installation | AD0
 EFS_ID | The AWS EFS ID to be attached to the instance | fs-xxxxxxxx
-ASCS_INSTANCE_NUMBER | The SAP instance number for this ASCS instance | 00
+S3_BUCKET_MEDIA_FILES | S3 bucket to download ASCS installer from | s3://sapgspdemo-sap-binaries-lw/S4H1909/
+ENABLE_HA | Enable High Availability for this installation or not | true
 HANA_PRIVATE_IP | Hana's database private IP | 172.0.0.0
 HANA_HOSTNAME | Hana's database hostname | demo-hana
 PAS_PRIVATE_IP | PAS private IP to be added to /etc/hosts | 172.0.0.0
 PAS_HOSTNAME | PAS hostname to be added to /etc/hosts | demo-pas
-S3_BUCKET_MEDIA_FILES | S3 bucket to download ASCS installer from | s3://sapgspdemo-sap-binaries-lw/S4H1909/
+ASCS_SID | The SID for the ASCS Installation | AD0
+ASCS_INSTANCE_NUMBER | The SAP instance number for this ASCS instance | 00
+ASCS_PRODUCT_ID | The Product ID to be used for ASCS installation | NW_ABAP_ASCS:S4HANA1909.CORE.HDB.ABAPHA
+ASCS_PRIVATE_IP | Private IP of ASCS instance | 172.0.0.1
+ASCS_HOSTNAME | Hostname of ASCS instance | demo-ascs
+ERS_PRODUCT_ID | The Product ID to be used for ERS installation | NW_ERS:S4HANA1909.CORE.HDB.ABAPHA
+ERS_SID | The SID for ERS Installation | AD0
+ERS_INSTANCE_NUMBER | The SAP instance number for this ERS instance | 10
+ERS_PRIVATE_IP | Private IP of ERS instance | 172.0.0.1
+ERS_HOSTNAME | ERS hostname to be added to /etc/hosts | demo-ers
+HA_PRIMARY_PRIVATE_IP | Private IP of the primary instance (ASCS server) | 172.0.0.1
+HA_NODE_PRIVATE_IPS | Private IPs of other HA instances (ERS server) | 172.0.0.1,
 
 IMPORTANT! This playbook reboots the destined instance, and therefore cannot be run on localhost
 

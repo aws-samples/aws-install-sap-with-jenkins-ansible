@@ -10,8 +10,9 @@ This is an open source repo with sample code to install your SAP Software (check
 You can check how to use this repo on this blog post: <insert blog post here>
 
 SAP Software available:
-* SAP Hana - SAP In-Memory Database (HA is coming soon)
-* SAP ASCS - ABAP Central Services (HA is coming soon)
+* SAP Hana - SAP In-Memory Database (HA is available)
+* SAP ASCS - ABAP Central Services (HA is available)
+* SAP ERS - Enqueue Replication Service (installed when HA is set for ASCS)
 * SAP PAS - Primary Application Server
 
 All the folders highlighted below can be separated into their own repositories. Check out the README on each one of them to understand in-depth their reponsibility:
