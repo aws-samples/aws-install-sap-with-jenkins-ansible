@@ -35,6 +35,7 @@
 # Installation-specific roles
 - name: Set parameters and mount disks
   become: true
+  remote_user: root
   hosts: all
   roles:
     - role: ansible-role-parameters
