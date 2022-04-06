@@ -61,7 +61,7 @@ EC2_INSTANCES_NAME_PREFIX | Prefix name for the instances | demo
 MASTER_PASSWORD | Master password to be used to all installed software | P@ssw0rd
 SAP_SID | SAP SID to be set to ASCS and PAS SAP installations (you cannot change this in the future) | AD0
 HANA_SID | The Hana SID to be set to Hana installation (you cannot change this in the future) | AD0
-HANA_INSTANCE_TYPE | The instance type to set to Hana instances | r5.4xlarge
+HANA_INSTANCE_TYPE | The instance type to set to Hana instances | r5.2xlarge
 ASCS_INSTANCE_TYPE | The instance type to set to ASCS instances | m5.xlarge
 PAS_INSTANCE_TYPE | The instance type to set to PAS instances | m5.xlarge
 HANA_INSTANCE_NUMBER | The instance number for Hana Software | 00

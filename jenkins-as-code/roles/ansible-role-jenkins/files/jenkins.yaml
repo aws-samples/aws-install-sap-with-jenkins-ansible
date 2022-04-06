@@ -100,8 +100,8 @@ credentials:
         - string:
             scope: GLOBAL
             id: "HANA_INSTANCE_TYPE"
-            secret: "r5.4xlarge"
-            description: "(Optional) The instance type to set to Hana instances. Example: r5.4xlarge"
+            secret: "r5.2xlarge"
+            description: "(Optional) The instance type to set to Hana instances. Example: r5.2xlarge"
         - string:
             scope: GLOBAL
             id: "ASCS_INSTANCE_TYPE"
