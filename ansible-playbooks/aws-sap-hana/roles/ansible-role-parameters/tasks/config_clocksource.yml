@@ -17,7 +17,5 @@
 - name: Add tsc to clocksource
   lineinfile:
     name: "{{ system_clocksource_file }}"
-    regexp: '*'
     line: "tsc"
     state: present
-    insertbefore: BOF
