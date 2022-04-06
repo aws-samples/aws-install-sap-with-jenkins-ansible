@@ -15,6 +15,9 @@ Vagrant.configure(2) do |config|
     config.vm.synced_folder ".", "/home/vagrant/shared"
     config.vm.provision "shell", inline: <<-SHELL
 
+        sudo sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+        sudo sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+
         sudo yum update -y
         sudo yum install -y wget
         
@@ -29,6 +32,7 @@ Vagrant.configure(2) do |config|
         sudo git clone https://github.com/aws-samples/aws-install-sap-with-jenkins-ansible.git /home/centos/jenkins
 
         # Run playbook
+        export JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
         sudo ansible-playbook /home/centos/jenkins/jenkins-as-code/site.yml
         
         # Wait for jenkins to restart

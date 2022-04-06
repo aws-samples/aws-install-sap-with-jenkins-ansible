@@ -73,3 +73,12 @@
 
 # Update Jenkins and install configured plugins.
 - include_tasks: plugins.yml
+
+- name: Add Jenkins init script to skip plugin configuration
+  template:
+    src: basic-security_skip_plugins.groovy.j2
+    dest: "{{ jenkins_home }}/init.groovy.d/basic-security.groovy"
+    owner: "{{ jenkins_process_user }}"
+    group: "{{ jenkins_process_group }}"
+    mode: 0775
+  notify: restart jenkins
