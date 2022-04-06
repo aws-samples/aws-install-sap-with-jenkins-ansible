@@ -14,8 +14,8 @@
     state: touch
   when: not stat_result.stat.exists
 
-- name: Add tsc to clocksource
-  lineinfile:
-    name: "{{ system_clocksource_file }}"
-    line: "tsc"
-    state: present
+# - name: Add tsc to clocksource
+#   lineinfile:
+#     name: "{{ system_clocksource_file }}"
+#     line: "tsc"
+#     state: present
