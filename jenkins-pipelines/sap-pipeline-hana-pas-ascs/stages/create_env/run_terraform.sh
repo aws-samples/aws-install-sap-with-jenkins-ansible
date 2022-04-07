@@ -21,7 +21,7 @@ fi
 echo "terraform -chdir=\"$PWD/$TERRAFORM_FOLDER_NAME\" \
                 plan \
                 -var \"aws_access_key=$AWS_ACCOUNT_CREDENTIALS_USR\" \
-                -var 'aws_secret_key=$AWS_ACCOUNT_CREDENTIALS_PSW' \
+                -var \"aws_secret_key=$AWS_ACCOUNT_CREDENTIALS_PSW\" \
                 -var \"aws_region=$AWS_REGION_CHKD\" \
                 -var \"ssh_key=$SSH_KEYPAIR_NAME_CHKD\" \
                 -var \"ascs_instance_type=$ASCS_INSTANCE_TYPE_CHKD\" \
@@ -43,7 +43,7 @@ echo "terraform -chdir=\"$PWD/$TERRAFORM_FOLDER_NAME\" \
 terraform -chdir="$PWD/$TERRAFORM_FOLDER_NAME" \
                 plan \
                 -var "aws_access_key=$AWS_ACCOUNT_CREDENTIALS_USR" \
-                -var 'aws_secret_key=$AWS_ACCOUNT_CREDENTIALS_PSW' \
+                -var "aws_secret_key=$AWS_ACCOUNT_CREDENTIALS_PSW" \
                 -var "aws_region=$AWS_REGION_CHKD" \
                 -var "ssh_key=$SSH_KEYPAIR_NAME_CHKD" \
                 -var "ascs_instance_type=$ASCS_INSTANCE_TYPE_CHKD" \
