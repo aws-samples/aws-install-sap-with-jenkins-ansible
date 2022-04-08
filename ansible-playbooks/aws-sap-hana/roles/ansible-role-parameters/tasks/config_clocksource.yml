@@ -19,4 +19,3 @@
     name: "{{ system_clocksource_file }}"
     line: "tsc"
     state: present
-    insertafter: EOF

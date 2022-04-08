@@ -18,7 +18,6 @@ if [ $? -ne 0 ]; then
     exit 100
 fi
 
-touch tf_output.tf
 terraform -chdir="$PWD/$TERRAFORM_FOLDER_NAME" \
                 plan \
                 -var "aws_access_key=$AWS_ACCOUNT_CREDENTIALS_USR" \

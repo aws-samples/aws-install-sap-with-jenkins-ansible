@@ -5,7 +5,7 @@
 
 # Common roles for preparing the image
 - name: Check inputs, prepare logs, hostname, install basic dependencies and AWS Data Provider
-  become: yes
+  become: true
   hosts: all
   roles:
     - role: check-inputs
@@ -34,7 +34,7 @@
 
 # Installation-specific roles
 - name: Set parameters and mount disks
-  become: yes
+  become: true
   hosts: all
   roles:
     - role: ansible-role-parameters
@@ -42,7 +42,7 @@
 
 # RedHat official roles for preparing for SAP Installation
 - name: Prepare host with RedHat certified roles
-  become: yes
+  become: true
   hosts: all
   roles:
     - role: sap-preconfigure
@@ -55,13 +55,13 @@
 
 # Hana installation roles
 - name: Download and Install Hana
-  become: yes
+  become: true
   hosts: all
   roles:
     - role: ansible-role-download-and-install
 
 - name: Enable HA
-  become: yes
+  become: true
   hosts: all
   roles:
     - role: ansible-role-enable-ha

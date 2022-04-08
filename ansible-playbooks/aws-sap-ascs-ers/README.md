@@ -57,4 +57,4 @@ IMPORTANT! This playbook reboots the destined instance, and therefore cannot be 
 <br><b>A:</b> Using "aws sync" for downloading the folder form an S3 bucket using only Amazon network this should take up to 15 minutes to download the whole 63Gb
 
 <b>Q:</b> How long does the "Install ASCS" step take?
-<br><b>A:</b>For a r5.4xlarge instance size, 30 minutes, typically
+<br><b>A:</b>For a r5.4xlarge instance size, 45 minutes, typically
