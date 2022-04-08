@@ -7,7 +7,7 @@
 # Check if the variable is present. If not, send back default value
 # ------------------------------------------------------------------
 if [ -z "$HANA_INSTANCE_TYPE" ]; then
-    echo "r5.2xlarge"
+    echo "r5.4xlarge"
     exit 0
 fi
 
