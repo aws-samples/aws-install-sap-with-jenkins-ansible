@@ -1,0 +1,10 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- include_tasks: install_rhel_deps.yml
+  when: ansible_os_family == "RedHat"
+
+- include_tasks: install_suse_deps.yml
+  when: ansible_os_family == "Suse"

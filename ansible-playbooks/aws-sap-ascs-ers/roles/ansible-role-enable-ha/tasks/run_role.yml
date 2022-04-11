@@ -1,5 +1,8 @@
 ---
 
+- name: Check package dependencies
+  include_tasks: ensure_dependencies.yml
+
 - name: Check parameters
   include_tasks: check_parameters.yml
 
