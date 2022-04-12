@@ -8,3 +8,10 @@
     msg: "Variable {{ item }} was not found. Please check again"
   when: lookup('vars', item) is undefined
   loop: "{{ input_variables_to_check|list }}"
+
+- name: Ensure non mandatory input parameters were sent as required
+  fail: 
+    msg: "WARNING! Variable {{ item }} was not found. This will disable some of this playbooks's features. Example: self-healing properties"
+  when: not non_mandatory_input_variables_to_check is undefined and lookup('vars', item) is undefined
+  loop: "{{ non_mandatory_input_variables_to_check|list }}"
+  ignore_errors: true
