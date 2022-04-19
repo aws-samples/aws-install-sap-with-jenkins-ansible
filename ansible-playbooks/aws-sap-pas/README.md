@@ -28,7 +28,7 @@ Variable | Description | Default Value
 --- | --- | ---
 EC2_HOSTNAME | The hostname to be applied on the instance | demo-ascs
 PRIVATE_DNS_ZONE | Private DNS Zone to be applied on the instance | sapgspteam.net
-MASTER_PASSWORD | The master password for Hana installation | P@ssw0rd
+MASTER_PASSWORD | The master password for Hana installation | NO DEFAULT VALUE
 SAP_SID | The SID for the Hana Installation | AD0
 EFS_ID | The AWS EFS ID to be attached to the instance | fs-xxxxxxxx
 PAS_INSTANCE_NUMBER | The SAP instance number for this instance | 00

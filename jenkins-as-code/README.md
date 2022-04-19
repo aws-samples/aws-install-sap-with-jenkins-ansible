@@ -58,7 +58,7 @@ AWS_REGION | The AWS region to be used | us-east-1
 S3_FOLDER_HANA_INSTALL_FILES | S3 folder within the bucket to find Hana installation media | HANA
 PRIVATE_DNS_ZONE_NAME | Private DNS Zone to attach installation to | sapgspteam.net
 EC2_INSTANCES_NAME_PREFIX | Prefix name for the instances | demo
-MASTER_PASSWORD | Master password to be used to all installed software | P@ssw0rd
+MASTER_PASSWORD | Master password to be used to all installed software | NO DEFAULT VALUE
 SAP_SID | SAP SID to be set to ASCS and PAS SAP installations (you cannot change this in the future) | AD0
 HANA_SID | The Hana SID to be set to Hana installation (you cannot change this in the future) | AD0
 HANA_INSTANCE_TYPE | The instance type to set to Hana instances | r5.4xlarge

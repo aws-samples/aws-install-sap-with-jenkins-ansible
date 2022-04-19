@@ -64,6 +64,11 @@ credentials:
             description: "(Required) The Security Group ID inside the given VPC to attach to the instances. Example: sg-01e616cc71d44cf70"
         - string:
             scope: GLOBAL
+            id: "MASTER_PASSWORD"
+            secret: ""
+            description: "(Required) The password to be used to all SAP systems (you can change them in the future)"
+        - string:
+            scope: GLOBAL
             id: "AWS_REGION"
             secret: "us-east-1"
             description: "(Optional) The region you want to create your resources at. Example: us-east-1"
@@ -82,11 +87,6 @@ credentials:
             id: "EC2_INSTANCES_NAME_PREFIX"
             secret: "demo"
             description: "(Optional) The prefix to be added to AWS Instances names by Terraform. Default: demo"
-        - string:
-            scope: GLOBAL
-            id: "MASTER_PASSWORD"
-            secret: "P@ssw0rd"
-            description: "(Optional) The password to be used to all SAP systems (you can change them in the future). Default: P@ssw0rd"
         - string:
             scope: GLOBAL
             id: "SAP_SID"

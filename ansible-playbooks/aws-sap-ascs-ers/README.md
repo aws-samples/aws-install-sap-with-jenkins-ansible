@@ -28,7 +28,7 @@ Variable | Description | Default Value
 --- | --- | ---
 EC2_HOSTNAME | The hostname to be applied on the instance | demo-ascs
 PRIVATE_DNS_ZONE | Private DNS Zone to be applied on the instance | sapgspteam.net
-MASTER_PASSWORD | The master password for Hana installation | P@ssw0rd
+MASTER_PASSWORD | The master password for Hana installation | NO DEFAULT VALUE
 EFS_ID | The AWS EFS ID to be attached to the instance | fs-xxxxxxxx
 S3_BUCKET_MEDIA_FILES | S3 bucket to download ASCS installer from | s3://sapgspdemo-sap-binaries-lw/S4H1909/
 ENABLE_HA | Enable High Availability for this installation or not | true
