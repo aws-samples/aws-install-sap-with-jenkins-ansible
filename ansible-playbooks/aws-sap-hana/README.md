@@ -28,7 +28,7 @@ Variable | Description | Default Value
 --- | --- | ---
 EC2_HOSTNAME | The hostname to be applied on the instance | demo
 PRIVATE_DNS_ZONE | Private DNS Zone to be applied on the instance | sap-demo.com
-MASTER_PASSWORD | The master password for Hana installation | P@ssw0rd
+MASTER_PASSWORD | The master password for Hana installation | NO DEFAULT VALUE
 EFS_ID | The EFS ID to attach to this instance that will hold installation files | fs-xxxxxxxx
 ENABLE_HA | Enable High Availability for this installation or not | true
 S3_BUCKET_MEDIA_FILES | Path on S3 to download Hana installation binaries | s3://sapgspdemo-sap-binaries-demo/HANA
