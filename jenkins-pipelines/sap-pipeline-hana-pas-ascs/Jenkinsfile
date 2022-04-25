@@ -168,9 +168,8 @@ pipeline {
                     // Terraform infrastructure
                     sh '''
                         rm -rf $TERRAFORM_FOLDER_NAME
-                        #git clone https://github.com/aws-samples/terraform-aws-sap-netweaver-on-hana.git
-                        git clone https://github.com/guisesterheim/terraform-aws-sap-netweaver-on-hana.git
-
+                        git clone https://github.com/aws-samples/terraform-aws-sap-netweaver-on-hana.git
+                        
                         $STAGES_FOLDER/create_env/run_terraform.sh
                         if [ $? -gt 0 ]; then
                             exit 1
