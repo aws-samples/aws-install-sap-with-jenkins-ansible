@@ -9,7 +9,8 @@
 - name: Make sure folders have the right user and group set
   file:
     path: "{{ item }}"
-    owner: "{{ GLOBAL_ERS_SID | lower }}adm"
+    state: directory
+    owner: 1004
     group: sapsys
   with_items:
     - /sapmnt/{{ GLOBAL_ERS_SID | upper }}
