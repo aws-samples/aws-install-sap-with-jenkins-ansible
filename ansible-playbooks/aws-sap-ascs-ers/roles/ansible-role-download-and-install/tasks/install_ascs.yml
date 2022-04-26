@@ -6,6 +6,15 @@
 - name: Build command for ASCS
   set_fact: install_command="{{ ascs_complete_swpm_sum_install_folder }}/sapinst SAPINST_INPUT_PARAMETERS_URL={{ ascs_params_file_full_path }} SAPINST_EXECUTE_PRODUCT_ID={{ ascs_product_id_to_install }} SAPINST_USE_HOSTNAME={{ THIS_HOSTNAME }} SAPINST_SKIP_DIALOGS=true SAPINST_START_GUISERVER=false"
 
+- name: Make sure folders have the right user and group set
+  file:
+    path: "{{ item }}"
+    owner: "{{ GLOBAL_ERS_SID | lower }}adm"
+    group: sapsys
+  with_items:
+    - /sapmnt/{{ GLOBAL_ERS_SID | upper }}
+    - /usr/sap
+
 - name: Install ASCS
   shell: 
     cmd: "{{ install_command }}"
@@ -19,15 +28,6 @@
   debug:
     msg: "{{ installation_output.stdout_lines }}"
   when: installation_output is defined and installation_output.rc != 0
-
-- name: Make sure folders have the right user and group set
-  file:
-    path: "{{ item }}"
-    owner: "{{ GLOBAL_ERS_SID | lower }}adm"
-    group: sapsys
-  with_items:
-    - /sapmnt/{{ GLOBAL_ERS_SID | upper }}
-    - /usr/sap
 
 - name: Abort execution when there are installation errors
   fail:
