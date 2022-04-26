@@ -20,6 +20,15 @@
     msg: "{{ installation_output.stdout_lines }}"
   when: installation_output is defined and installation_output.rc != 0
 
+- name: Make sure folders have the right user and group set
+  file:
+    path: "{{ item }}"
+    owner: "{{ GLOBAL_ASCS_SID | lower }}adm"
+    group: sapsys
+  with_items:
+    - /sapmnt/{{ GLOBAL_ASCS_SID | upper }}
+    - /usr/sap
+
 - name: Abort execution when there are installation errors
   fail:
     msg: "Execution interrupted due to errors"
