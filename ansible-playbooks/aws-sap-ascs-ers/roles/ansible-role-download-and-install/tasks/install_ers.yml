@@ -6,14 +6,15 @@
 - name: Build command for ERS
   set_fact: install_command="{{ ascs_complete_swpm_sum_install_folder }}/sapinst SAPINST_INPUT_PARAMETERS_URL={{ ers_params_file_full_path }} SAPINST_EXECUTE_PRODUCT_ID={{ ers_product_id_to_install }} SAPINST_USE_HOSTNAME={{ THIS_HOSTNAME }} SAPINST_SKIP_DIALOGS=true SAPINST_START_GUISERVER=false"
 
-- name: Make sure folders have the right user and group set
-  file:
-    path: "{{ item }}"
-    owner: "{{ GLOBAL_ASCS_SID | lower }}adm"
-    group: sapsys
-  with_items:
-    - /sapmnt/{{ GLOBAL_ASCS_SID | upper }}
-    - /usr/sap
+# - name: Make sure folders have the right user and group set
+#   file:
+#     path: "{{ item }}"
+#     state: directory
+#     owner: "{{ GLOBAL_ASCS_SID | lower }}adm"
+#     group: sapsys
+#   with_items:
+#     - /sapmnt/{{ GLOBAL_ASCS_SID | upper }}
+#     - /usr/sap
 
 - name: Install ERS
   shell: 
