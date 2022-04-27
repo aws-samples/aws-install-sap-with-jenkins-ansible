@@ -13,7 +13,7 @@
     - name: "{{ sapinst_user_group_name }}"
       gid: "{{ sap_sys_gid }}"
     - name: "{{ installation_users_group_name }}"
-      gid: "1010"
+      gid: "{{ sap_sys_gid }}"
 
 - name: Ensure users exist
   user:
