@@ -7,6 +7,7 @@
   group:
     name: "{{ sapinst_user_group_name }}"
     state: present
+    gid: "1010"
 
 - name: Add current user to "{{ sapinst_user_group_name }}" group
   user:
