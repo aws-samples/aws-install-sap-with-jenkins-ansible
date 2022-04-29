@@ -6,6 +6,15 @@
 - name: Build command
   set_fact: install_command="{{ swpm_sum_install_dest_folder }}/sapinst SAPINST_INPUT_PARAMETERS_URL={{ pas_params_file_full_path }} SAPINST_EXECUTE_PRODUCT_ID={{ pas_product_id_to_install }} SAPINST_USE_HOSTNAME={{ GLOBAL_INPUT_HOSTNAME }} SAPINST_SKIP_DIALOGS=true SAPINST_START_GUISERVER=false"
 
+- name: Ensure installation folders exist and have right permissions
+  file:
+    path: "{{ folder_to_run_pas_installation_from }}"
+    state: directory
+    mode: 0777
+    owner: "1003"
+    group: "1001"
+    recurse: yes
+
 - name: Install PAS
   shell: 
     cmd: "{{ install_command }}"
