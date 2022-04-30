@@ -11,8 +11,8 @@
     path: "{{ folder_to_run_db_installation_from }}"
     state: directory
     mode: 0777
-    owner: "1003"
-    group: "1001"
+    owner: "{{ sid_adm_uid }}"
+    group: "{{ sap_sys_gid }}"
     recurse: yes
   
 - name: Install PAS DB

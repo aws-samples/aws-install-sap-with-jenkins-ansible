@@ -10,8 +10,8 @@
   file:
     path: "{{ item }}"
     state: directory
-    owner: "1004"
-    group: "1003"
+    owner: "{{ default_sid_adm_uid }}"
+    group: "{{ default_sap_sys_uid }}"
   with_items:
     - /sapmnt/{{ GLOBAL_ERS_SID | upper }}
     - /usr/sap
