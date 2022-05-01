@@ -12,7 +12,7 @@
     state: directory
     mode: 0777
     owner: "{{ sid_adm_uid }}"
-    group: "{{ sap_sys_gid }}"
+    group: "{{ sapinst_gid }}"
     recurse: yes
 
 - name: Install PAS

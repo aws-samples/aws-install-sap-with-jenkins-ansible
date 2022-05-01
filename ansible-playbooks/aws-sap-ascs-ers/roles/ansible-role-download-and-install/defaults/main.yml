@@ -31,6 +31,7 @@ ascs_params_file_full_path: "/tmp/ascs.params"
 ers_params_file_full_path: "/tmp/ers.params"
 
 sapinst_user_group_name: sapinst
+sapinst_gid: "1010"
 
 # Variables for the ascs.params template file
 default_sid_adm_uid: 1001
