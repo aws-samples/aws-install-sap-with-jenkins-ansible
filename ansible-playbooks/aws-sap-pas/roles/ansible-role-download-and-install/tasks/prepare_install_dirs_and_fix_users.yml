@@ -60,11 +60,6 @@
     name: "{{ installation_users_group_name }}"
     state: absent
 
-- name: Remove sapinst user
-  user:
-    name: "sapinst"
-    state: absent
-
 - name: Remove the group "{{ installation_users_group_name }}"
   group:
     name: "sapinst"
