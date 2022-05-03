@@ -14,15 +14,6 @@
   
 - name: Update folder owner
   shell: chown -R root:sapinst {{ folder_to_run_db_installation_from }}
-
-# - name: Ensure installation folders exist and have right permissions
-#   file:
-#     path: "{{ folder_to_run_db_installation_from }}"
-#     state: directory
-#     mode: 0777
-#     owner: "{{ sid_adm_uid }}"
-#     group: "{{ sapinst_gid }}"
-#     recurse: yes
   
 - name: Install PAS DB
   shell: 
