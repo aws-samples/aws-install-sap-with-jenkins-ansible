@@ -6,6 +6,12 @@
 - name: Build command
   set_fact: install_command="{{ swpm_sum_install_dest_folder }}/sapinst SAPINST_INPUT_PARAMETERS_URL={{ db_params_file_full_path }} SAPINST_EXECUTE_PRODUCT_ID={{ db_product_id_to_install }} SAPINST_USE_HOSTNAME={{ GLOBAL_INPUT_HOSTNAME }} SAPINST_SKIP_DIALOGS=true SAPINST_START_GUISERVER=false"
 
+- name: Ensure groups exist
+  group:
+    name: "{{ sapinst_user_group_name }}"
+    state: present
+    gid: "{{ sapinst_gid }}"
+  
 - name: Update folder owner
   shell: chown -R root:sapinst {{ folder_to_run_db_installation_from }}
 
