@@ -12,6 +12,9 @@
   loop: "{{ hostvars | dict2items }}"
   when: not item.key in ansible_host
   no_log: yes
+  retries: 3
+  delay: 10
+  until: opposite_instance_id is defined
 
 - name: Get opposite instance hostname
   set_fact: opposite_host="{{ item.value.ansible_hostname }}"
