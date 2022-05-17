@@ -9,23 +9,18 @@ Vagrant.configure(2) do |config|
         v.cpus = 2
     end
 
-    config.vm.box = "bento/centos-8"
+    #config.vm.box = "bento/centos-8"
+    config.vm.box = "ubuntu/impish64"
     config.vm.network "forwarded_port", guest: 8080, host: 5555, host_ip: "127.0.0.1"
     config.vm.network "forwarded_port", guest: 80, host: 6666, host_ip: "127.0.0.1"
     config.vm.synced_folder ".", "/home/vagrant/shared"
     config.vm.provision "shell", inline: <<-SHELL
 
-        sudo sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
-        sudo sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
-
-        sudo yum update -y
-        sudo yum install -y wget
+        sudo apt update -y
+        sudo apt install -y wget
         
-        sudo wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
-        sudo yum install epel-release-latest-8.noarch.rpm -y
-        sudo yum update -y
-
-        sudo yum install curl vim git unzip python3 openssl ansible -y
+        sudo apt install curl vim git unzip python3 openssl -y
+        sudo apt install ansible -y
         
         # Clone the repo
         sudo rm -rf /home/centos/jenkins
