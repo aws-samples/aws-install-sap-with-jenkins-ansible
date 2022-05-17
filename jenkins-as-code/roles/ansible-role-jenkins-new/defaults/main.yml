@@ -1,0 +1,226 @@
+---
+# Optional method of pinning a specific version of Jenkins and/or overriding the
+# default Jenkins packaging URL.
+# jenkins_version: "1.644"
+# jenkins_pkg_url: "https://www.example.com"
+
+# Change this to `latest` to update Jenkins if a newer version is available.
+jenkins_package_state: present
+
+jenkins_prefer_lts: false
+
+jenkins_connection_delay: 5
+jenkins_connection_retries: 60
+jenkins_home: /var/lib/jenkins
+jenkins_hostname: localhost
+jenkins_http_port: 8080
+jenkins_jar_location: /opt/jenkins-cli.jar
+jenkins_url_prefix: ""
+jenkins_java_options: "-Djenkins.install.runSetupWizard=false"
+
+# Plugin list can use the plugin name, or a name/version dict.
+jenkins_plugins:
+  - name: pipeline-model-extensions
+    value: 2.2075.vce74e77b_ce40
+  - name: display-url-api
+    value: 2.3.6
+  - name: pipeline-graph-analysis
+    value: 188.v3a01e7973f2c
+  - name: github
+    value: 1.34.3
+  - name: workflow-aggregator
+    value: 2.7
+  - name: jquery3-api
+    value: 3.6.0-2
+  - name: workflow-cps
+    value: 2683.vd0a_8f6a_1c263
+  - name: workflow-cps-global-lib
+    value: 564.ve62a_4eb_b_e039
+  - name: durable-task
+    value: 495.v29cd95ec10f2
+  - name: pipeline-model-definition
+    value: 2.2075.vce74e77b_ce40
+  - name: matrix-auth
+    value: 3.1
+  - name: pipeline-milestone-step
+    value: 100.v60a_03cd446e1
+  - name: jquery-detached
+    value: 1.2.1
+  - name: workflow-api
+    value: 1143.v2d42f1e9dea_5
+  - name: ws-cleanup
+    value: 0.41
+  - name: gradle
+    value: 1.38
+  - name: momentjs
+    value: 1.1.1
+  - name: workflow-basic-steps
+    value: 941.vdfe1b_a_132c64
+  - name: email-ext
+    value: 2.87
+  - name: ssh-slaves
+    value: 1.806.v2253cedd3295
+  - name: resource-disposer
+    value: 0.18
+  - name: pam-auth
+    value: 1.7
+  - name: pipeline-build-step
+    value: 2.16
+  - name: pipeline-rest-api
+    value: 2.23
+  - name: pipeline-model-api
+    value: 2.2075.vce74e77b_ce40
+  - name: workflow-job
+    value: 1174.vdcb_d054cf74a_
+  - name: plugin-util-api
+    value: 2.16.0
+  - name: jsch
+    value: 0.1.55.2
+  - name: workflow-durable-task-step
+    value: 1128.v8c259d125340
+  - name: bouncycastle-api
+    value: 2.25
+  - name: github-api
+    value: 1.301-378.v9807bd746da5
+  - name: okhttp-api
+    value: 4.9.3-105.vb96869f8ac3a
+  - name: command-launcher
+    value: 1.6
+  - name: branch-api
+    value: 2.1044.v2c007e51b_87f
+  - name: echarts-api
+    value: 5.3.0-2
+  - name: pipeline-github-lib
+    value: 36.v4c01db_ca_ed16
+  - name: ace-editor
+    value: 1.1
+  - name: script-security
+    value: 1145.vb_cf6cf6ed960
+  - name: pipeline-stage-view
+    value: 2.23
+  - name: git
+    value: 4.11.0
+  - name: junit
+    value: 1.58
+  - name: github-branch-source
+    value: 1598.v91207e9f9b_4a_
+  - name: ant
+    value: 1.13
+  - name: token-macro
+    value: 285.vff7645a_56ff0
+  - name: git-server
+    value: 1.10
+  - name: jdk-tool
+    value: 1.5
+  - name: lockable-resources
+    value: 2.14
+  - name: antisamy-markup-formatter
+    value: 2.7
+  - name: scm-api
+    value: 595.vd5a_df5eb_0e39
+  - name: git-client
+    value: 3.11.0
+  - name: timestamper
+    value: 1.17
+  - name: pipeline-stage-step
+    value: 291.vf0a8a7aeeb50
+  - name: matrix-project
+    value: 758.v7a_ea_491852f3
+  - name: cloudbees-folder
+    value: 6.714.v79e858ef76a_2
+  - name: trilead-api
+    value: 1.0.13
+  - name: mailer
+    value: 408.vd726a_1130320
+  - name: pipeline-input-step
+    value: 446.vf27b_0b_83500e
+  - name: pipeline-stage-tags-metadata
+    value: 2.2075.vce74e77b_ce40
+  - name: handlebars
+    value: 3.0.8
+  - name: workflow-multibranch
+    value: 711.vdfef37cda_816
+  - name: workflow-support
+    value: 815.vd60466279fc8
+  - name: workflow-scm-step
+    value: 2.13
+  - name: ldap
+    value: 2.8
+  - name: build-timeout
+    value: 1.20
+  - name: workflow-step-api
+    value: 622.vb_8e7c15b_c95a_
+  - name: jackson2-api
+    value: 2.13.2-260.v43d711474c77
+  - name: ssh-credentials
+    value: 1.19
+  - name: credentials-binding
+    value: 1.27.1
+  - name: authentication-tokens
+    value: 1.4
+  - name: structs
+    value: 308.v852b473a2b8c
+  - name: credentials
+    value: 1111.v35a_307992395
+  - name: apache-httpcomponents-client-4-api
+    value: 4.5.13-1.0
+  - name: plain-credentials
+    value: 1.8
+  - name: snakeyaml-api
+    value: 1.29.1
+  - name: job-dsl
+    value: 1.78.3
+  - name: configuration-as-code
+    value: 1414.v878271fc496f
+  - name: sshd
+    value: 3.1.0
+  - name: jjwt-api
+    value: 0.11.2-9.c8b45b8bb173
+  - name: font-awesome-api
+    value: 6.0.0-1
+  - name: popper-api
+    value: 1.16.1-2
+  - name: bootstrap4-api
+    value: 4.6.0-3
+  - name: checks-api
+    value: 1.7.2
+  - name: caffeine-api
+    value: 2.9.2-29.v717aac953ff3
+  - name: popper2-api
+    value: 2.11.4-1
+  - name: bootstrap5-api
+    value: 5.1.3-6
+  - name: javax-activation-api
+    value: 1.2.0-2
+  - name: javax-mail-api
+    value: 1.6.2-5
+  - name: jnr-posix-api
+    value: 3.1.7-3
+  - name: windows-slaves
+    value: 1.8
+
+jenkins_plugins_state: present
+jenkins_plugin_updates_expiration: 86400
+jenkins_plugin_timeout: 30
+jenkins_plugins_install_dependencies: true
+jenkins_updates_url: "https://updates.jenkins.io"
+
+jenkins_admin_username: admin
+jenkins_admin_password: my_secret_pass_from_vault
+jenkins_admin_password_file: ""
+
+jenkins_process_user: jenkins
+jenkins_process_group: "{{ jenkins_process_user }}"
+
+jenkins_init_changes:
+  - option: "JENKINS_ARGS"
+    value: "--prefix={{ jenkins_url_prefix }}"
+  - option: "{{ jenkins_java_options_env_var }}"
+    value: "{{ jenkins_java_options }}"
+
+# If Jenkins is behind a proxy, configure this.
+jenkins_proxy_host: ""
+jenkins_proxy_port: ""
+jenkins_proxy_noproxy:
+  - "127.0.0.1"
+  - "localhost"

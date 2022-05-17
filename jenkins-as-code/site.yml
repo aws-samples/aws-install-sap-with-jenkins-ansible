@@ -45,7 +45,7 @@
     java_packages:
       - openjdk-8-jdk
   roles:
-    - role: ansible-role-jenkins
+    - role: ansible-role-jenkins-new
 
 - name: Applies HAProxy config for SSL
   hosts: localhost
