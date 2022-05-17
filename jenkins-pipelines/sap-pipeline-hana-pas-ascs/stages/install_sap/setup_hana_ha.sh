@@ -108,7 +108,7 @@ fi
 ANSIBLE_HOST_KEY_CHECKING=False
 ANSIBLE_BECOME_EXE="sudo su -"
 
-ansible-playbook $ansibleHanaDir/install_hana.yml \
+ansible-playbook $ansibleHanaDir/setup_hana_ha.yml \
                     --inventory-file "$hostsFile" \
                     --extra-vars "@$VAR_FILE_FULL_PATH"
 

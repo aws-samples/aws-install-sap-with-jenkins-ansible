@@ -1,0 +1,35 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+# Common roles for preparing the image
+- name: Check inputs, and set hostname
+  become: true
+  hosts: all
+  roles:
+    - role: check-inputs
+      vars:
+        input_variables_to_check: 
+          - EC2_HOSTNAME
+          - PRIVATE_DNS_ZONE
+          - MASTER_PASSWORD
+          - HANA_SID
+          - HANA_INSTANCE_NUMBER
+          - EFS_ID
+          - S3_BUCKET_MEDIA_FILES
+          - ENABLE_HA
+          - AWS_CLI_PROFILE
+    - role: set-hostname
+      vars:
+        extra_vars_to_add_to_hosts:
+          - private_ip: "{{ GLOBAL_ASCS_PRIVATE_IP }}"
+            hostname: "{{ GLOBAL_ASCS_HOSTNAME }}"
+          - private_ip: "{{ GLOBAL_PAS_PRIVATE_IP }}"
+            hostname: "{{ GLOBAL_PAS_HOSTNAME }}"
+
+- name: Enable HA
+  become: true
+  hosts: all
+  roles:
+    - role: ansible-role-enable-ha
