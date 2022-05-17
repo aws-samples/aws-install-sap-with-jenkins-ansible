@@ -7,3 +7,10 @@
   yum:
     name: jq
     state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Install JQ
+  apt:
+    name: jq
+    state: present
+  when: ansible_os_family == "Debian"
