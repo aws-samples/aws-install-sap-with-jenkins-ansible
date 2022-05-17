@@ -25,7 +25,11 @@ Vagrant.configure(2) do |config|
         sudo yum install epel-release-latest-8.noarch.rpm -y
         sudo yum update -y
 
-        sudo yum install curl vim git unzip python3 openssl ansible -y
+        #sudo yum install curl vim git unzip python3 openssl ansible -y
+        sudo yum install curl vim git unzip python3 openssl python3-pip -y
+        sudo python3 -m pip install --upgrade pip
+        sudo python3 -m pip install ansible
+        sudo ln -s /usr/local/bin/ansible-playbook /usr/bin/ansible-playbook
         
         # Clone the repo
         sudo rm -rf /home/centos/jenkins

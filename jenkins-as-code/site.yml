@@ -28,6 +28,8 @@
 - name: Install Ansible
   hosts: localhost
   become: yes
+  vars:
+    ansible_install_method: "pip"
   roles:
     - role: ansible-role-ansible
 
