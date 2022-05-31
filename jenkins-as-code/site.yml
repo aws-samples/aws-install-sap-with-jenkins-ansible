@@ -25,12 +25,6 @@
   roles:
     - role: ansible-role-terraform
 
-- name: Install Ansible
-  hosts: localhost
-  become: yes
-  roles:
-    - role: ansible-role-ansible
-
 - name: Install AWS CLI
   hosts: localhost
   become: yes
