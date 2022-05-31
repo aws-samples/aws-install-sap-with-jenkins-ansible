@@ -20,6 +20,9 @@ This repo contains the ansible code for installing SAP Hana on AWS instances
 1. Go to hosts.yml and fill in with your instance's IP (from previous step) and SSH key path
 2. Use the example on how_to_run.sh to check if you want to change any variable, and run the playbook
 
+### 4 - Deprecation warning
+1. The file site.yml is not used anymore by this installation and will be removed in a future release. Use ```install_hana.yml``` if you're installing HANA or use ```setup_hana_ha.yml``` if you're done installing and want to setup HA.
+
 ## Customizable variables:
 
 The following variables can be customized for your Hana installation. Change them on your local how_to_run.sh
