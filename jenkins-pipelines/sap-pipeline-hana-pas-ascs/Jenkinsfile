@@ -157,67 +157,67 @@ pipeline {
                 }
             }
         }
-        // stage('Create ENV'){
-        //     steps {
-        //         script {
-        //             // Terraform infrastructure
-        //             sh '''
-        //                 rm -rf $TERRAFORM_FOLDER_NAME
-        //                 git clone https://github.com/aws-samples/terraform-aws-sap-netweaver-on-hana.git
+        stage('Create ENV'){
+            steps {
+                script {
+                    // Terraform infrastructure
+                    sh '''
+                        rm -rf $TERRAFORM_FOLDER_NAME
+                        git clone https://github.com/aws-samples/terraform-aws-sap-netweaver-on-hana.git
                         
-        //                 $STAGES_FOLDER/create_env/run_terraform.sh
-        //                 if [ $? -gt 0 ]; then
-        //                     exit 1
-        //                 fi
-        //             '''
-        //         }
-        //     }
-        // }
-        // stage('Install Hana, ASCS and ERS'){
-        //     options {timeout(time: 2, unit: 'HOURS')}
-        //     parallel {
-        //         stage('Install Hana'){
-        //             steps {
-        //                 script {
-        //                     // Ansible for installing Hana
-        //                     sh '''
-        //                         $STAGES_FOLDER/install_sap/install_hana.sh
-        //                         if [ $? -gt 0 ]; then
-        //                             exit 1
-        //                         fi 
-        //                     '''
-        //                 }
-        //             }
-        //         }
-        //         stage('Install ASCS/ERS'){
-        //             steps {
-        //                 script {
-        //                     // Ansible for installing ASCS
-        //                     sh '''
-        //                         $STAGES_FOLDER/install_sap/install_ascs_ers.sh
-        //                         if [ $? -gt 0 ]; then
-        //                             exit 1
-        //                         fi 
-        //                     '''
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-        // stage('Install PAS'){
-        //     options {timeout(time: 2, unit: 'HOURS')}
-        //     steps {
-        //         script {
-        //             // Ansible for installing PAS
-        //             sh '''
-        //                 $STAGES_FOLDER/install_sap/install_pas.sh
-        //                 if [ $? -gt 0 ]; then
-        //                     exit 1
-        //                 fi 
-        //             '''
-        //         }
-        //     }
-        // }
+                        $STAGES_FOLDER/create_env/run_terraform.sh
+                        if [ $? -gt 0 ]; then
+                            exit 1
+                        fi
+                    '''
+                }
+            }
+        }
+        stage('Install Hana, ASCS and ERS'){
+            options {timeout(time: 2, unit: 'HOURS')}
+            parallel {
+                stage('Install Hana'){
+                    steps {
+                        script {
+                            // Ansible for installing Hana
+                            sh '''
+                                $STAGES_FOLDER/install_sap/install_hana.sh
+                                if [ $? -gt 0 ]; then
+                                    exit 1
+                                fi 
+                            '''
+                        }
+                    }
+                }
+                stage('Install ASCS/ERS'){
+                    steps {
+                        script {
+                            // Ansible for installing ASCS
+                            sh '''
+                                $STAGES_FOLDER/install_sap/install_ascs_ers.sh
+                                if [ $? -gt 0 ]; then
+                                    exit 1
+                                fi 
+                            '''
+                        }
+                    }
+                }
+            }
+        }
+        stage('Install PAS'){
+            options {timeout(time: 2, unit: 'HOURS')}
+            steps {
+                script {
+                    // Ansible for installing PAS
+                    sh '''
+                        $STAGES_FOLDER/install_sap/install_pas.sh
+                        if [ $? -gt 0 ]; then
+                            exit 1
+                        fi 
+                    '''
+                }
+            }
+        }
         stage('Post Install: Setup HANA HA and Merge hosts files'){
             options {timeout(time: 2, unit: 'HOURS')}
             steps {
