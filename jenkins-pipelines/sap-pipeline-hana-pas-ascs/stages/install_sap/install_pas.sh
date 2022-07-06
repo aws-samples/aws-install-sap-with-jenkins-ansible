@@ -32,13 +32,29 @@ if [ -z "$efs_id" ]; then
     exit 103
 fi
 
+hana_public_ips=$(terraform -chdir="$PWD/$TERRAFORM_FOLDER_NAME" output -json hana_instance_public_ips)
+if [ -z "$hana_public_ips" ]; then
+    echo "No Hana instance IPs were found. Please check Terraform step"
+    exit 100
+fi
+export HANA_HOSTS_IPS=$hana_public_ips
+
+public_ips_values=$(echo $HANA_HOSTS_IPS | sed "s/\[/\ /g" | sed "s/\]/\ /g" | sed "s/\,/\ /g")
+eval "public_ips_array=($public_ips_values)"
+
+HANA_PRIMARY_PUBLIC_IP=${public_ips_array[0]}
+HANA_SECONDARY_PUBLIC_IP=${public_ips_array[1]}
+
 # ------------------------------------------------------------------
 # Change host destination on hosts.yml file
 # ------------------------------------------------------------------
 hostsFile="$ansiblePASDir/hosts.yml"
 
-sed -i "s/HOST_NAME_TO_APPLY/$pas_public_ip/g" $hostsFile
+sed -i "s/PAS_HOST_NAME_TO_APPLY/$pas_public_ip/g" $hostsFile
 sed -i "s|PATH_TO_PEM_FILE|$SSH_KEYPAIR_FILE_CHKD|g" $hostsFile
+
+sed -i "s/HANA_PRIM_HOST_NAME_TO_APPLY/$HANA_PRIMARY_PUBLIC_IP/g" $hostsFile
+sed -i "s/HANA_SEC_HOST_NAME_TO_APPLY/$HANA_SECONDARY_PUBLIC_IP/g" $hostsFile
 
 export VAR_FILE_FULL_PATH="$ansiblePASDir/var_file.yaml"
 rm $VAR_FILE_FULL_PATH 2> /dev/null

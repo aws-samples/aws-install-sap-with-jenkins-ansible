@@ -1,0 +1,38 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+- name: Check if reboot is needed
+  include_tasks: check_reboot_is_needed.yml
+
+- name: Download PAS Installation media
+  include_tasks: download_pas.yml
+
+- name: Create params files
+  include_tasks: create_ini_files.yml
+
+- name: Check if users were already created by a previous run of installation
+  include_tasks: check_sap_users.yml
+
+- name: Prepare installation users and directories
+  include_tasks: prepare_install_dirs_and_fix_users.yml
+  when: sidadm_user_output is changed
+
+- name: Prepare download basket
+  include_tasks: prepare_download_basket.yml
+
+- name: Prepare installation files
+  include_tasks: prepare_install_files.yml
+
+- name: Install PAS
+  include_tasks: "{{ item }}"
+  loop:
+    - install_pas_db.yml
+    - install_pas.yml
+
+- name: Check if installation finished well
+  include_tasks: check_installation.yml
+
+- name: Remove used credentials
+  include_tasks: remove_credentials.yml
