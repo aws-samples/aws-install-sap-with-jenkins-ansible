@@ -1,0 +1,4 @@
+---
+
+GLOBAL_DNS_ZONE_NAME: "{{ INPUT_DNS_ZONE_NAME }}"
+hosts_file: "/etc/hosts"

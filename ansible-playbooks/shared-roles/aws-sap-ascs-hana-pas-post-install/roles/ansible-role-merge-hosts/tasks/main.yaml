@@ -1,0 +1,4 @@
+---
+
+- name: Create list of hosts to be added to {{ hosts_file }}
+  include_tasks: create_hosts_list.yaml
