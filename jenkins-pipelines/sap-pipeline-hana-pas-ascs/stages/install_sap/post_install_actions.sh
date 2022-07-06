@@ -62,7 +62,7 @@ echo "INPUT_DNS_ZONE_NAME: $PRIVATE_DNS_ZONE_NAME_CHKD" >> $VAR_FILE_FULL_PATH
 ANSIBLE_HOST_KEY_CHECKING=False
 ANSIBLE_BECOME_EXE="sudo su -"
 
-ansible-playbook $post_install_playbook_dir/merge_hosts.yml \
+ansible-playbook $post_install_playbook_dir/merge_hosts.yaml \
                     --inventory-file "$hostsFile" \
                     --extra-vars "@$VAR_FILE_FULL_PATH"
 
