@@ -16,20 +16,19 @@ if [ -z "$hana_public_ips" ]; then
 fi
 export HANA_HOSTS_IPS=$hana_public_ips
 
-terraform -chdir="$PWD/$TERRAFORM_FOLDER_NAME" output -json ascs_instance_public_ips | jq -r '.[0]'
 export ASCS_PUBLIC_IP=$(terraform -chdir="$PWD/$TERRAFORM_FOLDER_NAME" output -json ascs_instance_public_ips | jq -r '.[0]')
-if [ -z "$ascs_public_ip" ]; then
+if [ -z "$ASCS_PUBLIC_IP" ]; then
     echo "No ASCS instance public IP was found. Please check Terraform step"
     exit 101
 fi
 export ERS_PUBLIC_IP=$(terraform -chdir="$PWD/$TERRAFORM_FOLDER_NAME" output -json ers_instance_public_ips | jq -r '.[0]')
-if [ -z "$ers_public_ip" ]; then
+if [ -z "$ERS_PUBLIC_IP" ]; then
     echo "No ASCS instance public IP was found. Please check Terraform step"
     exit 101
 fi
 
 export PAS_PUBLIC_IP=$(terraform -chdir="$PWD/$TERRAFORM_FOLDER_NAME" output -json app_instance_public_ips | jq -r '.[0]')
-if [ -z "$pas_public_ip" ]; then
+if [ -z "$PAS_PUBLIC_IP" ]; then
     echo "No PAS instance public IP was found. Please check Terraform step"
     exit 102
 fi
