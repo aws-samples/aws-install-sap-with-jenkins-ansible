@@ -53,110 +53,110 @@ pipeline {
     }
 
     stages {
-        stage('Prepare'){
-            steps {
-                script {
-                    // -------------------------------------------------
-                    // Check credentials
-                    // -------------------------------------------------
-                    env.STAGES_FOLDER="./jenkins-pipelines/sap-pipeline-hana-pas-ascs/stages"
-                    env.PREPARE_FOLDER=STAGES_FOLDER+"/prepare"
-                    env.DEPENDENCIES_FOLDER=PREPARE_FOLDER+"/dependencies"
-                    env.GLOBAL_VARS_PATH=PREPARE_FOLDER+"/check_global_variables"
+        // stage('Prepare'){
+        //     steps {
+        //         script {
+        //             // -------------------------------------------------
+        //             // Check credentials
+        //             // -------------------------------------------------
+        //             env.STAGES_FOLDER="./jenkins-pipelines/sap-pipeline-hana-pas-ascs/stages"
+        //             env.PREPARE_FOLDER=STAGES_FOLDER+"/prepare"
+        //             env.DEPENDENCIES_FOLDER=PREPARE_FOLDER+"/dependencies"
+        //             env.GLOBAL_VARS_PATH=PREPARE_FOLDER+"/check_global_variables"
 
-                    // Credentials for AWS
-                    sh(script: GLOBAL_VARS_PATH+'/check_AWS_ACCOUNT_CREDENTIALS.sh', returnStdout: false)
-                    env.AWS_REGION_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_AWS_REGION.sh', returnStdout: true).trim()
-                    env.CLI_PROFILE_CHKD = "sapinstall"
+        //             // Credentials for AWS
+        //             sh(script: GLOBAL_VARS_PATH+'/check_AWS_ACCOUNT_CREDENTIALS.sh', returnStdout: false)
+        //             env.AWS_REGION_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_AWS_REGION.sh', returnStdout: true).trim()
+        //             env.CLI_PROFILE_CHKD = "sapinstall"
                     
-                    // Credentials for Ansible
-                    env.SSH_KEYPAIR_NAME_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_SSH_KEYPAIR_NAME.sh', returnStdout: true).trim()
-                    env.SSH_KEYPAIR_FILE_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_SSH_KEYPAIR_FILE.sh', returnStdout: true).trim()
+        //             // Credentials for Ansible
+        //             env.SSH_KEYPAIR_NAME_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_SSH_KEYPAIR_NAME.sh', returnStdout: true).trim()
+        //             env.SSH_KEYPAIR_FILE_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_SSH_KEYPAIR_FILE.sh', returnStdout: true).trim()
 
-                    // Credentials for Terraform
-                    env.PRIVATE_DNS_ZONE_NAME_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_PRIVATE_DNS_ZONE_NAME.sh', returnStdout: true).trim()
-                    env.EC2_INSTANCES_NAME_PREFIX_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_EC2_INSTANCES_NAME_PREFIX.sh', returnStdout: true).trim()
-                    env.PAS_INSTANCES_NAME_CHKD = "$EC2_INSTANCES_NAME_PREFIX_CHKD"+"-pas"
-                    env.ASCS_INSTANCES_NAME_CHKD = "$EC2_INSTANCES_NAME_PREFIX_CHKD"+"-ascs"
-                    env.ERS_INSTANCES_NAME_CHKD = "$EC2_INSTANCES_NAME_PREFIX_CHKD"+"-ers"
-                    env.HANA_INSTANCES_NAME_CHKD = "$EC2_INSTANCES_NAME_PREFIX_CHKD"+"-hana"
-                    env.HANA_INSTANCE_TYPE_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_EC2_INSTANCE_TYPE_HANA.sh', returnStdout: true).trim()
-                    env.ASCS_INSTANCE_TYPE_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_EC2_INSTANCE_TYPE_ASCS.sh', returnStdout: true).trim()
-                    env.ERS_INSTANCE_TYPE_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_EC2_INSTANCE_TYPE_ERS.sh', returnStdout: true).trim()
-                    env.PAS_INSTANCE_TYPE_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_EC2_INSTANCE_TYPE_PAS.sh', returnStdout: true).trim()
-                    env.SUBNET_IDS_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_SUBNET_IDS.sh', returnStdout: true).trim()
-                    env.VPC_ID_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_VPC_ID.sh', returnStdout: true).trim()
-                    env.SECURITY_GROUP_ID_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_SECURITY_GROUP_ID.sh', returnStdout: true).trim()
-                    env.ENABLE_HA_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_ENABLE_HA.sh', returnStdout: true).trim()
-                    env.AMI_ID_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_AMI_ID.sh', returnStdout: true).trim()
-                    env.KMS_KEY_ARN_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_KMS_KEY_ARN.sh', returnStdout: true).trim()
-                    env.APPLICATION_CODE_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_APPLICATION_CODE.sh', returnStdout: true).trim()
-                    env.APPLICATION_NAME_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_APPLICATION_NAME.sh', returnStdout: true).trim()
-                    env.ENVIRONMENT_TYPE_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_ENVIRONMENT_TYPE.sh', returnStdout: true).trim()
+        //             // Credentials for Terraform
+        //             env.PRIVATE_DNS_ZONE_NAME_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_PRIVATE_DNS_ZONE_NAME.sh', returnStdout: true).trim()
+        //             env.EC2_INSTANCES_NAME_PREFIX_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_EC2_INSTANCES_NAME_PREFIX.sh', returnStdout: true).trim()
+        //             env.PAS_INSTANCES_NAME_CHKD = "$EC2_INSTANCES_NAME_PREFIX_CHKD"+"-pas"
+        //             env.ASCS_INSTANCES_NAME_CHKD = "$EC2_INSTANCES_NAME_PREFIX_CHKD"+"-ascs"
+        //             env.ERS_INSTANCES_NAME_CHKD = "$EC2_INSTANCES_NAME_PREFIX_CHKD"+"-ers"
+        //             env.HANA_INSTANCES_NAME_CHKD = "$EC2_INSTANCES_NAME_PREFIX_CHKD"+"-hana"
+        //             env.HANA_INSTANCE_TYPE_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_EC2_INSTANCE_TYPE_HANA.sh', returnStdout: true).trim()
+        //             env.ASCS_INSTANCE_TYPE_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_EC2_INSTANCE_TYPE_ASCS.sh', returnStdout: true).trim()
+        //             env.ERS_INSTANCE_TYPE_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_EC2_INSTANCE_TYPE_ERS.sh', returnStdout: true).trim()
+        //             env.PAS_INSTANCE_TYPE_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_EC2_INSTANCE_TYPE_PAS.sh', returnStdout: true).trim()
+        //             env.SUBNET_IDS_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_SUBNET_IDS.sh', returnStdout: true).trim()
+        //             env.VPC_ID_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_VPC_ID.sh', returnStdout: true).trim()
+        //             env.SECURITY_GROUP_ID_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_SECURITY_GROUP_ID.sh', returnStdout: true).trim()
+        //             env.ENABLE_HA_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_ENABLE_HA.sh', returnStdout: true).trim()
+        //             env.AMI_ID_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_AMI_ID.sh', returnStdout: true).trim()
+        //             env.KMS_KEY_ARN_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_KMS_KEY_ARN.sh', returnStdout: true).trim()
+        //             env.APPLICATION_CODE_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_APPLICATION_CODE.sh', returnStdout: true).trim()
+        //             env.APPLICATION_NAME_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_APPLICATION_NAME.sh', returnStdout: true).trim()
+        //             env.ENVIRONMENT_TYPE_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_ENVIRONMENT_TYPE.sh', returnStdout: true).trim()
                     
-                    // Credentials for installation
-                    env.S3_ROOT_FOLDER_INSTALL_FILES_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_S3_ROOT_FOLDER_INSTALL_FILES.sh', returnStdout: true).trim()
-                    env.HANA_INSTANCE_NUMBER_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_INSTANCE_NUMBER_HANA.sh', returnStdout: true).trim()
-                    env.ASCS_INSTANCE_NUMBER_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_INSTANCE_NUMBER_ASCS.sh', returnStdout: true).trim()
-                    env.ERS_INSTANCE_NUMBER_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_INSTANCE_NUMBER_ERS.sh', returnStdout: true).trim()
-                    env.PAS_INSTANCE_NUMBER_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_INSTANCE_NUMBER_PAS.sh', returnStdout: true).trim()
-                    env.MASTER_PASSWORD_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_MASTER_PASSWORD.sh', returnStdout: true).trim()
-                    env.SAP_SID_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_SID_SAP.sh', returnStdout: true).trim()
-                    env.HANA_SID_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_SID_HANA.sh', returnStdout: true).trim()
-                    env.PRODUCT_ID_ASCS_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_PRODUCT_ID_ASCS.sh', returnStdout: true).trim()
-                    env.PRODUCT_ID_ERS_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_PRODUCT_ID_ERS.sh', returnStdout: true).trim()
-                    env.PRODUCT_ID_PAS_DB_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_PRODUCT_ID_PAS_DB.sh', returnStdout: true).trim()
-                    env.PRODUCT_ID_PAS_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_PRODUCT_ID_PAS.sh', returnStdout: true).trim()
-                    env.INSTALL_BACKINT_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_INSTALL_BACKINT.sh', returnStdout: true).trim()
+        //             // Credentials for installation
+        //             env.S3_ROOT_FOLDER_INSTALL_FILES_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_S3_ROOT_FOLDER_INSTALL_FILES.sh', returnStdout: true).trim()
+        //             env.HANA_INSTANCE_NUMBER_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_INSTANCE_NUMBER_HANA.sh', returnStdout: true).trim()
+        //             env.ASCS_INSTANCE_NUMBER_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_INSTANCE_NUMBER_ASCS.sh', returnStdout: true).trim()
+        //             env.ERS_INSTANCE_NUMBER_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_INSTANCE_NUMBER_ERS.sh', returnStdout: true).trim()
+        //             env.PAS_INSTANCE_NUMBER_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_INSTANCE_NUMBER_PAS.sh', returnStdout: true).trim()
+        //             env.MASTER_PASSWORD_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_MASTER_PASSWORD.sh', returnStdout: true).trim()
+        //             env.SAP_SID_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_SID_SAP.sh', returnStdout: true).trim()
+        //             env.HANA_SID_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_SID_HANA.sh', returnStdout: true).trim()
+        //             env.PRODUCT_ID_ASCS_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_PRODUCT_ID_ASCS.sh', returnStdout: true).trim()
+        //             env.PRODUCT_ID_ERS_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_PRODUCT_ID_ERS.sh', returnStdout: true).trim()
+        //             env.PRODUCT_ID_PAS_DB_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_PRODUCT_ID_PAS_DB.sh', returnStdout: true).trim()
+        //             env.PRODUCT_ID_PAS_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_PRODUCT_ID_PAS.sh', returnStdout: true).trim()
+        //             env.INSTALL_BACKINT_CHKD = sh(script: GLOBAL_VARS_PATH+'/check_INSTALL_BACKINT.sh', returnStdout: true).trim()
                     
-                    // -------------------------------------------------
-                    // Configure AWS CLI
-                    // -------------------------------------------------
-                    sh '''
-                        $PREPARE_FOLDER/common/configure_cli.sh
+        //             // -------------------------------------------------
+        //             // Configure AWS CLI
+        //             // -------------------------------------------------
+        //             sh '''
+        //                 $PREPARE_FOLDER/common/configure_cli.sh
 
-                        if [ $? -gt 0 ]; then
-                            exit 1
-                        fi
-                    '''
-                    env.BUCKET_NAME_CHKD = sh(script: PREPARE_FOLDER+'/check_aws_resources/check_s3_bucket_name.sh', returnStdout: true).trim()
+        //                 if [ $? -gt 0 ]; then
+        //                     exit 1
+        //                 fi
+        //             '''
+        //             env.BUCKET_NAME_CHKD = sh(script: PREPARE_FOLDER+'/check_aws_resources/check_s3_bucket_name.sh', returnStdout: true).trim()
                     
-                    // -------------------------------------------------
-                    // Check if user information is valid on AWS
-                    // -------------------------------------------------
-                    sh '''
-                        $PREPARE_FOLDER/check_aws_resources/check_user_info.sh
-                        if [ $? -gt 0 ]; then
-                            exit 1
-                        fi
-                    '''
+        //             // -------------------------------------------------
+        //             // Check if user information is valid on AWS
+        //             // -------------------------------------------------
+        //             sh '''
+        //                 $PREPARE_FOLDER/check_aws_resources/check_user_info.sh
+        //                 if [ $? -gt 0 ]; then
+        //                     exit 1
+        //                 fi
+        //             '''
 
-                    // -------------------------------------------------
-                    // Prepare shared roles
-                    // -------------------------------------------------
-                    sh '''
-                        $DEPENDENCIES_FOLDER/prepare_roles.sh
-                        if [ $? -gt 0 ]; then
-                            exit 1
-                        fi
+        //             // -------------------------------------------------
+        //             // Prepare shared roles
+        //             // -------------------------------------------------
+        //             sh '''
+        //                 $DEPENDENCIES_FOLDER/prepare_roles.sh
+        //                 if [ $? -gt 0 ]; then
+        //                     exit 1
+        //                 fi
 
-                        $DEPENDENCIES_FOLDER/install_galaxy_dependencies.sh
-                        if [ $? -gt 0 ]; then
-                            exit 1
-                        fi
-                    '''
+        //                 $DEPENDENCIES_FOLDER/install_galaxy_dependencies.sh
+        //                 if [ $? -gt 0 ]; then
+        //                     exit 1
+        //                 fi
+        //             '''
 
-                    // Check if there's an available bucket on S3 and DynamoDB table to store Terraform states. If not, creates it
-                    sh '''
-                        $STAGES_FOLDER/env_states/check_create_env_dependencies.sh
+        //             // Check if there's an available bucket on S3 and DynamoDB table to store Terraform states. If not, creates it
+        //             sh '''
+        //                 $STAGES_FOLDER/env_states/check_create_env_dependencies.sh
 
-                        if [ $? -gt 0 ]; then
-                            exit 1
-                        fi
-                    '''
-                }
-            }
-        }
+        //                 if [ $? -gt 0 ]; then
+        //                     exit 1
+        //                 fi
+        //             '''
+        //         }
+        //     }
+        // }
         stage('Create ENV'){
             steps {
                 script {
