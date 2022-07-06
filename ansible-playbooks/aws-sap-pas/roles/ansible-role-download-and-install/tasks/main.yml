@@ -3,9 +3,9 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 
-- name: Run PAS installation
-  include_tasks: run_role.yml
-  when: pas_node_group_name in group_names
+# - name: Run PAS installation
+#   include_tasks: run_role.yml
+#   when: pas_node_group_name in group_names
 
 - name: Update link to HANA database
   include_tasks: hana/configure_hana_link.yml
