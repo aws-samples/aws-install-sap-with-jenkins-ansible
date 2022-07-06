@@ -4,7 +4,7 @@
   become: true
   hosts: all
   roles:
-    - role: ansible-role-check-inputs
+    - role: check-inputs
       vars:
         input_variables_to_check: 
           - INPUT_DNS_ZONE_NAME
