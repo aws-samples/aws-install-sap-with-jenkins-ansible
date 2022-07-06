@@ -36,8 +36,12 @@ if [ -z "$PAS_PUBLIC_IP" ]; then
     exit 100
 fi
 
+echo $HOSTS_IPS
+
 public_ips_values=$(echo $HOSTS_IPS | sed "s/\[/\ /g" | sed "s/\]/\ /g" | sed "s/\,/\ /g")
 eval "public_ips_array=($public_ips_values)"
+
+echo $public_ips_array
 
 HANA_PRIMARY_PUBLIC_IP=${public_ips_array[0]}
 HANA_SECONDARY_PUBLIC_IP=${public_ips_array[1]}
@@ -46,7 +50,7 @@ HANA_SECONDARY_PUBLIC_IP=${public_ips_array[1]}
 # Create hosts_runtime.yml
 # ------------------------------------------------------------------
 cp "$ANSIBLE_DIR/hosts.yaml" "$ANSIBLE_DIR/hosts_runtime.yaml"
-hostsFile="$ANSIBLE_DIR/hosts_runtime.yml"
+hostsFile="$ANSIBLE_DIR/hosts_runtime.yaml"
 
 echo $HANA_PRIMARY_PUBLIC_IP
 echo $HANA_SECONDARY_PUBLIC_IP
