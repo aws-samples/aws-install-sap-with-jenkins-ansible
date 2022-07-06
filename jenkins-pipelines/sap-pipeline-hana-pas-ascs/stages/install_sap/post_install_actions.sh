@@ -44,9 +44,9 @@ if [ $? -ne 0 ]; then
     exit 104
 fi
 
-hostsFile="$ansibleHanaDir/hosts_runtime.yml"
+hostsFile="$post_install_playbook_dir/hosts_runtime.yml"
 
-export VAR_FILE_FULL_PATH="$ansibleHanaDir/var_file.yaml"
+export VAR_FILE_FULL_PATH="$post_install_playbook_dir/var_file.yaml"
 rm $VAR_FILE_FULL_PATH 2> /dev/null
 touch $VAR_FILE_FULL_PATH
 
