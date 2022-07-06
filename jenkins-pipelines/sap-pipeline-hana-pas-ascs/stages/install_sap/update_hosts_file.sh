@@ -36,12 +36,8 @@ if [ -z "$PAS_PUBLIC_IP" ]; then
     exit 100
 fi
 
-echo $HOSTS_IPS
-
-public_ips_values=$(echo $HOSTS_IPS | sed "s/\[/\ /g" | sed "s/\]/\ /g" | sed "s/\,/\ /g")
+public_ips_values=$(echo $HANA_HOSTS_IPS | sed "s/\[/\ /g" | sed "s/\]/\ /g" | sed "s/\,/\ /g")
 eval "public_ips_array=($public_ips_values)"
-
-echo $public_ips_array
 
 HANA_PRIMARY_PUBLIC_IP=${public_ips_array[0]}
 HANA_SECONDARY_PUBLIC_IP=${public_ips_array[1]}
@@ -70,5 +66,7 @@ sed -i "s/ERS_HOST_NAME_TO_APPLY/$ERS_PUBLIC_IP/g" $hostsFile
 sed -i "s/PAS_HOST_NAME_TO_APPLY/$PAS_PUBLIC_IP/g" $hostsFile
 
 sed -i "s|PATH_TO_PEM_FILE|$SSH_KEYPAIR_FILE_CHKD|g" $hostsFile
+
+cat $hostsFile
 
 exit 0
