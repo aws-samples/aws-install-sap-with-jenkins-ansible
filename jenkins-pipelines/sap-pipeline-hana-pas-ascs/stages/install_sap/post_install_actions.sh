@@ -3,7 +3,7 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 
-post_install_playbook_dir="$PWD/ansible-playbooks/shared-roles/aws-sap-ascs-hana-pas-post-install"
+post_install_playbook_dir="$PWD/ansible-playbooks/aws-sap-ascs-hana-pas-post-install"
 export ANSIBLE_DIR=$post_install_playbook_dir
 
 # ------------------------------------------------------------------
@@ -62,7 +62,7 @@ echo "INPUT_DNS_ZONE_NAME: $PRIVATE_DNS_ZONE_NAME_CHKD" >> $VAR_FILE_FULL_PATH
 ANSIBLE_HOST_KEY_CHECKING=False
 ANSIBLE_BECOME_EXE="sudo su -"
 
-ansible-playbook $ansibleHanaDir/install_hana.yml \
+ansible-playbook $post_install_playbook_dir/merge_hosts.yml \
                     --inventory-file "$hostsFile" \
                     --extra-vars "@$VAR_FILE_FULL_PATH"
 

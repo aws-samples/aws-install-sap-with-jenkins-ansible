@@ -48,17 +48,6 @@ HANA_SECONDARY_PUBLIC_IP=${public_ips_array[1]}
 cp "$ANSIBLE_DIR/hosts.yaml" "$ANSIBLE_DIR/hosts_runtime.yaml"
 hostsFile="$ANSIBLE_DIR/hosts_runtime.yaml"
 
-echo $HANA_PRIMARY_PUBLIC_IP
-echo $HANA_SECONDARY_PUBLIC_IP
-echo $ASCS_PUBLIC_IP
-echo $ERS_PUBLIC_IP
-echo $PAS_PUBLIC_IP
-
-echo $ANSIBLE_DIR
-ls -lsa $ANSIBLE_DIR
-
-cat $hostsFile
-
 sed -i "s/HANA_PRIM_HOST_NAME_TO_APPLY/$HANA_PRIMARY_PUBLIC_IP/g" $hostsFile
 sed -i "s/HANA_SEC_HOST_NAME_TO_APPLY/$HANA_SECONDARY_PUBLIC_IP/g" $hostsFile
 sed -i "s/ASCS_HOST_NAME_TO_APPLY/$ASCS_PUBLIC_IP/g" $hostsFile
@@ -66,7 +55,5 @@ sed -i "s/ERS_HOST_NAME_TO_APPLY/$ERS_PUBLIC_IP/g" $hostsFile
 sed -i "s/PAS_HOST_NAME_TO_APPLY/$PAS_PUBLIC_IP/g" $hostsFile
 
 sed -i "s|PATH_TO_PEM_FILE|$SSH_KEYPAIR_FILE_CHKD|g" $hostsFile
-
-cat $hostsFile
 
 exit 0
