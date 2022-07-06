@@ -39,8 +39,8 @@ fi
 public_ips_values=$(echo $HOSTS_IPS | sed "s/\[/\ /g" | sed "s/\]/\ /g" | sed "s/\,/\ /g")
 eval "public_ips_array=($public_ips_values)"
 
-HANA_PRIMARY_PUBLIC_IP=$public_ips_array[0]
-HANA_SECONDARY_PUBLIC_IP=$public_ips_array[1]
+HANA_PRIMARY_PUBLIC_IP=${public_ips_array[0]}
+HANA_SECONDARY_PUBLIC_IP=${public_ips_array[1]}
 
 # ------------------------------------------------------------------
 # Create hosts_runtime.yml
@@ -55,6 +55,8 @@ echo $ERS_PUBLIC_IP
 echo $PAS_PUBLIC_IP
 
 echo $ANSIBLE_DIR
+ls -lsa $ANSIBLE_DIR
+
 cat $hostsFile
 
 sed -i "s/HANA_PRIM_HOST_NAME_TO_APPLY/$HANA_PRIMARY_PUBLIC_IP/g" $hostsFile
