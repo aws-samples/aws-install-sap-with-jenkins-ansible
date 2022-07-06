@@ -1,8 +1,0 @@
----
-
-# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-# SPDX-License-Identifier: MIT-0
-
-- name: ansible-role-check-inputs
-  src: git@ssh.gitlab.aws.dev:sap-devops/configuration-management/ansible/shared-roles/check-inputs.git
-  scm: git

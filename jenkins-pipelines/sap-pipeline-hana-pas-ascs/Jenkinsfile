@@ -146,14 +146,14 @@ pipeline {
                         fi
                     '''
 
-                    // // Check if there's an available bucket on S3 and DynamoDB table to store Terraform states. If not, creates it
-                    // sh '''
-                    //     $STAGES_FOLDER/env_states/check_create_env_dependencies.sh
+                    // Check if there's an available bucket on S3 and DynamoDB table to store Terraform states. If not, creates it
+                    sh '''
+                        $STAGES_FOLDER/env_states/check_create_env_dependencies.sh
 
-                    //     if [ $? -gt 0 ]; then
-                    //         exit 1
-                    //     fi
-                    // '''
+                        if [ $? -gt 0 ]; then
+                            exit 1
+                        fi
+                    '''
                 }
             }
         }
