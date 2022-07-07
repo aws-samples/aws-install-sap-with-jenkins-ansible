@@ -6,7 +6,7 @@
 # Common roles for preparing the image
 - name: Check inputs, prepare logs, hostname, install basic dependencies and AWS Data Provider
   become: true
-  hosts: all
+  hosts: pas
   roles:
     - role: check-inputs
       vars:
@@ -38,14 +38,14 @@
 # Installation-specific roles
 - name: Mount disks
   become: true
-  hosts: all
+  hosts: pas
   roles:
     - role: ansible-role-disks
 
 # RedHat official roles for preparing for SAP Installation
 - name: Prepare host with RedHat certified roles
   become: true
-  hosts: all
+  hosts: pas
   roles:
     - role: sap-preconfigure
       vars:
