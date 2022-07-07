@@ -173,10 +173,10 @@ pipeline {
                 }
             }
         }
-        stage('Install Hana, ASCS and ERS'){
+        stage('Install HANA, ASCS and ERS'){
             options {timeout(time: 2, unit: 'HOURS')}
             parallel {
-                stage('Install Hana'){
+                stage('Install HANA'){
                     steps {
                         script {
                             // Ansible for installing Hana
