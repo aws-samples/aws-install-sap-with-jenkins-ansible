@@ -3,6 +3,8 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 
+sidadm_name: "{{ GLOBAL_PAS_SID|lower }}adm"
+
 pas_sapenv_original_path: "/home/{{ GLOBAL_PAS_SID | lower }}adm/.sapenv.sh"
 pas_sapenv_custom_path: "/home/{{ GLOBAL_PAS_SID | lower }}adm/.sapenv-ansible.sh"
 
