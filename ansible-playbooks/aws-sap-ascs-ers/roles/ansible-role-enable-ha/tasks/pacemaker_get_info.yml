@@ -11,7 +11,6 @@
   set_fact: opposite_instance_id="{{ item.value.ansible_ec2_instance_id }}"
   loop: "{{ hostvars | dict2items }}"
   when: not item.key in ansible_host
-  no_log: yes
   retries: 3
   delay: 10
   until: opposite_instance_id is defined
