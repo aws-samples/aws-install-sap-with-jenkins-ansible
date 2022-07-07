@@ -1,0 +1,12 @@
+---
+
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+pas_sapenv_original_path: "/home/{{ GLOBAL_PAS_SID | lower }}adm/.sapenv.sh"
+pas_sapenv_custom_path: "/home/{{ GLOBAL_PAS_SID | lower }}adm/.sapenv-ansible.sh"
+
+pas_dbenv_original_path: "/home/{{ GLOBAL_PAS_SID | lower }}adm/.dbenv.sh"
+pas_dbenv_custom_path: "/home/{{ GLOBAL_PAS_SID | lower }}adm/.dbenv-ansible.sh"
+
+pas_node_group_name: "pas"
