@@ -224,10 +224,10 @@ pipeline {
                 script {
                     // Ansible for merging all hosts in /etc/hosts file
                     sh '''
-                        $STAGES_FOLDER/install_sap/post_install_actions.sh
-                        if [ $? -gt 0 ]; then
-                            exit 1
-                        fi 
+                        #$STAGES_FOLDER/install_sap/post_install_actions.sh
+                        #if [ $? -gt 0 ]; then
+                        #    exit 1
+                        #fi 
                     '''
 
                     // Ansible for configuring HANA HA

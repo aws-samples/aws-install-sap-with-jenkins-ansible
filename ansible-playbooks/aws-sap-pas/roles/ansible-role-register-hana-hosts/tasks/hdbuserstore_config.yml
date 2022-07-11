@@ -24,13 +24,13 @@
 - name: Configure hdbuserstore for failover between the two HANA nodes
   shell: |
       source {{ pas_sapenv_custom_path }}; source {{ pas_dbenv_custom_path }}; {{ hdbuserstore_command }}
-  become: yes
+  become: true
   become_user: "{{ sidadm_name }}"
   
 - name: Check state of configuration
   shell: |
       source {{ pas_sapenv_custom_path }}; source {{ pas_dbenv_custom_path }}; hdbuserstore List
-  become: yes
+  become: true
   become_user: "{{ sidadm_name }}"
   register: output
 
