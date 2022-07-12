@@ -5,8 +5,8 @@
 
 # Common roles for preparing the image
 - name: Check inputs, prepare logs, hostname, install basic dependencies and AWS Data Provider
-  become: yes
-  hosts: all
+  become: true
+  hosts: pas
   roles:
     - role: check-inputs
       vars:
@@ -37,15 +37,15 @@
 
 # Installation-specific roles
 - name: Mount disks
-  become: yes
-  hosts: all
+  become: true
+  hosts: pas
   roles:
     - role: ansible-role-disks
 
 # RedHat official roles for preparing for SAP Installation
 - name: Prepare host with RedHat certified roles
-  become: yes
-  hosts: all
+  become: true
+  hosts: pas
   roles:
     - role: sap-preconfigure
       vars:
@@ -55,7 +55,14 @@
 
 # Download and install PAS
 - name: Download and Install PAS
-  become: yes
-  hosts: all
+  become: true
+  hosts: pas
   roles:
     - role: ansible-role-download-and-install
+
+# Configure HANA hosts in PAS instance
+- name: Configure HANA hosts in PAS instance
+  become: true
+  hosts: all
+  roles:
+    - role: ansible-role-register-hana-hosts

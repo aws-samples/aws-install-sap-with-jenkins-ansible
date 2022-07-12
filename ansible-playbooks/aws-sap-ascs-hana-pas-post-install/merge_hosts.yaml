@@ -1,0 +1,16 @@
+---
+
+- name: Check inputs
+  become: true
+  hosts: all
+  roles:
+    - role: check-inputs
+      vars:
+        input_variables_to_check: 
+          - INPUT_DNS_ZONE_NAME
+
+- name: Merge hosts
+  become: true
+  hosts: all
+  roles:
+    - role: ansible-role-merge-hosts

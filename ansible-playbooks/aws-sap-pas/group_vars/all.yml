@@ -27,8 +27,8 @@ GLOBAL_LOGS_AND_FOLDERS_ROLE_NAME: prepare-logs-folders
 
 # Optional HA variables
 GLOBAL_ENABLE_HA: "{{ ENABLE_HA }}"
-GLOBAL_PRIMARY_IP: "{{ HA_PRIMARY_PRIVATE_IP }}"
-GLOBAL_NODE_IPS: "{{ HA_NODE_PRIVATE_IPS | regex_replace('\\,$', '') }}"
+GLOBAL_PRIMARY_IP: "{{ HA_PRIMARY_PRIVATE_IP | default('') }}"
+GLOBAL_NODE_IPS: "{{ HA_NODE_PRIVATE_IPS | default('') | regex_replace('\\,$', '') }}"
 GLOBAL_NODE_IPS_LIST: ""
 GLOBAL_HOSTS_LIST: ""
 

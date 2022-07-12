@@ -145,12 +145,7 @@ pipeline {
                             exit 1
                         fi
                     '''
-                }
-            }
-        }
-        stage('Check ENV states'){
-            steps {
-                script {
+
                     // Check if there's an available bucket on S3 and DynamoDB table to store Terraform states. If not, creates it
                     sh '''
                         $STAGES_FOLDER/env_states/check_create_env_dependencies.sh
@@ -178,10 +173,10 @@ pipeline {
                 }
             }
         }
-        stage('Install Hana, ASCS and ERS'){
+        stage('Install HANA, ASCS and ERS'){
             options {timeout(time: 2, unit: 'HOURS')}
             parallel {
-                stage('Install Hana'){
+                stage('Install HANA'){
                     steps {
                         script {
                             // Ansible for installing Hana
@@ -223,24 +218,25 @@ pipeline {
                 }
             }
         }
-        stage('Setup HANA HA'){
+        stage('Post Install: Setup HANA HA and Merge hosts files'){
             options {timeout(time: 2, unit: 'HOURS')}
             steps {
                 script {
-                    // Ansible for installing PAS
+                    // Ansible for merging all hosts in /etc/hosts file
+                    sh '''
+                        $STAGES_FOLDER/install_sap/post_install_actions.sh
+                        if [ $? -gt 0 ]; then
+                            exit 1
+                        fi 
+                    '''
+
+                    // Ansible for configuring HANA HA
                     sh '''
                         $STAGES_FOLDER/install_sap/setup_hana_ha.sh
                         if [ $? -gt 0 ]; then
                             exit 1
                         fi 
                     '''
-                }
-            }
-        }
-        stage('Notify'){
-            steps {
-                script {
-                    echo 'Notify here'
                 }
             }
         }

@@ -1,0 +1,15 @@
+---
+
+- name: Collect node name, hostname and ip to global variable
+  set_fact: 
+    all_instances_hostnames: "{{ all_instances_hostnames | default([]) + [{'node_name' : item.key, 'hostname' : item.value.ansible_hostname, 'ip' : item.value.ansible_default_ipv4.address}]  }}"
+  loop: "{{ hostvars | dict2items }}"
+  no_log: true
+
+- name: Check custom sapenv file
+  include_tasks: check_custom_sapenv_file.yml
+  when: pas_node_group_name in group_names
+
+- name: Apply hdbuserstore config
+  include_tasks: hdbuserstore_config.yml
+  when: pas_node_group_name in group_names

@@ -1,0 +1,26 @@
+---
+
+- name: Node name, hostname and ip to global variable
+  set_fact: 
+    all_instances_hostnames: "{{ all_instances_hostnames | default([]) + [{'node_name' : item.key, 'hostname' : item.value.ansible_hostname, 'ip' : item.value.ansible_default_ipv4.address}]  }}"
+  loop: "{{ hostvars | dict2items }}"
+  no_log: true
+
+- name: Check if IPs were already added to /etc/hosts
+  lineinfile:
+    name: "/etc/hosts"
+    regexp: "^{{ item.ip }} {{ item.hostname }}.{{ GLOBAL_DNS_ZONE_NAME }} {{ item.hostname }}"
+    state: absent
+  check_mode: yes
+  changed_when: false
+  register: line_is_present
+  with_items: "{{ all_instances_hostnames }}"
+
+- name: Add found IPs and hostname to /etc/hosts
+  lineinfile:
+    name: "/etc/hosts"
+    line: "{{ item.item.ip }} {{ item.item.hostname }}.{{ GLOBAL_DNS_ZONE_NAME }} {{ item.item.hostname }}"
+    state: present
+    insertafter: EOF
+  when: not item.found
+  with_items: "{{ line_is_present.results }}"
