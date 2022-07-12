@@ -17,6 +17,10 @@
   set_fact:
     hdbuserstore_string: "{{ hdbuserstore_string[:-1] }}"
 
+- name: Save string to compare config
+  set_fact:
+    safe_hdbuserstore_string: "{{ hdbuserstore_string }}"
+
 - name: Create string for PAS config - Add HANA SID
   set_fact:
     hdbuserstore_string: "{{ hdbuserstore_string }}@{{ GLOBAL_PAS_SID }}"
@@ -41,4 +45,4 @@
 - name: Fail if configuration was not successful
   fail:
     msg: "Unable to configure"
-  when: not hdbuserstore_string in output.stdout
+  when: not safe_hdbuserstore_string in output.stdout
