@@ -4,18 +4,22 @@
   set_fact: 
     all_instances_hostnames: "{{ all_instances_hostnames | reject('search', ansible_hostname) }}"
 
-- name: Create string for PAS config
+- name: Create string for PAS config - Get node names
   set_fact:
     node_names: "{{ all_instances_hostnames | map(attribute='hostname') | list | flatten | flatten }}"
 
-- name: Create string for PAS config
+- name: Create string for PAS config - Add hosts and port
   set_fact:
     hdbuserstore_string: "{{ hdbuserstore_string | default('') }}{{ item }}.{{ sap_domain }}:30013;"
   loop: "{{ node_names }}"
 
-- name: Create string for PAS config
+- name: Create string for PAS config - Remove trailing ';'
   set_fact:
     hdbuserstore_string: "{{ hdbuserstore_string[:-1] }}"
+
+- name: Create string for PAS config - Add HANA SID
+  set_fact:
+    hdbuserstore_string: "{{ hdbuserstore_string }}@{{ GLOBAL_PAS_SID }}"
 
 - name: Create string for PAS config
   set_fact:
