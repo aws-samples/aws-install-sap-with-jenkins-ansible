@@ -3,3 +3,5 @@
 requirements_local.yml
 hosts_local.yml
 .github
+var_file.yaml
+var_file.yml
