@@ -1,15 +1,30 @@
 ---
 
+- name: Discover the region for this instance
+  uri:
+    url: http://169.254.169.254/latest/dynamic/instance-identity/document
+    return_content: yes
+    timeout: 10
+  register: returned_region
+  failed_when: returned_region.content is undefined
+
+- name: Filter region found
+  set_fact: region_found="{{ (returned_region.content | from_json).region }}"
+
+- name: Show region
+  debug:
+    msg: "{{ region_found }}"
+
 - name: Check if there's a Stonith configuration up
   command: pcs stonith
   register: stonith_output
 
 - name: Create Stonith config
-  command: pcs stonith create {{ stonith_config_name }} fence_aws region=us-east-1 pcmk_host_map='{{ THIS_HOSTNAME }}:{{ this_instance_id }}; {{ opposite_host }}:{{ opposite_instance_id }}' power_timeout=600 pcmk_reboot_timeout=600 pcmk_reboot_retries=4 pcmk_delay_max=25 op start timeout=300 op monitor interval=300 timeout=60
+  command: pcs stonith create {{ stonith_config_name }} fence_aws region={{ region_found }} pcmk_host_map='{{ THIS_HOSTNAME }}:{{ this_instance_id }}; {{ opposite_host }}:{{ opposite_instance_id }}' power_timeout=600 pcmk_reboot_timeout=600 pcmk_reboot_retries=4 pcmk_delay_max=25 pcmk_reboot_action=off op start timeout=300 op monitor interval=300 timeout=60
   when: not stonith_config_name in stonith_output.stdout
   
 - name: Update Stonith config
-  command: pcs stonith update {{ stonith_config_name }} fence_aws region=us-east-1 pcmk_host_map='{{ THIS_HOSTNAME }}:{{ this_instance_id }}; {{ opposite_host }}:{{ opposite_instance_id }}' power_timeout=600 pcmk_reboot_timeout=600 pcmk_reboot_retries=4 pcmk_delay_max=25 op start timeout=300 op monitor interval=300 timeout=60
+  command: pcs stonith update {{ stonith_config_name }} fence_aws region={{ region_found }} pcmk_host_map='{{ THIS_HOSTNAME }}:{{ this_instance_id }}; {{ opposite_host }}:{{ opposite_instance_id }}' power_timeout=600 pcmk_reboot_timeout=600 pcmk_reboot_retries=4 pcmk_delay_max=25 pcmk_reboot_action=off op start timeout=300 op monitor interval=300 timeout=60
   when: stonith_config_name in stonith_output.stdout
   
 - name: Check pcs resources
