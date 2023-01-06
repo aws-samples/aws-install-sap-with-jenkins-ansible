@@ -7,7 +7,7 @@ SPDX-License-Identifier: MIT-0
 
 This is an open source repo with sample code to install your SAP Software (check availability below) using Jenkins to connect all the pipeline steps, Ansible for configuring the operating system level, and Terraform for spinning up the infrastructure.
 
-You can check how to use this repo on [this blog post](https://aws.amazon.com/blogs/awsforsap/automating-sap-installation-with-open-source-tools/)
+You can check how to use this repo on [this blog post](https://aws.amazon.com/blogs/awsforsap/automating-sap-installation-with-open-source-tools/){:target="_blank" rel="noopener"}
 
 SAP Software available:
 * SAP Hana - SAP In-Memory Database (HA is available)
