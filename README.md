@@ -53,6 +53,11 @@ For running this project you have to have installed the following software on yo
     3. Fill in your AWS account credentials and other required variables
     4. Trigger pipeline "Install HANA+PAS+ASCS"
 
+## Others
+
+This repo evolved and now is host to another solution for SAP automation.
+[Click here](https://github.com/aws-samples/automate-sap-hana-high-availability-test) to find out how to automate the High Availability (HA) testing for your SAP HANA landscape
+
 ## Security
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
