@@ -236,3 +236,33 @@ jobs:
           }
         }
       }
+  - script: >
+      multibranchPipelineJob('Run HANA HA test') {
+        factory {
+          workflowBranchProjectFactory {
+            scriptPath('jenkins/Jenkinsfile')
+          }
+        }
+        branchSources {
+          branchSource {
+            source {
+              git {
+                id('runHANAHA')
+                remote('https://github.com/aws-samples/automate-sap-hana-high-availability-test')
+              }
+            }
+            strategy {
+              defaultBranchPropertyStrategy {
+                props {
+                  noTriggerBranchProperty()
+                }
+              }
+            }
+          }
+          git {
+            id('runHANAHA')
+            includes('*')
+            remote('https://github.com/aws-samples/automate-sap-hana-high-availability-test')
+          }
+        }
+      }
