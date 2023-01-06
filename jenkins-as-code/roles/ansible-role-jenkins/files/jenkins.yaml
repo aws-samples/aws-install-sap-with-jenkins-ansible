@@ -218,7 +218,7 @@ jobs:
             source {
               git {
                 id('destroySAP3modules')
-                remote('https://github.com/aws-samples/aws-install-sap-with-jenkins-ansible')
+                remote('https://github.com/aws-samples/aws-install-sap-with-jenkins-ansible.git')
               }
             }
             strategy {
@@ -232,12 +232,12 @@ jobs:
           git {
             id('destroySAP3modules')
             includes('*')
-            remote('https://github.com/aws-samples/aws-install-sap-with-jenkins-ansible')
+            remote('https://github.com/aws-samples/aws-install-sap-with-jenkins-ansible.git')
           }
         }
       }
   - script: >
-      multibranchPipelineJob('Run HANA HA test') {
+      multibranchPipelineJob('SAP Hana+ASCS+PAS 3 Instances/Run HANA HA test') {
         factory {
           workflowBranchProjectFactory {
             scriptPath('jenkins/Jenkinsfile')
@@ -248,7 +248,7 @@ jobs:
             source {
               git {
                 id('runHANAHA')
-                remote('https://github.com/aws-samples/automate-sap-hana-high-availability-test')
+                remote('https://github.com/aws-samples/automate-sap-hana-high-availability-test.git')
               }
             }
             strategy {
@@ -262,7 +262,7 @@ jobs:
           git {
             id('runHANAHA')
             includes('*')
-            remote('https://github.com/aws-samples/automate-sap-hana-high-availability-test')
+            remote('https://github.com/aws-samples/automate-sap-hana-high-availability-test.git')
           }
         }
       }
