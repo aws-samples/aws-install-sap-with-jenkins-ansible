@@ -48,6 +48,7 @@ ERS_PRIVATE_IP | Private IP of ERS instance | 172.0.0.1
 ERS_HOSTNAME | ERS hostname to be added to /etc/hosts | demo-ers
 HA_PRIMARY_PRIVATE_IP | Private IP of the primary instance (ASCS server) | 172.0.0.1
 HA_NODE_PRIVATE_IPS | Private IPs of other HA instances (ERS server) | 172.0.0.1,
+PRODUCT_TO_INSTALL | The product to guide installation, whether ASCS or ERS | ASCS
 
 IMPORTANT! This playbook reboots the destined instance, and therefore cannot be run on localhost
 
