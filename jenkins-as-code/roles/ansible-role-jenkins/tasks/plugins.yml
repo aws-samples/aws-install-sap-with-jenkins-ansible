@@ -1,8 +1,4 @@
 ---
-
-# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-# SPDX-License-Identifier: MIT-0
-
 # jenkins_plugin module doesn't support password files.
 - name: Get Jenkins admin password from file.
   slurp:
@@ -36,8 +32,8 @@
   changed_when: false
   register: get_result
   until: get_result is success
-  retries: 5
-  delay: 5
+  retries: 3
+  delay: 2
 
 - name: Remove first and last line from json file.
   replace:  # noqa 208
@@ -63,5 +59,5 @@
   tags: ['skip_ansible_lint']
   register: plugin_result
   until: plugin_result is success
-  retries: 5
-  delay: 5
+  retries: 3
+  delay: 2

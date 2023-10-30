@@ -1,26 +1,22 @@
 ---
-
-# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-# SPDX-License-Identifier: MIT-0
-
 # Optional method of pinning a specific version of Jenkins and/or overriding the
 # default Jenkins packaging URL.
 # jenkins_version: "1.644"
 # jenkins_pkg_url: "https://www.example.com"
 
 # Change this to `latest` to update Jenkins if a newer version is available.
-jenkins_package_state: latest
+jenkins_package_state: present
 
 jenkins_prefer_lts: false
 
 jenkins_connection_delay: 5
 jenkins_connection_retries: 60
 jenkins_home: /var/lib/jenkins
-#jenkins_hostname: jenkins.mycompany.com
 jenkins_hostname: localhost
 jenkins_http_port: 8080
 jenkins_jar_location: /opt/jenkins-cli.jar
 jenkins_url_prefix: ""
+jenkins_options: ""
 jenkins_java_options: "-Djenkins.install.runSetupWizard=false"
 
 # Plugin list can use the plugin name, or a name/version dict.
@@ -202,7 +198,6 @@ jenkins_plugins:
   - name: jnr-posix-api
     value: 3.1.7-3
   - name: windows-slaves
-    value: 1.8
 
 jenkins_plugins_state: present
 jenkins_plugin_updates_expiration: 86400
@@ -218,12 +213,17 @@ jenkins_process_user: jenkins
 jenkins_process_group: "{{ jenkins_process_user }}"
 
 jenkins_init_changes:
-  - option: "JENKINS_ARGS"
-    value: "--prefix={{ jenkins_url_prefix }}"
-  - option: "{{ jenkins_java_options_env_var }}"
+  - option: "JENKINS_OPTS"
+    value: "{{ jenkins_options }}"
+  - option: "JAVA_OPTS"
     value: "{{ jenkins_java_options }}"
-#  - option: "JENKINS_ARGS"
-#    value: "--httpListenAddress=127.0.0.1"
+  - option: "JENKINS_HOME"
+    value: "{{ jenkins_home }}"
+  - option: "JENKINS_PREFIX"
+    value: "{{ jenkins_url_prefix }}"
+  - option: "JENKINS_PORT"
+    value: "{{ jenkins_http_port }}"
+
 
 # If Jenkins is behind a proxy, configure this.
 jenkins_proxy_host: ""
@@ -231,3 +231,6 @@ jenkins_proxy_port: ""
 jenkins_proxy_noproxy:
   - "127.0.0.1"
   - "localhost"
+
+jenkins_init_folder: "/etc/systemd/system/jenkins.service.d"
+jenkins_init_file: "{{ jenkins_init_folder }}/override.conf"

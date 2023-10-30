@@ -1,0 +1,20 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+
+  pre_tasks:
+    - include_tasks: debian-setup.yml
+      when: ansible_os_family == 'Debian'
+
+  roles:
+    - role: geerlingguy.java
+    - role: geerlingguy.jenkins
+
+  post_tasks:
+    - name: Check if Jenkins is running.
+      uri:
+        url: "http://127.0.0.1:8080/"
+        status_code:
+          - 200
+          - 403

@@ -1,8 +1,6 @@
 #!groovy
 import hudson.security.*
 import jenkins.model.*
-import hudson.util.*;
-import jenkins.install.*;
 
 def instance = Jenkins.getInstance()
 def hudsonRealm = new HudsonPrivateSecurityRealm(false)
@@ -28,5 +26,3 @@ else {
     instance.setAuthorizationStrategy(strategy)
     instance.save()
 }
-
-instance.setInstallState(InstallState.INITIAL_SETUP_COMPLETED)
