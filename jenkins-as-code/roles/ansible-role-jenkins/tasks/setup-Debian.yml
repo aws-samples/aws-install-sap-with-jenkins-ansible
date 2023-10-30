@@ -45,4 +45,5 @@
   apt:
     name: jenkins
     state: "{{ jenkins_package_state }}"
+    allow_unauthenticated: true
   notify: configure default users
