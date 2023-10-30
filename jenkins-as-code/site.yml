@@ -15,9 +15,6 @@
   hosts: localhost
   roles:
     - role: ansible-role-java
-      when: "ansible_os_family == 'RedHat'"
-      java_packages:
-        - java-11-openjdk-devel
 
 - name: Install Terraform
   hosts: localhost
