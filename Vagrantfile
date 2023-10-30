@@ -23,7 +23,7 @@ Vagrant.configure(2) do |config|
         
         # Clone the repo
         sudo rm -rf /home/centos/jenkins
-        sudo git clone https://github.com/aws-samples/aws-install-sap-with-jenkins-ansible.git /home/centos/jenkins
+        sudo git clone -b dev https://github.com/aws-samples/aws-install-sap-with-jenkins-ansible.git /home/centos/jenkins
         # Run playbook
         sudo ansible-playbook /home/centos/jenkins/jenkins-as-code/site.yml
         
