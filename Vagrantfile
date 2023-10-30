@@ -19,7 +19,7 @@ Vagrant.configure(2) do |config|
         sudo apt-get remove --purge ansible
         sudo apt-add-repository ppa:ansible/ansible
         sudo apt-get update
-        sudo apt-get install ansible
+        sudo apt-get install ansible -y
         
         # Clone the repo
         sudo rm -rf /home/centos/jenkins
