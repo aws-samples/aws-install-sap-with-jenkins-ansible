@@ -9,7 +9,7 @@
 # jenkins_pkg_url: "https://www.example.com"
 
 # Change this to `latest` to update Jenkins if a newer version is available.
-jenkins_package_state: present
+jenkins_package_state: latest
 
 jenkins_prefer_lts: false
 
