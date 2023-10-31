@@ -3,7 +3,7 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 
-- name: Ensure /var/lib/jenkins exists
+- name: Ensure Jenkins home exists
   file:
     path: "{{ jenkins_home }}"
     state: directory
