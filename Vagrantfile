@@ -3,7 +3,6 @@
 
 Vagrant.configure(2) do |config|
 
-    config.ssh.private_key_path = "~/.ssh/id_rsa"
     config.ssh.forward_agent = true
 
     config.vm.provider "virtualbox"
