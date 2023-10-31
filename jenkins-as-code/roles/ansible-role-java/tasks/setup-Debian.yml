@@ -14,7 +14,7 @@
     - ansible_distribution == 'Ubuntu'
     - ansible_distribution_major_version | int >= 18
 
-- name: Add apt repository for jenkins
+- name: Add apt repository for Java
   apt_repository:
     repo: ppa:openjdk-r/ppa
 
