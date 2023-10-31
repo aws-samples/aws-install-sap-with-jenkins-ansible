@@ -9,7 +9,7 @@ Vagrant.configure(2) do |config|
         v.cpus = 2
     end
 
-    config.vm.box = "bento/ubuntu-16.04"
+    config.vm.box = "bento/ubuntu-22.04"
     config.vm.network "forwarded_port", guest: 8080, host: 5555, host_ip: "127.0.0.1"
     config.vm.network "forwarded_port", guest: 80, host: 6666, host_ip: "127.0.0.1"
     config.vm.synced_folder ".", "/home/vagrant/shared"
