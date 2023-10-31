@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: MIT-0
 
 - name: Install HAProxy
-  yum:
+  apt:
     name: "haproxy"
     state: "present"
 
