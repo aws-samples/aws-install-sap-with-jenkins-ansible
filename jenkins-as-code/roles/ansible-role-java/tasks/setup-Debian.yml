@@ -1,27 +1,14 @@
 ---
-
-# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-# SPDX-License-Identifier: MIT-0
-
 # See: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=863199 and
 # https://github.com/geerlingguy/ansible-role-java/issues/64
 - name: Ensure 'man' directory exists.
   file:  # noqa 208
     path: /usr/share/man/man1
     state: directory
-    recurse: true
+    mode: 0755
   when:
     - ansible_distribution == 'Ubuntu'
     - ansible_distribution_major_version | int >= 18
-
-- name: Add apt repository for Java
-  apt_repository:
-    repo: ppa:openjdk-r/ppa
-
-- name: Update all packages to their latest version
-  apt:
-    name: "*"
-    state: latest
 
 - name: Ensure Java is installed.
   apt:
