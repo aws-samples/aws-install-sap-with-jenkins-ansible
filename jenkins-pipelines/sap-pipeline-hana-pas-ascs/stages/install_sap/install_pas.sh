@@ -83,6 +83,11 @@ echo "PAS_DB_PRODUCT_ID: $PRODUCT_ID_PAS_DB_CHKD" >> $VAR_FILE_FULL_PATH
 echo "PAS_PRODUCT_ID: $PRODUCT_ID_PAS_CHKD" >> $VAR_FILE_FULL_PATH
 
 # ------------------------------------------------------------------
+# Copy SAP roles into this folder
+# ------------------------------------------------------------------
+cp -r /var/lib/jenkins/.ansible/collections/ansible_collections/community/sap_install/roles/* $ansiblePASDir/roles/
+
+# ------------------------------------------------------------------
 # Run playbook
 # ------------------------------------------------------------------
 ANSIBLE_HOST_KEY_CHECKING=False

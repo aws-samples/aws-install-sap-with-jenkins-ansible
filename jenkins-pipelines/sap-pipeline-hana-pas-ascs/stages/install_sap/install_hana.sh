@@ -103,6 +103,11 @@ if [[ "$ENABLE_HA_CHKD" == "true" ]]; then
 fi
 
 # ------------------------------------------------------------------
+# Copy SAP roles into this folder
+# ------------------------------------------------------------------
+cp -r /var/lib/jenkins/.ansible/collections/ansible_collections/community/sap_install/roles/* $ansibleHanaDir/roles/
+
+# ------------------------------------------------------------------
 # Run playbook
 # ------------------------------------------------------------------
 ANSIBLE_HOST_KEY_CHECKING=False
